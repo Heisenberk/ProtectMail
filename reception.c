@@ -1,3 +1,3 @@
 #include "pgp.h"
-#include "encrypt.h"
+#include "reception.h"
 #include "types.h"

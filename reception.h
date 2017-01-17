@@ -1,7 +1,7 @@
 #include "pgp.h"
 #include "types.h"
 
-#ifndef __DECRYPT_H
-#define __DECRYPT_H
+#ifndef __RECEPTION_H
+#define __RECEPTION_H
 
 #endif
