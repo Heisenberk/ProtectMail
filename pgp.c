@@ -7,7 +7,7 @@
 #include "lire_ecrire.h"
 #include "types.h"
 
-void affiche(unsigned char* h){
+/*void affiche(unsigned char* h){
 	int i;
 	for(i=0;i<16;i++){
 		printf("%x",h[i]);
@@ -23,7 +23,7 @@ void affiche2 (char* s){
 		i++;
 	}
 	printf("\n");
-}
+}*/
 
 int main(int argc,char** argv){
 	/*int mode=teste_commande_general(argc,argv);
@@ -31,7 +31,11 @@ int main(int argc,char** argv){
 		ecrit_message_non_chiffre(argc,argv);
 	}
 	return 0;*/
-	unsigned char hash[16];
+	
+	verifie_authentification(argv[1]);
+	return 0;
+	
+	/*unsigned char hash[16];
 	demande_pass_phrase(hash);
 	affiche(hash);
 	char* hash1=PASSPHRASE;
@@ -39,6 +43,5 @@ int main(int argc,char** argv){
 	affiche2(hash1);
 	//if(teste_egalite_hashes(hash,final)) printf("EGALITE\n");
 	//else printf("INEGALITE\n");
-	
-	return 0;
+	return 0;*/
 }

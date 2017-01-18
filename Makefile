@@ -9,13 +9,13 @@ pgp.o: pgp.c pgp.h envoi.h reception.h commandes.h lire_ecrire.h types.h
 envoi.o: envoi.c pgp.h envoi.h commandes.h lire_ecrire.h types.h
 	gcc $(CFLAGS) envoi.c 
 	
-reception.o: reception.c pgp.h reception.h types.h
+reception.o: reception.c pgp.h reception.h lire_ecrire.h types.h
 	gcc $(CFLAGS) reception.c
 	
 commandes.o: commandes.c pgp.h commandes.h lire_ecrire.h types.h
 	gcc $(CFLAGS) commandes.c
 	
-lire_ecrire.o: lire_ecrire.c pgp.h lire_ecrire.h types.h
+lire_ecrire.o: lire_ecrire.c pgp.h lire_ecrire.h commandes.h types.h
 	gcc $(CFLAGS) lire_ecrire.c
 	
 indent: 

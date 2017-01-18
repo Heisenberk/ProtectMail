@@ -5,5 +5,6 @@
 #define __RECEPTION_H
 
 int teste_egalite_hashes(unsigned char* hash1, unsigned char* hash2);
+void verifie_authentification(char* nomFichier);
 
 #endif

@@ -21,6 +21,11 @@ void quitte_pass_phrase_incoherente(){
 	exit(1);//
 }
 
+void quitte_pas_probleme(){
+	printf("\n\033[0m");
+	exit(0);
+}
+
 int teste_mots_identiques(char* s1,char* s2){
 	if(strcmp(s1,s2)==0) return 1;
 	return 0;
