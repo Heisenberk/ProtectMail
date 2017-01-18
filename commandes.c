@@ -16,6 +16,11 @@ void quitte_fichier_inexistant(){
 	exit(1); //
 }
 
+void quitte_mauvaise_extension(char* s){
+	printf("\033[01mMAUVAISE EXTENSION DU FICHIER \033[31m%s\n\n\033[0m",s);
+	exit(1);
+}
+
 void quitte_pass_phrase_incoherente(){
 	printf("\033[01m\nLES DEUX PASS PHRASES SONT DIFFERENTES\n\n\033[0m");
 	exit(1);//
@@ -31,11 +36,25 @@ int teste_mots_identiques(char* s1,char* s2){
 	return 0;
 }
 
+int teste_extension_pgp(char* s){
+	char* extension=s;
+	int num=strlen(s);
+	extension=s+num-strlen(".pgp");
+	return teste_mots_identiques(extension,".pgp");
+}
+
 int teste_commande_une_option(int num,char** chaineCarac){
 	if(teste_mots_identiques(chaineCarac[1],"-h")){
 		affiche_commandes();
 		exit(1); //
 	}
+	if(teste_extension_pgp(chaineCarac[1])){
+		FILE* f=fopen(chaineCarac[1],"r");
+		if(f==NULL) quitte_fichier_inexistant();
+		fclose(f);
+		return MODE_DECHIFFREMENT;
+	}
+	quitte_mauvaise_extension(chaineCarac[1]);
 	return 1;
 }
 

@@ -23,8 +23,8 @@ void affiche_general(){
 }
 
 void affiche_commandes(){
-	printf("\033[01m");
-	printf("-Pour signer un message :\033[32m ./pgp -s [fichier]\n");
+	printf("\033[01m-Pour déchiffrer un fichier :\033[32m ./pgp [fichier.pgp]\n\033[0m");
+	printf("\033[01m-Pour signer un message :\033[32m ./pgp -s [fichier]\n\033[0m");
 	
 	printf("\n\033[0m");
 }

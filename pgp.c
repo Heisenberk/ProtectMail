@@ -26,14 +26,17 @@ void affiche2 (char* s){
 }*/
 
 int main(int argc,char** argv){
-	/*int mode=teste_commande_general(argc,argv);
+	int mode=teste_commande_general(argc,argv);
 	if(mode==MODE_SIGN_NN_CHIFFRE){
 		ecrit_message_non_chiffre(argc,argv);
 	}
-	return 0;*/
-	
-	verifie_authentification(argv[1]);
+	else if(mode==MODE_DECHIFFREMENT){
+		printf("DECHIFFREMENT\n");
+	}
 	return 0;
+	
+	/*verifie_authentification(argv[1]);
+	return 0;*/
 	
 	/*unsigned char hash[16];
 	demande_pass_phrase(hash);
