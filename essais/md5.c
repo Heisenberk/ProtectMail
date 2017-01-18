@@ -5,7 +5,7 @@
 
 int main(){
 	hash_state md;
-	unsigned char* in="clement";
+	unsigned char* in="bakcms";
 	unsigned char out[16];
 	md5_init(&md);
 	md5_process(&md,in,strlen(in));
