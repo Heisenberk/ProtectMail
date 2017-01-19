@@ -41,7 +41,7 @@ void genere_cle_publique(){
 	char prenom[64];
 	char nom[64];
 	char adresse[64];
-	printf("\033[01mVotre clé publique nécessite un prénom, un nom suivi de votre adresse mail \nfermée par les symboles < et > Par exemple : John Smith <1234.567@mail.com>\n");
+	printf("\033[01mVotre clé publique nécessite un prénom, un nom suivi de votre adresse mail fermée par les symboles < et > Par exemple : John Smith <1234.567@mail.com>\n");
 	printf("Entrez votre prénom : \033[33m");
 	scanf("%s",prenom);
 	printf("\033[37mEntrez votre nom : \033[33m");
