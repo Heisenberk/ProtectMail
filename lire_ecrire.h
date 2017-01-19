@@ -24,4 +24,6 @@ void demande_visualisation_message(char* nomFichier);
 void ecrit_cle_privee();
 void ecrit_cle_publique(char* s1,char* s2,char* s3);
 
+void transfert_fic1_fic2(char* s1,char* s2);
+
 #endif

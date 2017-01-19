@@ -40,6 +40,9 @@ int main(int argc,char** argv){
 		genere_cle_privee();
 		genere_cle_publique();
 	}
+	else if(mode==MODE_TRANSFERT_CLES){
+		transfert_fic1_fic2(argv[2],argv[3]);
+	}
 	return 0;
 	
 	/*verifie_authentification(argv[1]);

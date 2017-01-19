@@ -26,6 +26,10 @@ void quitte_pass_phrase_incoherente(){
 	exit(1);//
 }
 
+void quitte_suppression_impossible(char* s){
+	printf("\033[01m\nIMPOSSIBLE DE SUPPRIMER \033[31m%s\n\n\033[0m",s);
+}
+
 void quitte_pas_probleme(){
 	printf("\n\033[0m");
 	exit(0);
@@ -76,6 +80,26 @@ int teste_commande_deux_options(int num,char** chaineCarac){
 			return MODE_AFFICHAGE_DECHIFFRE;
 		}
 	}
+	quitte_commande_introuvable();
+	return 1;
+}
+
+int teste_commande_trois_options(int num,char** chaineCarac){
+	if(teste_mots_identiques(chaineCarac[1],"-ka")){
+		FILE* f1=fopen(chaineCarac[2],"r");
+		FILE* f2=fopen(chaineCarac[3],"r");
+		if(f1==NULL) quitte_fichier_inexistant();
+		if(f2==NULL) quitte_fichier_inexistant();
+		fclose(f1);fclose(f2);
+		if(!teste_extension_pgp(chaineCarac[2])){
+			quitte_mauvaise_extension(chaineCarac[2]);
+		}
+		else if(!teste_extension_pgp(chaineCarac[3])){
+			quitte_mauvaise_extension(chaineCarac[3]);
+		}
+		return MODE_TRANSFERT_CLES;
+	}
+	quitte_commande_introuvable();
 	return 1;
 }
 
@@ -84,6 +108,7 @@ int teste_commande_general(int num,char** chaineCarac){
 	if(num==1){}
 	else if(num==2) return teste_commande_une_option(num,chaineCarac);
 	else if(num==3) return teste_commande_deux_options(num,chaineCarac);
+	else if(num==4) return teste_commande_trois_options(num,chaineCarac);
 	else quitte_commande_introuvable();
 	return 0;
 }

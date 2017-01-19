@@ -1,5 +1,6 @@
 #include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "pgp.h"
 #include "lire_ecrire.h"
@@ -14,9 +15,17 @@ void affiche_date_heure(){
 	printf ("%s\n", s_now);
 }
 
-void affiche_general(){
+/*void affiche_general(){
 	printf("\033[01m\nSimplified Privacy Guard - Hybrid Cryptography.\n");
 	printf("Université Versailles Saint Quentin en Yvelines - 2017 \nClaire Baskevitch - Clément Caumes\n");
+	printf("Date courante : ");
+	affiche_date_heure();
+	printf("\n\033[0m");
+}*/
+
+void affiche_general(){
+	printf("\033[34m\033[01m\nSimplified Privacy Guard - Hybrid Cryptography\n");
+	printf("Université Versailles Saint Quentin en Yvelines - 2017\nClaire Baskevitch - Clément Caumes\n");
 	printf("Date courante : ");
 	affiche_date_heure();
 	printf("\n\033[0m");
@@ -154,4 +163,23 @@ void ecrit_cle_publique(char* s1,char* s2,char* s3){
 	ecrit_bordure_inf_rsa_pub(f);
 	fclose(f);
 	printf("\033[01m\033[31m\nGénération de la clé publique terminée\n\n\033[0m");
+}
+
+void transfert_fic1_fic2(char* s1,char* s2){
+	FILE* f1;
+	FILE* f2;
+	f1=fopen(s1,"a");
+	if(f1==NULL) exit(1);
+	f2=fopen(s2,"r");
+	if(f2==NULL) exit(1);
+	fprintf(f1,"\n\n");
+	char c;
+	do{
+		c=fgetc(f2);
+		if(c!=EOF) fprintf(f1,"%c",c);
+	}while(c!=EOF);
+	int suppr;
+	suppr=remove(s2);
+	if(suppr) quitte_suppression_impossible(s2);
+	printf("\033[01mLe fichier \033[31m%s\033[37m possède de nouvelle(s) clé(s)\n\n\033[0m",s1);
 }
