@@ -128,12 +128,12 @@ void cree_pass_phrase(){
 	printf("\033[01mEntrez de nouveau la Pass Phrase: \033[0m\033[30m");
 	scanf("%s",buffer2);
 	printf("\033[0m");
-	if(!strcmp(buffer1,buffer2)){
+	/*if(!strcmp(buffer1,buffer2)){
 		int taille=strlen(buffer1);
 		unsigned char* mdp=(unsigned char*)buffer1;
 		md5(mdp,taille,hash);
-	}
-	else quitte_pass_phrase_incoherente();
+	}*/
+	//else quitte_pass_phrase_incoherente();
 }
 
 void ecrit_cle_privee(){
