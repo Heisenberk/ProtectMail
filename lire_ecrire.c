@@ -119,6 +119,23 @@ void demande_visualisation_message(char* nomFichier){
 	else quitte_pas_probleme();
 }
 
+void cree_pass_phrase(){
+	printf("\033[01mVous devez entrer une Pass Phrase pour protéger votre clé secrète RSA.");
+	printf("\033[01mEntrez la Pass Phrase: \033[0m\033[30m");
+	char buffer1[256],buffer2[256];
+	scanf("%s",buffer1);
+	printf("\033[0m");
+	printf("\033[01mEntrez de nouveau la Pass Phrase: \033[0m\033[30m");
+	scanf("%s",buffer2);
+	printf("\033[0m");
+	if(!strcmp(buffer1,buffer2)){
+		int taille=strlen(buffer1);
+		unsigned char* mdp=(unsigned char*)buffer1;
+		md5(mdp,taille,hash);
+	}
+	else quitte_pass_phrase_incoherente();
+}
+
 void ecrit_cle_privee(){
 	FILE* f=fopen("secring.pgp","w");
 	ecrit_bordure_sup_rsa_priv(f);
