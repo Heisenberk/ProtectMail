@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "pgp.h"
 #include "reception.h"
 #include "lire_ecrire.h"
@@ -36,4 +38,20 @@ void verifie_authentification(char* nomFichier){
 		affiche_contenu_fic(nomFichier);
 	}
 	else demande_visualisation_message(nomFichier);
+}
+
+void cree_fichier_dechiffre(char* nomFichier){
+	int nb=strlen(nomFichier)-4;
+	char new[nb+1];
+	int i;
+	for(i=0;i<nb;i++){
+		new[i]=nomFichier[i];
+	}
+	new[nb]='\0';
+	FILE* f=fopen(new,"w");
+	if(f==NULL) exit(1);
+	//ECRIRE ICI LE MESSAGE DECHIFFRE DANS LE FILE
+	fclose(f);
+	printf("\033[01mCréation du fichier déchiffré \033[31m%s\033[0m\n\n",nomFichier);
+	
 }

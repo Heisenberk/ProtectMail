@@ -31,7 +31,14 @@ int main(int argc,char** argv){
 		ecrit_message_non_chiffre(argc,argv);
 	}
 	else if(mode==MODE_DECHIFFREMENT){
-		printf("DECHIFFREMENT\n");
+		cree_fichier_dechiffre(argv[1]);
+	}
+	else if(mode==MODE_AFFICHAGE_DECHIFFRE){
+		affiche_fichier_dechiffre(argv[2]);
+	}
+	else if(mode==MODE_GENERATION_CLES){
+		genere_cle_privee();
+		genere_cle_publique();
 	}
 	return 0;
 	

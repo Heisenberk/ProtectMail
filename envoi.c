@@ -31,6 +31,27 @@ void md5(unsigned char* in,int taille,unsigned char* out){
 	md5_done(&md,out);
 }
 
+void genere_cle_privee(){
+	//GENERATION CLE
+	ecrit_cle_privee();
+	
+}
+
+void genere_cle_publique(){
+	char prenom[64];
+	char nom[64];
+	char adresse[64];
+	printf("\033[01mVotre clé publique nécessite un prénom, un nom suivi de votre adresse mail \nfermée par les symboles < et > Par exemple : John Smith <1234.567@mail.com>\n");
+	printf("Entrez votre prénom : \033[33m");
+	scanf("%s",prenom);
+	printf("\033[37mEntrez votre nom : \033[33m");
+	scanf("%s",nom);
+	printf("\033[37mEntrez votre mail entre crochets : \033[33m");
+	scanf("%s",adresse);
+	printf("\033[0m");
+	ecrit_cle_publique(prenom,nom,adresse);
+}
+
 void demande_pass_phrase(unsigned char* hash){
 	printf("\033[01mEntrez la Pass Phrase: \033[0m\033[30m");
 	char buffer1[256],buffer2[256];

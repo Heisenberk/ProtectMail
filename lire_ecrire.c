@@ -23,8 +23,9 @@ void affiche_general(){
 }
 
 void affiche_commandes(){
-	printf("\033[01m-Pour déchiffrer un fichier :\033[32m ./pgp [fichier.pgp]\n\033[0m");
-	printf("\033[01m-Pour signer un message :\033[32m ./pgp -s [fichier]\n\033[0m");
+	printf("\033[01m- Pour déchiffrer un fichier :\033[32m ./pgp -w [fichier.pgp]\033[37m Le contenu déchiffré du\n  fichier s'affichera à l'écran\n\033[0m");
+	printf("\033[01m- Pour déchiffrer un fichier :\033[32m ./pgp [fichier.pgp]\033[37m Le fichier message déchiffré   sera dans \033[31m[fichier]\n\033[0m");
+	printf("\033[01m- Pour signer un message :\033[32m ./pgp -s [fichier]\n\033[0m");
 	
 	printf("\n\033[0m");
 }
@@ -33,12 +34,33 @@ void affiche_action_pgp(char* nom){
 	printf("\033[01mLe fichier à envoyer est sous le nom : \033[31m%s\n\n\033[0m",nom);
 }
 
+void ecrit_bordure_sup_rsa_pub(FILE* f){
+	fprintf(f,"-----BEGIN PGP PUBLIC KEY BLOCK-----\n");
+}
+
+void ecrit_bordure_sup_rsa_priv(FILE* f){
+	fprintf(f,"-----BEGIN PGP PRIVATE KEY BLOCK-----\n");
+}
+
 void ecrit_bordure_sup_m_sig(FILE* f){
 	fprintf(f,"-----BEGIN PGP SIGNED MESSAGE-----\n");
 }
 
+void ecrit_bordure_sup_id(FILE* f,char* s1,char* s2,char* s3){
+	fprintf(f,"-----IDENTITY-----\n");
+	fprintf(f,"%s %s %s\n",s1,s2,s3);
+}
+
 void ecrit_bordure_inf_m_sig(FILE* f){
 	fprintf(f,"\n-----BEGIN PGP SIGNATURE-----\n");
+}
+
+void ecrit_bordure_inf_rsa_pub(FILE* f){
+	fprintf(f,"\n-----END PGP PUBLIC KEY BLOCK-----\n");
+}
+
+void ecrit_bordure_inf_rsa_priv(FILE* f){
+	fprintf(f,"\n-----END PGP PRIVATE KEY BLOCK-----\n");
 }
 
 void recopie_message(FILE* origin,FILE* new){
@@ -60,6 +82,15 @@ void affiche_contenu_fic(char* nomFichier){
 	}while(c!=EOF);
 	printf("\n\033[0m");
 	fclose(f);
+}
+
+void affiche_dechiffrement(char* nomFichier){
+	printf("AFFICHAGE FICHIER DECHIFFRE\n\n");
+}
+
+void affiche_fichier_dechiffre(char* nomFichier){
+	printf("\033[01mLe contenu déchiffré du fichier \033[31m%s\033[37m est : \n\n\033[0m",nomFichier);
+	affiche_dechiffrement(nomFichier);
 }
 
 int teste_reponse(char* s){
@@ -86,5 +117,26 @@ void demande_visualisation_message(char* nomFichier){
 	scanf("%s",buffer);
 	if(teste_reponse(buffer)==1) affiche_contenu_fic(nomFichier);
 	else quitte_pas_probleme();
-	
+}
+
+void ecrit_cle_privee(){
+	FILE* f=fopen("secring.pgp","w");
+	ecrit_bordure_sup_rsa_priv(f);
+	// genere et ecrit la cle ici
+	ecrit_bordure_inf_rsa_priv(f);
+	fclose(f);
+	printf("\033[01m\033[31mGénération de la clé privée terminée\n\n\033[0m");
+}
+
+//ATTENTION PENSER AU FAIT QUE LE FICHIER DE CLEFS EST DEJA REMPLIE
+//DE CONTACTS QUON NE VEUT PAS PERDRE!!!!
+//A REFAIRE
+void ecrit_cle_publique(char* s1,char* s2,char* s3){
+	FILE* f=fopen("pubring.pgp","w");
+	ecrit_bordure_sup_id(f,s1,s2,s3);
+	ecrit_bordure_sup_rsa_pub(f);
+	//genere et ecrit la cle ici
+	ecrit_bordure_inf_rsa_pub(f);
+	fclose(f);
+	printf("\033[01m\033[31m\nGénération de la clé publique terminée\n\n\033[0m");
 }

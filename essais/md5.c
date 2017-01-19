@@ -14,7 +14,7 @@ int main(){
 	printf("%s : ",in);
 	for(i=0;i<16;i++){ //TJRS 16 
 		//printf("%u ",out[i]);
-		printf("%x",out[i]);
+		printf("%x ",out[i]);
 	}
 	printf("\n");
 	return 0;

@@ -48,6 +48,9 @@ int teste_commande_une_option(int num,char** chaineCarac){
 		affiche_commandes();
 		exit(1); //
 	}
+	if(teste_mots_identiques(chaineCarac[1],"-kg")){
+		return MODE_GENERATION_CLES;
+	}
 	if(teste_extension_pgp(chaineCarac[1])){
 		FILE* f=fopen(chaineCarac[1],"r");
 		if(f==NULL) quitte_fichier_inexistant();
@@ -64,6 +67,14 @@ int teste_commande_deux_options(int num,char** chaineCarac){
 		if(f==NULL) quitte_fichier_inexistant();
 		fclose(f);
 		return MODE_SIGN_NN_CHIFFRE;
+	}
+	if(teste_mots_identiques(chaineCarac[1],"-w")){
+		if(teste_extension_pgp(chaineCarac[2])){
+			FILE* f=fopen(chaineCarac[2],"r");
+			if(f==NULL) quitte_fichier_inexistant();
+			fclose(f);
+			return MODE_AFFICHAGE_DECHIFFRE;
+		}
 	}
 	return 1;
 }
