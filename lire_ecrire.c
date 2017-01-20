@@ -5,6 +5,7 @@
 #include "pgp.h"
 #include "lire_ecrire.h"
 #include "commandes.h"
+#include "gestion_cles.h"
 #include "types.h"
 
 void affiche_date_heure(){
@@ -125,20 +126,6 @@ void demande_visualisation_message(char* nomFichier){
 	scanf("%s",buffer);
 	if(teste_reponse(buffer)==1) affiche_contenu_fic(nomFichier);
 	else quitte_pas_probleme();
-}
-
-void cree_pass_phrase(char* buffer1){
-	printf("\033[01mVous devez entrer une Pass Phrase pour protéger votre clé secrète RSA.\n");
-	printf("\033[01mEntrez la Pass Phrase: \033[0m\033[30m");
-	/*char buffer1[256],*/ char buffer2[256];
-	scanf("%s",buffer1);
-	printf("\033[0m");
-	printf("\033[01mEntrez de nouveau la Pass Phrase: \033[0m\033[30m");
-	scanf("%s",buffer2);
-	printf("\033[0m");
-	if(strcmp(buffer1,buffer2)){
-		quitte_pass_phrase_incoherente();
-	}
 }
 
 void ecrit_cle_privee(){

@@ -5,6 +5,7 @@
 #include "reception.h"
 #include "commandes.h"
 #include "lire_ecrire.h"
+#include "gestion_cles.h"
 #include "types.h"
 
 /*void affiche(unsigned char* h){
