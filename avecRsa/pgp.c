@@ -40,6 +40,7 @@ int main(int argc,char** argv){
 	else if(mode==MODE_GENERATION_CLES){
 		//genere_cle_privee();
 		//genere_cle_publique();
+		//demande_taille_cles();
 		genere_cles();
 	}
 	else if(mode==MODE_TRANSFERT_CLES){

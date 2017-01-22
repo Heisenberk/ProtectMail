@@ -8,6 +8,7 @@
 void affiche_general();
 void affiche_commandes();
 void affiche_action_pgp(char* nom);
+int demande_taille_cles();
 
 void ecrit_bordure_sup_rsa_priv(FILE* f);
 void ecrit_bordure_sup_rsa_pub(FILE* f);

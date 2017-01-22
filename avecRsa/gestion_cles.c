@@ -25,11 +25,11 @@ void libere_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstat
 	gmp_randclear(state);
 }
 
-void determine_premier(mpz_t p,gmp_randstate_t state){
-	mpz_urandomb(p,state,TAILLE);
+void determine_premier(mpz_t p,gmp_randstate_t state,int choix){
+	mpz_urandomb(p,state,choix);
 	int test=mpz_probab_prime_p(p,10);
 	while(((test!=1)&&(test!=2))){
-		mpz_urandomb(p,state,TAILLE);
+		mpz_urandomb(p,state,choix);
 		test=mpz_probab_prime_p(p,10);
 	}
 }
@@ -187,9 +187,10 @@ void genere_cles(){
 	gmp_randseed_ui(state,(unsigned)time(NULL));
 	///////
 	mpz_t p,q,n,z,e,d;
+	int choix=demande_taille_cles();
 	initialise_memoire(p,q,n,z,e,d);
-	determine_premier(p,state);
-	determine_premier(q,state);
+	determine_premier(p,state,choix);
+	determine_premier(q,state,choix);
 	determine_n(p,q,n);
 	determine_z(p,q,z);
 	determine_e(z,state,e);

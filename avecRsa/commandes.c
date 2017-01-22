@@ -11,6 +11,11 @@ void quitte_commande_introuvable(){
 	exit(1); //revoir le chiffre
 }
 
+void quitte_demande_invalide(){
+	printf("\033[01m\nDEMANDE INVALIDE\n\n\033[0m");
+	exit(1);//
+}
+
 void quitte_fichier_inexistant(){
 	printf("\033[01mFICHIER INEXISTANT\n\n\033[0m");
 	exit(1); //

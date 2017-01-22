@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <gmp.h>
 #include "pgp.h"
 #include "lire_ecrire.h"
@@ -38,6 +39,28 @@ void affiche_commandes(){
 	printf("\033[01m- Pour déchiffrer un fichier:\033[32m ./pgp [fichier.pgp]\033[37m Le fichier message déchiffré sera dans \033[31m[fichier]\n\033[0m");
 	printf("\033[01m- Pour signer un message:\033[32m ./pgp -s [fichier]\n\033[0m");
 	printf("\n\033[0m");
+}
+
+int demande_taille_cles(){
+	char choix[16];int i;
+	printf("\033[01mChoisissez la taille de votre clé RSA :\n");
+	printf("	1)	512 bits - Low commercial grade, fast but less secure\n");
+	printf("	2)	768 bits - High commercial grade, medium speed, good security\n");
+	printf("	3)	1024 bits - Military grade, slow, highest security\n");
+	printf("	4)	2048 bits - Restricted by the E.U & U.S governments\n");
+	printf("Choisissez 1, 2, 3 ou 4 : ");
+	scanf("%s",choix);
+	if(strlen(choix)>=2) quitte_demande_invalide();
+	if(!isdigit(choix[0])) quitte_demande_invalide();
+	if((atoi(choix)==0)||(atoi(choix)>=5)){
+		quitte_demande_invalide();
+	}
+	if(atoi(choix)==1) i=512;
+	else if(atoi(choix)==2) i=768;
+	else if(atoi(choix)==3) i=1024;
+	else i=2048;
+	printf("\033[01mVous avez choisi une clé de %d bits.\n\n\033[0m",i);
+	return i;
 }
 
 void affiche_action_pgp(char* nom){
@@ -156,6 +179,7 @@ void ecrit_cle_publique(char* s1,char* s2,char* s3,mpz_t n,mpz_t e){
 	//
 	ecrit_bordure_inf_rsa_pub(f);
 	fclose(f);
+	printf("\n");
 	//printf("\033[01m\033[31m\nGénération de la clé publique terminée\n\n\033[0m");
 }
 
