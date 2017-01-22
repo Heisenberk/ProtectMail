@@ -1,7 +1,19 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <tomcrypt.h>
 #include <gmp.h>
-#define TAILLE 20
+#include "pgp.h"
+#include "commandes.h"
+#include "lire_ecrire.h"
+
+//GMP
+void initialise_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d){
+	mpz_init(p);
+	mpz_init(q);
+	mpz_init(n);
+	mpz_init(z);
+	mpz_init(e);
+	mpz_init(d);
+}
 
 void libere_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstate_t state){
 	mpz_clear(p);
@@ -11,15 +23,6 @@ void libere_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstat
 	mpz_clear(e);
 	mpz_clear(d);
 	gmp_randclear(state);
-}
-
-void initialise_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d){
-	mpz_init(p);
-	mpz_init(q);
-	mpz_init(n);
-	mpz_init(z);
-	mpz_init(e);
-	mpz_init(d);
 }
 
 void determine_premier(mpz_t p,gmp_randstate_t state){
@@ -99,6 +102,7 @@ void encrypt(char* nomFichier,mpz_t n,mpz_t e){
 			mpz_set_d(m,ascii);
 			mpz_powm(u,m,e,n);
 			test=gmp_fprintf(f2,"%Zd ",u);
+			if(test==-1) exit(1); //
 			compteur++;//
 			if((compteur%5)==0)fprintf(f2,"\n"); //
 		}
@@ -121,13 +125,14 @@ void decrypt(char* nomFichier,mpz_t n,mpz_t d){
 		printf("FICHIER IMPOSSIBLE A CREER\n");
 		exit(1);
 	}
-	char c;double ascii;mpz_t m,u;int test;unsigned long int conv;int car;
+	char c;mpz_t m,u;int test;unsigned long int conv;int car;
 	mpz_init(m);mpz_init(u);
 	do{
 		c=fgetc(f1);
 		if((c!=EOF)&&(isdigit(c))){
 			ungetc(c,f1);
 			test=gmp_fscanf(f1,"%Zd",m);
+			if(test==-1) exit(1); //
 			mpz_powm(u,m,d,n);
 			conv=mpz_get_ui(u);
 			car=conv;
@@ -141,21 +146,47 @@ void decrypt(char* nomFichier,mpz_t n,mpz_t d){
 	mpz_clear(u);
 	printf("\nMESSAGE DECHIFFRE\n");
 }
+////
 
-int main(int argc,char**argv){
+void md5(unsigned char* in,int taille,unsigned char* out){
+	hash_state md;
+	//unsigned char out[16];
+	md5_init(&md);
+	md5_process(&md,in,taille);
+	md5_done(&md,out);
+}
+
+//CHANGER LES NOMS
+void genere_cle_privee(mpz_t n,mpz_t e){
+	ecrit_cle_privee(n,e);
+}
+
+//CHANGER LES NOMS
+void genere_cle_publique(mpz_t n,mpz_t e){
+	char prenom[64];
+	char nom[64];
+	char adresse[64];
+	//A DEPLACER
+	printf("\033[01mVotre clé publique nécessite un prénom, un nom suivi de votre adresse mail fermée par les symboles < et > Par exemple : John Smith <1234.567@mail.com>\n");
+	printf("Entrez votre prénom : \033[33m");
+	scanf("%s",prenom);
+	printf("\033[37mEntrez votre nom : \033[33m");
+	scanf("%s",nom);
+	printf("\033[37mEntrez votre mail entre crochets : \033[33m");
+	scanf("%s",adresse);
+	printf("\033[0m");
+	//
+	ecrit_cle_publique(prenom,nom,adresse,n,e);
+}
+
+//changer ici les parametres pr pouvoir ecrire les clefs 
+void genere_cles(){
 	//TIMER
 	gmp_randstate_t state;
 	gmp_randinit_default (state);
 	gmp_randseed_ui(state,(unsigned)time(NULL));
 	///////
-	
 	mpz_t p,q,n,z,e,d;
-	/*mpz_init(p);
-	mpz_init(q);
-	mpz_init(n);
-	mpz_init(z);
-	mpz_init(e);
-	mpz_init(d);*/
 	initialise_memoire(p,q,n,z,e,d);
 	determine_premier(p,state);
 	determine_premier(q,state);
@@ -163,18 +194,48 @@ int main(int argc,char**argv){
 	determine_z(p,q,z);
 	determine_e(z,state,e);
 	determine_d(p,q,n,z,e,d,state);
-	
-	printf("\n");
-	gmp_printf("p=%Zd\n",p);
+	/*gmp_printf("p=%Zd\n",p);
 	gmp_printf("q=%Zd\n",q);
 	gmp_printf("n=%Zd\n",n);
 	gmp_printf("z=%Zd\n",z);
 	gmp_printf("e=%Zd\n",e);
 	gmp_printf("d=%Zd\n",d);
-	
-	affiche_cles(e,d,n);
-	encrypt("test",n,e);
-	decrypt("message_chiffre",n,d);
-	
+	affiche_cles(e,d,n);*/
+	//A MODIFIER CAR SI ON TAPE 2 PASSES PHRASES DIFFERENTES 
+	//IL Y A QUAND MEME ECRIT PUBLIC (PAS PRIVE)
+	genere_cle_publique(n,e);
+	genere_cle_privee(n,d);
+	printf("\033[01m\033[31m\nGénération des clés publique et privée terminée\n\n\033[0m");
 	libere_memoire(p,q,n,z,e,d,state);
+		
+}
+
+void cree_pass_phrase(char* buffer1){
+	printf("\033[01mVous devez entrer une Pass Phrase pour protéger votre clé secrète RSA.\n");
+	printf("\033[01mEntrez la Pass Phrase: \033[0m\033[30m");
+	/*char buffer1[256],*/ char buffer2[256];
+	scanf("%s",buffer1);
+	printf("\033[0m");
+	printf("\033[01mEntrez de nouveau la Pass Phrase: \033[0m\033[30m");
+	scanf("%s",buffer2);
+	printf("\033[0m");
+	if(strcmp(buffer1,buffer2)){
+		quitte_pass_phrase_incoherente();
+	}
+}
+
+void demande_pass_phrase(unsigned char* hash){
+	printf("\033[01mEntrez la Pass Phrase: \033[0m\033[30m");
+	char buffer1[256],buffer2[256];
+	scanf("%s",buffer1);
+	printf("\033[0m");
+	printf("\033[01mEntrez de nouveau la Pass Phrase: \033[0m\033[30m");
+	scanf("%s",buffer2);
+	printf("\033[0m");
+	if(!strcmp(buffer1,buffer2)){
+		int taille=strlen(buffer1);
+		unsigned char* mdp=(unsigned char*)buffer1;
+		md5(mdp,taille,hash);
+	}
+	else quitte_pass_phrase_incoherente();
 }
