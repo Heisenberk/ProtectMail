@@ -38,21 +38,18 @@ void encrypt(char* nomFichier1,char* nomFichier2,char* cle){
 void decrypt(char* nomFichier1,char* nomFichier2,char* cle){
 	FILE* f1=fopen(nomFichier1,"r");
 	FILE* f2=fopen(nomFichier2,"w");
-	int k=0;
-	int c;
-	/*do{
-		fscanf(f1,"%d",&c);
-		if(c!=EOF){
-			fprintf(f2,"%c", xor(cle[k%16],c));
+	int c,k=0;
+	//int c;
+	char car;
+	do{
+		car=fgetc(f1);
+		if(isdigit(car)){
+			ungetc(car,f1);
+			fscanf(f1,"%d",&c);
+			fprintf(f2,"%c",xor(cle[k%16],c));
 			k++;
 		}
-	}while(c!=EOF);*/
-	int b;
-	while(c!=EOF){
-		fscanf(f1,"%d",&c);
-		fprintf(f2,"%c",xor(cle[k%16],c));
-		k++;
-	}
+	}while(car!=EOF);
 	fclose(f1);
 	fclose(f2);
 }
@@ -68,24 +65,10 @@ int main(){
 	for(i=0;i<16;i++){
 		cleSession[i]=random_int(state);
 	}
-	printf("CLEF DE SESSION : \n%s\n",cleSession);
-	/*FILE* f1=fopen("texte","r");
-	FILE* f2=fopen("chiffre","w");
-	int k=0;
-	char c;
-	do{
-		c=fgetc(f1);
-		if(c!=EOF){
-			fprintf(f2,"%d ", xor(cleSession[k%16],c));
-			//printf("%c",xor(cleSession[k%16],c));
-			k++;
-		}
-	}while(c!=EOF);
+	printf("CLEF DE SESSION : %s\n",cleSession);
 	
-	fclose(f1);
-	fclose(f2);*/
 	encrypt("texte","chiffre",cleSession);
 	decrypt("chiffre","dechiffre",cleSession);
-	gmp_randclear(state);
+	//gmp_randclear(state);
 	return 0;
 }

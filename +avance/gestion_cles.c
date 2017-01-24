@@ -106,8 +106,8 @@ void encrypt(char* nomFichier,mpz_t n,mpz_t e){
 		c=fgetc(f1);
 		ascii=c;
 		if(c!=EOF){
-			mpz_set_d(m,ascii);
-			mpz_powm(u,m,e,n);
+			mpz_set_d(m,ascii); //met dans m --> ascii
+			mpz_powm(u,m,e,n); //u=m^e mod n
 			test=gmp_fprintf(f2,"%Zd ",u);
 			if(test==-1) exit(1); //
 			compteur++;//
@@ -141,8 +141,8 @@ void decrypt(char* nomFichier,mpz_t n,mpz_t d){
 			ungetc(c,f1);
 			test=gmp_fscanf(f1,"%Zd",m);
 			if(test==-1) exit(1); //
-			mpz_powm(u,m,d,n);
-			conv=mpz_get_ui(u);
+			mpz_powm(u,m,d,n); //u=m^d mod n
+			conv=mpz_get_ui(u); // car prend la valeur de u
 			car=conv;
 			fprintf(f2,"%c",car);
 			while(c!=' ') c=fgetc(f1);
