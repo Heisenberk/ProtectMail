@@ -38,8 +38,10 @@ int main(int argc,char** argv){
 		affiche_fichier_dechiffre(argv[2]);
 	}
 	else if(mode==MODE_GENERATION_CLES){
-		genere_cle_privee();
-		genere_cle_publique();
+		//genere_cle_privee();
+		//genere_cle_publique();
+		//demande_taille_cles();
+		genere_cles();
 	}
 	else if(mode==MODE_TRANSFERT_CLES){
 		transfert_fic1_fic2(argv[2],argv[3]);

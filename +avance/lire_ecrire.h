@@ -1,3 +1,4 @@
+#include <gmp.h>
 #include "pgp.h"
 #include "types.h"
 
@@ -7,6 +8,7 @@
 void affiche_general();
 void affiche_commandes();
 void affiche_action_pgp(char* nom);
+int demande_taille_cles();
 
 void ecrit_bordure_sup_rsa_priv(FILE* f);
 void ecrit_bordure_sup_rsa_pub(FILE* f);
@@ -21,8 +23,8 @@ void affiche_contenu_fic(char* nomFichier);
 void affiche_fichier_dechiffre(char* nomFichier);
 void demande_visualisation_message(char* nomFichier);
 
-void ecrit_cle_privee();
-void ecrit_cle_publique(char* s1,char* s2,char* s3);
+void ecrit_cle_privee(mpz_t n,mpz_t d);
+void ecrit_cle_publique(char* s1,char* s2,char* s3,mpz_t n,mpz_t e);
 
 void transfert_fic1_fic2(char* s1,char* s2);
 

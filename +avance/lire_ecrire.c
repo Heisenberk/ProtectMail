@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <gmp.h>
 #include "pgp.h"
 #include "lire_ecrire.h"
 #include "commandes.h"
@@ -39,6 +41,28 @@ void affiche_commandes(){
 	printf("\n\033[0m");
 }
 
+int demande_taille_cles(){
+	char choix[16];int i;
+	printf("\033[01mChoisissez la taille de votre clé RSA :\n");
+	printf("	1)	512 bits - Low commercial grade, fast but less secure\n");
+	printf("	2)	768 bits - High commercial grade, medium speed, good security\n");
+	printf("	3)	1024 bits - Military grade, slow, highest security\n");
+	printf("	4)	2048 bits - Restricted by the E.U & U.S governments\n");
+	printf("Choisissez 1, 2, 3 ou 4 : ");
+	scanf("%s",choix);
+	if(strlen(choix)>=2) quitte_demande_invalide();
+	if(!isdigit(choix[0])) quitte_demande_invalide();
+	if((atoi(choix)==0)||(atoi(choix)>=5)){
+		quitte_demande_invalide();
+	}
+	if(atoi(choix)==1) i=512;
+	else if(atoi(choix)==2) i=768;
+	else if(atoi(choix)==3) i=1024;
+	else i=2048;
+	printf("\033[01mVous avez choisi une clé de %d bits.\n\n\033[0m",i);
+	return i;
+}
+
 void affiche_action_pgp(char* nom){
 	printf("\033[01mLe fichier à envoyer est sous le nom : \033[31m%s\n\n\033[0m",nom);
 }
@@ -65,11 +89,11 @@ void ecrit_bordure_inf_m_sig(FILE* f){
 }
 
 void ecrit_bordure_inf_rsa_pub(FILE* f){
-	fprintf(f,"\n-----END PGP PUBLIC KEY BLOCK-----\n");
+	fprintf(f,"-----END PGP PUBLIC KEY BLOCK-----\n");
 }
 
 void ecrit_bordure_inf_rsa_priv(FILE* f){
-	fprintf(f,"\n-----END PGP PRIVATE KEY BLOCK-----\n");
+	fprintf(f,"-----END PGP PRIVATE KEY BLOCK-----\n");
 }
 
 void recopie_message(FILE* origin,FILE* new){
@@ -128,28 +152,35 @@ void demande_visualisation_message(char* nomFichier){
 	else quitte_pas_probleme();
 }
 
-void ecrit_cle_privee(){
+//A MODIFIER CAR IL FAUT QUELLE SOIT CHIFFRE
+void ecrit_cle_privee(mpz_t n,mpz_t d){
 	FILE* f=fopen("secring.pgp","w");
 	ecrit_bordure_sup_rsa_priv(f);
 	// genere et ecrit la cle ici
 	char pass_phrase[256];
-	cree_pass_phrase(pass_phrase);
+	cree_pass_phrase(pass_phrase); //UTILISE ICI POUR CHIFFRER
+	gmp_fprintf(f,"%Zd\n",n);
+	gmp_fprintf(f,"%Zd\n",d);
 	ecrit_bordure_inf_rsa_priv(f);
 	fclose(f);
-	printf("\033[01m\033[31m\nGénération de la clé privée terminée\n\n\033[0m");
+	//printf("\033[01m\033[31m\nGénération de la clé privée terminée\n\n\033[0m");
 }
 
 //ATTENTION PENSER AU FAIT QUE LE FICHIER DE CLEFS EST DEJA REMPLIE
 //DE CONTACTS QUON NE VEUT PAS PERDRE!!!!
 //A REFAIRE
-void ecrit_cle_publique(char* s1,char* s2,char* s3){
+void ecrit_cle_publique(char* s1,char* s2,char* s3,mpz_t n,mpz_t e){
 	FILE* f=fopen("pubring.pgp","w");
 	ecrit_bordure_sup_id(f,s1,s2,s3);
 	ecrit_bordure_sup_rsa_pub(f);
-	//genere et ecrit la cle ici
+	//
+	gmp_fprintf(f,"%Zd\n",n);
+	gmp_fprintf(f,"%Zd\n",e);
+	//
 	ecrit_bordure_inf_rsa_pub(f);
 	fclose(f);
-	printf("\033[01m\033[31m\nGénération de la clé publique terminée\n\n\033[0m");
+	printf("\n");
+	//printf("\033[01m\033[31m\nGénération de la clé publique terminée\n\n\033[0m");
 }
 
 void transfert_fic1_fic2(char* s1,char* s2){

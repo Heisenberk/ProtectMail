@@ -8,6 +8,7 @@
 #define MODE_TRANSFERT_CLES 5
 
 #define TAILLE_HASH_MD5 16
+#define TAILLE 20
 #define PASSPHRASE "3eeac98df7e7a8ab1c0ebb0f9dfc1"
 
 
