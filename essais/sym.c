@@ -48,7 +48,7 @@ void decrypt(char* nomFichier1,char* nomFichier2,char* cle){
 		}
 	}while(c!=EOF);*/
 	int b;
-	for(b=0;b<10;b++){
+	while(c!=EOF){
 		fscanf(f1,"%d",&c);
 		fprintf(f2,"%c",xor(cle[k%16],c));
 		k++;
