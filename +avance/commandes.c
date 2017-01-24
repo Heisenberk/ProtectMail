@@ -6,6 +6,7 @@
 #include "lire_ecrire.h"
 #include "types.h"
 
+// Procédures des différentes façons de quitter
 void quitte_commande_introuvable(){
 	printf("\033[01mCOMMANDE INTROUVABLE\n\n\033[0m");
 	exit(1); //revoir le chiffre
@@ -39,12 +40,15 @@ void quitte_pas_probleme(){
 	printf("\n\033[0m");
 	exit(0);
 }
+////////////////
 
+// Retourne 1 si deux chaines de caractères sont identiques
 int teste_mots_identiques(char* s1,char* s2){
 	if(strcmp(s1,s2)==0) return 1;
 	return 0;
 }
 
+// Teste si la chaine de caractères possède l'extension .pgp
 int teste_extension_pgp(char* s){
 	char* extension=s;
 	int num=strlen(s);
@@ -52,15 +56,19 @@ int teste_extension_pgp(char* s){
 	return teste_mots_identiques(extension,".pgp");
 }
 
+// Renvoient le mode choisi par l'utilisateur
 int teste_commande_une_option(int num,char** chaineCarac){
 	if(teste_mots_identiques(chaineCarac[1],"-h")){
+		// ./pgp -h
 		affiche_commandes();
 		exit(1); //
 	}
 	if(teste_mots_identiques(chaineCarac[1],"-kg")){
+		// ./pgp -kg
 		return MODE_GENERATION_CLES;
 	}
 	if(teste_extension_pgp(chaineCarac[1])){
+		// ./pgp [fichier.pgp]
 		FILE* f=fopen(chaineCarac[1],"r");
 		if(f==NULL) quitte_fichier_inexistant();
 		fclose(f);
@@ -72,12 +80,14 @@ int teste_commande_une_option(int num,char** chaineCarac){
 
 int teste_commande_deux_options(int num,char** chaineCarac){
 	if(teste_mots_identiques(chaineCarac[1],"-s")){
+		// ./pgp -s [fichier]
 		FILE* f=fopen(chaineCarac[2],"r");
 		if(f==NULL) quitte_fichier_inexistant();
 		fclose(f);
 		return MODE_SIGN_NN_CHIFFRE;
 	}
 	if(teste_mots_identiques(chaineCarac[1],"-w")){
+		// ./pgp -w [fichier.pgp]
 		if(teste_extension_pgp(chaineCarac[2])){
 			FILE* f=fopen(chaineCarac[2],"r");
 			if(f==NULL) quitte_fichier_inexistant();
@@ -91,6 +101,7 @@ int teste_commande_deux_options(int num,char** chaineCarac){
 
 int teste_commande_trois_options(int num,char** chaineCarac){
 	if(teste_mots_identiques(chaineCarac[1],"-ka")){
+		// ./pgp -ka [fic1.pgp] [fic2.pgp]
 		FILE* f1=fopen(chaineCarac[2],"r");
 		FILE* f2=fopen(chaineCarac[3],"r");
 		if(f1==NULL) quitte_fichier_inexistant();
@@ -107,7 +118,9 @@ int teste_commande_trois_options(int num,char** chaineCarac){
 	quitte_commande_introuvable();
 	return 1;
 }
+/////////
 
+// Retourne le mode choisi par l'utilisateur
 int teste_commande_general(int num,char** chaineCarac){
 	affiche_general();
 	if(num==1){}

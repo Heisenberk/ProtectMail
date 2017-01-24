@@ -23,6 +23,7 @@ int teste_pass_phrase(){
 	
 }*/
 
+// Renvoie la concatenation de s avec ".pgp"
 char* concatenation_extension(char* s){
 	char* concat=malloc(strlen(s)*sizeof(char)+strlen(".pgp")*sizeof(char)+sizeof(char));
 	char* final=strcat(strcpy(concat,s),".pgp");
@@ -37,6 +38,7 @@ char* concatenation_extension(char* s){
 	return f;
 }*/
 
+// A DEPLACER 
 void ecrit_message_non_chiffre(int num,char**chaineCarac){
 	char* nom=concatenation_extension(chaineCarac[2]);
 	FILE* origin=fopen(chaineCarac[2],"r");

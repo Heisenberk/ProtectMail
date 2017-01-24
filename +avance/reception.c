@@ -6,6 +6,7 @@
 #include "lire_ecrire.h"
 #include "types.h"
 
+// Renvoie 1 si hash1 et hash2 sont identiques
 int teste_egalite_hashes(unsigned char* hash1, unsigned char* hash2){
 	int i;
 	for(i=0;i<TAILLE_HASH_MD5;i++){
@@ -15,14 +16,17 @@ int teste_egalite_hashes(unsigned char* hash1, unsigned char* hash2){
 	return 1;
 }
 
+// A REMPLIR
 void calcul_hash_message(char* nomFichier,unsigned char* hash_message){
 	
 }
 
+// A REMPLIR
 void calcul_hash_signature(char* nomFichier,unsigned char* hash_signature){
 	
 }
 
+// A REMPLIR
 int teste_signature(char* nomFichier){
 	/*unsigned char* hash_message;
 	calcul_hash_message(nomFichier,hash_message);
@@ -32,6 +36,7 @@ int teste_signature(char* nomFichier){
 	return 0;//
 }
 
+// A UTILISER QUAND TESTE_SIGNATURE REMPLIE
 void verifie_authentification(char* nomFichier){
 	if(teste_signature(nomFichier)){
 		printf("\033[01mAuthentification du fichier \033[31m%s\033[37m vérifié. Visualisation du contenu : \n\n",nomFichier);
@@ -40,6 +45,7 @@ void verifie_authentification(char* nomFichier){
 	else demande_visualisation_message(nomFichier);
 }
 
+// A COMPLETER
 void cree_fichier_dechiffre(char* nomFichier){
 	int nb=strlen(nomFichier)-4;
 	char new[nb+1];

@@ -5,7 +5,7 @@
 #include "commandes.h"
 #include "lire_ecrire.h"
 
-//GMP
+// Fonction GMP pour initialiser les variables
 void initialise_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d){
 	mpz_init(p);
 	mpz_init(q);
@@ -15,6 +15,7 @@ void initialise_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d){
 	mpz_init(d);
 }
 
+// Fonction GMP pour libérer la mémoire
 void libere_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstate_t state){
 	mpz_clear(p);
 	mpz_clear(q);
@@ -25,62 +26,68 @@ void libere_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstat
 	gmp_randclear(state);
 }
 
+// Met dans p un nombre premier aléatoire
+// p est le futur nombre premier, state correspond à l'aléatoire et choix correspond à la taille du nombre
 void determine_premier(mpz_t p,gmp_randstate_t state,int choix){
-	mpz_urandomb(p,state,choix);
-	int test=mpz_probab_prime_p(p,10);
-	while(((test!=1)&&(test!=2))){
+	mpz_urandomb(p,state,choix); //met dans p un nombre aleatoire
+	int test=mpz_probab_prime_p(p,10); //renvoie 0 si c'est pas premier, 1 si c'est surement premier et 2 si c'est premier (sur)
+	while(((test!=1)&&(test!=2))){ //continue de choisir un nombre tant qu'il n'est pas premier
 		mpz_urandomb(p,state,choix);
-		test=mpz_probab_prime_p(p,10);
+		test=mpz_probab_prime_p(p,10); //10 est une valeur correcte pour faire le test (voir manuel gmp)
 	}
 }
 
+// Met dans n le produit de p et q
 void determine_n(mpz_t p,mpz_t q,mpz_t n){
 	mpz_addmul(n,p,q);
 }
 
+// Met dans n le produit de p-1 et q-1
 void determine_z(mpz_t p,mpz_t q,mpz_t z){
 	mpz_t pp,ppp,qq,qqq;
 	mpz_init(ppp);
 	mpz_init(qqq);
-	mpz_init_set(pp,p);
-	mpz_init_set(qq,q);
-	mpz_sub_ui(ppp,pp,1);
-	mpz_sub_ui(qqq,qq,1);
-	mpz_addmul(z,ppp,qqq);
+	mpz_init_set(pp,p); //copie p dans pp
+	mpz_init_set(qq,q); //copie q dans qq
+	mpz_sub_ui(ppp,pp,1); //ppp=pp-1
+	mpz_sub_ui(qqq,qq,1); //qqq=qq-1
+	mpz_addmul(z,ppp,qqq); //z=ppp*qqq
 	mpz_clear(pp);
 	mpz_clear(ppp);
 	mpz_clear(qq);
 	mpz_clear(qqq);
 }
 
+// Met dans e la valeur tel que pgcd(e,z)=1
 void determine_e(mpz_t z,gmp_randstate_t state,mpz_t e){
-	mpz_t pgcd;
+	mpz_t pgcd; //variable qui contiendra le pgcd
 	mpz_init(pgcd);
 	int test;
 	do{
-		mpz_urandomb(e,state,TAILLE);
-		mpz_gcd(pgcd,e,z); //CALCUL PGCD
+		mpz_urandomb(e,state,TAILLE); //choisit un nb aleatoire
+		mpz_gcd(pgcd,e,z); //CALCUL PGCD(e,z);
 		test=mpz_cmp_d(pgcd,1); //PGCD=1?
-	}while(test!=0);
+	}while(test!=0); //tant que pgcd n'est pas égal a 1 on continue
 	mpz_clear(pgcd);
 }
 
-
-//CALCUL DE LINVERSE DE E MOD Z
+// Met dans d la valeur de l'inverse de e modulo z
 void determine_d(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstate_t state){
-	int calc=mpz_invert(d,e,z);
-	if(calc==0){
+	int calc=mpz_invert(d,e,z); //met dans d l'inverse multiplicatif de e mod z
+	if(calc==0){ //si c'est pas possible on quitte
 		libere_memoire(p,q,n,z,e,d,state);
 		printf("CLES INDETERMINEES\n");
 		exit(1);
 	}
 }
 
+// A SUPPRIMER
 void affiche_cles(mpz_t e,mpz_t d,mpz_t n){
 	gmp_printf("CLE PUBLIQUE (%Zd,%Zd)\n",e,n);
 	gmp_printf("CLE PRIVEE   (%Zd,%Zd)\n",d,n);
 }
 
+// Chiffre "nomFichier" grâce à la clé publique (e,n)
 void encrypt(char* nomFichier,mpz_t n,mpz_t e){
 	FILE* f1=fopen(nomFichier,"r");
 	if(f1==NULL){
@@ -114,6 +121,7 @@ void encrypt(char* nomFichier,mpz_t n,mpz_t e){
 	printf("\nMESSAGE CHIFFRE\n");
 }
 
+// Déchiffre "nomFichier" grâce à la clé privée (d,n)
 void decrypt(char* nomFichier,mpz_t n,mpz_t d){
 	FILE* f1=fopen(nomFichier,"r");
 	if(f1==NULL){
@@ -148,6 +156,7 @@ void decrypt(char* nomFichier,mpz_t n,mpz_t d){
 }
 ////
 
+// Met dans out le contenu de md5 de in
 void md5(unsigned char* in,int taille,unsigned char* out){
 	hash_state md;
 	//unsigned char out[16];
@@ -179,9 +188,10 @@ void genere_cle_publique(mpz_t n,mpz_t e){
 	ecrit_cle_publique(prenom,nom,adresse,n,e);
 }
 
+// Génère les clés aléatoirement
 //changer ici les parametres pr pouvoir ecrire les clefs 
 void genere_cles(){
-	//TIMER
+	//TIMER : state permet de choisir SEED pour améliorer le pseudo aléatoire
 	gmp_randstate_t state;
 	gmp_randinit_default (state);
 	gmp_randseed_ui(state,(unsigned)time(NULL));
@@ -211,6 +221,7 @@ void genere_cles(){
 		
 }
 
+// Met dans buffer1 la Pass Phrase choisie par l'utilisateur
 void cree_pass_phrase(char* buffer1){
 	printf("\033[01mVous devez entrer une Pass Phrase pour protéger votre clé secrète RSA.\n");
 	printf("\033[01mEntrez la Pass Phrase: \033[0m\033[30m");
@@ -220,11 +231,12 @@ void cree_pass_phrase(char* buffer1){
 	printf("\033[01mEntrez de nouveau la Pass Phrase: \033[0m\033[30m");
 	scanf("%s",buffer2);
 	printf("\033[0m");
-	if(strcmp(buffer1,buffer2)){
+	if(strcmp(buffer1,buffer2)){ //si ce n'est pas identique
 		quitte_pass_phrase_incoherente();
 	}
 }
 
+// A MODIFIER OU A SUPPRIMER
 void demande_pass_phrase(unsigned char* hash){
 	printf("\033[01mEntrez la Pass Phrase: \033[0m\033[30m");
 	char buffer1[256],buffer2[256];

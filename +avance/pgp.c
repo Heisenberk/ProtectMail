@@ -8,41 +8,28 @@
 #include "gestion_cles.h"
 #include "types.h"
 
-/*void affiche(unsigned char* h){
-	int i;
-	for(i=0;i<16;i++){
-		printf("%x",h[i]);
-	}
-	printf("\n");
-}
-
-void affiche2 (char* s){
-	int i=0;
-	//char c=s[i];
-	while(s[i]!='\0'){
-		printf("%c",s[i]);
-		i++;
-	}
-	printf("\n");
-}*/
-
 int main(int argc,char** argv){
 	int mode=teste_commande_general(argc,argv);
+	//envoyer un message non chiffré et signé
 	if(mode==MODE_SIGN_NN_CHIFFRE){
 		ecrit_message_non_chiffre(argc,argv);
 	}
+	//recevoir un message chiffré
 	else if(mode==MODE_DECHIFFREMENT){
 		cree_fichier_dechiffre(argv[1]);
 	}
+	//
 	else if(mode==MODE_AFFICHAGE_DECHIFFRE){
 		affiche_fichier_dechiffre(argv[2]);
 	}
+	//genere nouvelles cles rsa
 	else if(mode==MODE_GENERATION_CLES){
 		//genere_cle_privee();
 		//genere_cle_publique();
 		//demande_taille_cles();
 		genere_cles();
 	}
+	//coupe fic1 et colle dans fic2
 	else if(mode==MODE_TRANSFERT_CLES){
 		transfert_fic1_fic2(argv[2],argv[3]);
 	}
