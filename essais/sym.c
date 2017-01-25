@@ -79,5 +79,6 @@ int main(){
 	encrypt("texte","chiffre",cleSession);
 	decrypt("chiffre","dechiffre",cleSession);
 	gmp_randclear(state);
+	
 	return 0;
 }
