@@ -6,7 +6,6 @@
 #include "envoi.h"
 #include "commandes.h"
 #include "lire_ecrire.h"
-#include "gestion_cles.h"
 #include "types.h"
 
 /*hash_state md;
@@ -53,14 +52,4 @@ void ecrit_message_non_chiffre(int num,char**chaineCarac){
 	free(nom);
 }
 
-void cree_fichier_chiffre(char* nomFichier){
-	char* nom=concatenation_extension(nomFichier);
-	FILE* origin=fopen(nomFichier,"r");
-	FILE* new=fopen(nom,"w");
-	ecrit_bordure_sup_m_chiffre(new);
-	CLE newsession=genere_cle_session();
-	printf(">%s\n",newsession.session);
-	fclose(origin);
-	fclose(new);
-}
 

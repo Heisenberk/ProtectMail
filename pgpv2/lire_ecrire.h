@@ -13,7 +13,6 @@ int demande_taille_cles();
 void ecrit_bordure_sup_rsa_priv(FILE* f);
 void ecrit_bordure_sup_rsa_pub(FILE* f);
 void ecrit_bordure_sup_m_sig(FILE* f);
-void ecrit_bordure_sup_m_chiffre(FILE* f);
 
 void ecrit_bordure_inf_m_sig(FILE* f);
 void ecrit_bordure_inf_rsa_priv(FILE* f);

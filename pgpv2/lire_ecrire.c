@@ -85,10 +85,6 @@ void ecrit_bordure_sup_m_sig(FILE* f){
 	fprintf(f,"-----BEGIN PGP SIGNED MESSAGE-----\n");
 }
 
-void ecrit_bordure_sup_m_chiffre(FILE* f){
-	fprintf(f,"-----BEGIN PGP MESSAGE-----\n");
-}
-
 void ecrit_bordure_sup_id(FILE* f,char* s1,char* s2,char* s3){
 	fprintf(f,"-----IDENTITY-----\n");
 	fprintf(f,"%s %s %s\n",s1,s2,s3);

@@ -6,7 +6,7 @@ compil: pgp.o envoi.o reception.o commandes.o lire_ecrire.o gestion_cles.o
 pgp.o: pgp.c pgp.h envoi.h reception.h commandes.h lire_ecrire.h gestion_cles.h types.h
 	gcc $(CFLAGS) pgp.c
 
-envoi.o: envoi.c pgp.h envoi.h commandes.h lire_ecrire.h gestion_cles.h types.h
+envoi.o: envoi.c pgp.h envoi.h commandes.h lire_ecrire.h types.h
 	gcc $(CFLAGS) envoi.c 
 	
 reception.o: reception.c pgp.h reception.h lire_ecrire.h types.h
@@ -18,7 +18,7 @@ commandes.o: commandes.c pgp.h commandes.h lire_ecrire.h types.h
 lire_ecrire.o: lire_ecrire.c pgp.h lire_ecrire.h commandes.h gestion_cles.h types.h
 	gcc $(CFLAGS) lire_ecrire.c
 	
-gestion_cles.o: gestion_cles.c pgp.h gestion_cles.h lire_ecrire.h commandes.h types.h
+gestion_cles.o: gestion_cles.c pgp.h lire_ecrire.h commandes.h types.h
 	gcc $(CFLAGS) gestion_cles.c
 	
 indent: 

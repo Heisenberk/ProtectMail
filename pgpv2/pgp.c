@@ -14,9 +14,6 @@ int main(int argc,char** argv){
 	if(mode==MODE_SIGN_NN_CHIFFRE){
 		ecrit_message_non_chiffre(argc,argv);
 	}
-	else if(mode==MODE_CHIFFREMENT){
-		cree_fichier_chiffre(argv[2]);
-	}
 	//recevoir un message chiffré
 	else if(mode==MODE_DECHIFFREMENT){
 		cree_fichier_dechiffre(argv[1]);

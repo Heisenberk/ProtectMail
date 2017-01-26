@@ -95,13 +95,6 @@ int teste_commande_deux_options(int num,char** chaineCarac){
 			return MODE_AFFICHAGE_DECHIFFRE;
 		}
 	}
-	if(teste_mots_identiques(chaineCarac[1],"-c")){
-		// ./pgp -c [fichier]
-		FILE* f=fopen(chaineCarac[2],"r");
-		if(f==NULL) quitte_fichier_inexistant();
-		fclose(f);
-		return MODE_CHIFFREMENT;
-	}
 	quitte_commande_introuvable();
 	return 1;
 }

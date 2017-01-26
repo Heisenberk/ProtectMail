@@ -9,6 +9,5 @@
 //void genere_cle_publique();
 //void demande_pass_phrase(unsigned char* hash);
 void ecrit_message_non_chiffre(int num,char**chaineCarac);
-void cree_fichier_chiffre(char* nomFichier);
 
 #endif

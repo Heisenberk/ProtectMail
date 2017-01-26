@@ -27,10 +27,7 @@ void encrypt(char* nomFichier1,char* nomFichier2,char* cle){
 	do{
 		c=fgetc(f1);
 		if(c!=EOF){
-			/*////
-			if(c<0) fprintf(f2,"-%d ",xor(cle[k%16],-c));
-			////
-			else*/ fprintf(f2,"%d ", xor(cle[k%16],c));
+			fprintf(f2,"%d ", xor(cle[k%16],c));
 			k++;
 		}
 	}while(c!=EOF);
@@ -49,13 +46,7 @@ void decrypt(char* nomFichier1,char* nomFichier2,char* cle){
 		if(isdigit(car)){
 			ungetc(car,f1);
 			fscanf(f1,"%d",&c);
-			/*//
-			if(c<0){
-				int temp=xor(cle[k%16],-c);
-				fprintf(f2,"%c",-temp);
-			}
-			//
-			else */fprintf(f2,"%c",xor(cle[k%16],c));
+			fprintf(f2,"%c",xor(cle[k%16],c));
 			k++;
 		}
 	}while(car!=EOF);
