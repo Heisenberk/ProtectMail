@@ -54,13 +54,39 @@ void ecrit_message_non_chiffre(int num,char**chaineCarac){
 }
 
 void cree_fichier_chiffre(char* nomFichier){
+	///////
+	gmp_randstate_t state;
+	gmp_randinit_default (state);
+	gmp_randseed_ui(state,(unsigned)time(NULL));
+	mpz_t p,q,n,z,e,d;
+	int choix=demande_taille_cles();
+	initialise_memoire(p,q,n,z,e,d);
+	determine_premier(p,state,choix);
+	determine_premier(q,state,choix);
+	determine_n(p,q,n);
+	determine_z(p,q,z);
+	determine_e(z,state,e);
+	determine_d(p,q,n,z,e,d,state);
+	genere_cle_publique(n,e);
+	genere_cle_privee(n,d);
+	//////
+	gmp_printf("%Zd %Zd\n",d,e);
+	
+	//LIRE ICI LES CLES DANS PUBRING.PGP!!!
 	char* nom=concatenation_extension(nomFichier);
 	FILE* origin=fopen(nomFichier,"r");
 	FILE* new=fopen(nom,"w");
 	ecrit_bordure_sup_m_chiffre(new);
 	CLE newsession=genere_cle_session();
-	printf(">%s\n",newsession.session);
+	encrypt_rsa_chaine(newsession.session,new,n,e);
 	fclose(origin);
+	encrypt_session(nomFichier,new,newsession);
+	ecrit_bordure_inf_m_chiffre(new);
+	//printf("\033[0m");
+	//fclose(origin);
 	fclose(new);
+	free(nom);
+	libere_memoire(p,q,n,z,e,d,state); //A ENLEVER
+
 }
 

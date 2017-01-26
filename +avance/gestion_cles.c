@@ -59,6 +59,8 @@ void determine_z(mpz_t p,mpz_t q,mpz_t z){
 	mpz_clear(qqq);
 }
 
+// a modifier pour qur ce soit pas aleatoire
+//calcul euclide etendu
 // Met dans e la valeur tel que pgcd(e,z)=1
 void determine_e(mpz_t z,gmp_randstate_t state,mpz_t e){
 	mpz_t pgcd; //variable qui contiendra le pgcd
@@ -88,8 +90,9 @@ void affiche_cles(mpz_t e,mpz_t d,mpz_t n){
 	gmp_printf("CLE PRIVEE   (%Zd,%Zd)\n",d,n);
 }
 
+// A MODIFIER "MESSAGE_CHIFFRE"
 // Chiffre "nomFichier" grâce à la clé publique (e,n)
-void encrypt(char* nomFichier,mpz_t n,mpz_t e){
+void encrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t e){
 	FILE* f1=fopen(nomFichier,"r");
 	if(f1==NULL){
 		printf("FICHIER INEXISTANT\n");
@@ -122,8 +125,26 @@ void encrypt(char* nomFichier,mpz_t n,mpz_t e){
 	printf("\nMESSAGE CHIFFRE\n");
 }
 
+void encrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t e){
+	char c;double ascii;mpz_t m,u;int test;
+	int compteur=0; int i;//
+	mpz_init(m);mpz_init(u);
+	for(i=0;i<16;i++){
+		c=chaine[i];
+		ascii=c;
+		mpz_set_d(m,ascii); //met dans m --> ascii
+		mpz_powm(u,m,e,n); //u=m^e mod n
+		test=gmp_fprintf(new,"%Zd\n",u);
+		if(test==-1) exit(1); //
+		compteur++;
+	}
+	fprintf(new,"\n");
+	mpz_clear(m);
+	mpz_clear(u);
+}
+
 // Déchiffre "nomFichier" grâce à la clé privée (d,n)
-void decrypt(char* nomFichier,mpz_t n,mpz_t d){
+void decrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t d){
 	FILE* f1=fopen(nomFichier,"r");
 	if(f1==NULL){
 		printf("FICHIER INEXISTANT\n");
@@ -284,25 +305,26 @@ CLE genere_cle_session(){
 	for(i=0;i<16;i++){
 		new.session[i]=random_int(state);
 	}
-	//printf("CLEF DE SESSION : %s\n",cleSession);
+	printf("CLEF DE SESSION : %s\n",new.session);
 	gmp_randclear(state);
 	return new;
 }
 
-void encrypt_session(char* nomFichier1,char* nomFichier2,char* cle){
+void encrypt_session(char* nomFichier1,FILE* new,CLE clef){
 	FILE* f1=fopen(nomFichier1,"r");
-	FILE* f2=fopen(nomFichier2,"w");
+	//FILE* f2=fopen(nomFichier2,"w");
 	int k=0;
 	char c;
 	do{
 		c=fgetc(f1);
 		if(c!=EOF){
-			fprintf(f2,"%d ", xor(cle[k%16],c));
+			fprintf(new,"%d ", xor(clef.session[k%16],c));
 			k++;
 		}
 	}while(c!=EOF);
+	fprintf(new,"\n");
 	fclose(f1);
-	fclose(f2);
+	//fclose(f2);
 }
 
 void decrypt_session(char* nomFichier1,char* nomFichier2,char* cle){

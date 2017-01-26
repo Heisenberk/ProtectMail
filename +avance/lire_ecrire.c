@@ -98,6 +98,10 @@ void ecrit_bordure_inf_m_sig(FILE* f){
 	fprintf(f,"\n-----BEGIN PGP SIGNATURE-----\n");
 }
 
+void ecrit_bordure_inf_m_chiffre(FILE* f){
+	fprintf(f,"-----END PGP MESSAGE-----\n");
+}
+
 void ecrit_bordure_inf_rsa_pub(FILE* f){
 	fprintf(f,"-----END PGP PUBLIC KEY BLOCK-----\n");
 }
