@@ -1,18 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdint.h>
 #include <string.h>
-#define TAILLE_OCTET 8
+
+#define TAILLE_OCTET (8)
+
+#define K1 (0x5A827999)
+#define K2 (0x6ED9EBA1)
+#define K3 (0x8F1BBCDC)
+#define K4 (0xCA62C1D6)
 
 // -lm compilation
+
+struct sha1{
+	int nbBlocs;
+	uint32_t ** mot;
+	uint32_t registre1[5];
+	uint32_t registre2[5];
+};typedef struct sha1 SHA1;
 
 void myitoa(int in,char* out,int longueur){
 	//QUITTE SI CEST >256
 	int i,quotient,reste;
-	//int j=sizeof(out)/sizeof(char);
 	int j=longueur;
 	char g[2];
-	//printf("MYITOA:%lu\n",sizeof(out));
 	int compteur=0;
 	for(i=0;i<j-1;i++){
 		out[i]='0';
@@ -26,10 +38,8 @@ void myitoa(int in,char* out,int longueur){
 		compteur++;
 		in=quotient;
 	}
-	//printf("%s\n",out);
 }
 
-//ATTEN
 int converbi(char* chaine){
 	int out=0;
 	double rang=3;
@@ -79,7 +89,25 @@ void affiche(char* message,int longueur){
 	printf("\n");
 }
 
-void sha1(char* message){
+SHA1 init_registres(SHA1 hash){
+	hash.registre1[0]=0x67452301;
+	hash.registre1[1]=0xEFCDAB89;
+	hash.registre1[2]=0x98BADCFE;
+	hash.registre1[3]=0x10325476;
+	hash.registre1[4]=0xC3D2E1F0;
+	
+	hash.registre2[0]=hash.registre1[0];
+	hash.registre2[1]=hash.registre1[1];
+	hash.registre2[2]=hash.registre1[2];
+	hash.registre2[3]=hash.registre1[3];
+	hash.registre2[4]=hash.registre1[4];
+
+	return hash;
+}
+
+SHA1 init_sha1(char* message){
+	SHA1 hash;
+	hash=init_registres(hash);
 	int taille=strlen(message); //+1
 	//QUITTE SI >64
 	int nb=taille*sizeof(char)*TAILLE_OCTET+1+1;//POUR 1 EN PLUS
@@ -144,18 +172,13 @@ void sha1(char* message){
 	}while(p!=strlen(finalBinaire));
 	printf("FINAL : \n");
 	affiche(finalHexa,sizeof(finalHexa));
-	
+	return hash;
 }
 
 
 int main(){
-	sha1("clement");
-	/*char binaire[5];
-	int k,i;
-	for(k=0;k<16;k++){
-		i=k;
-		myitoa(i,binaire,sizeof(binaire));
-		printf("%d,%s,%d\n",i,binaire,converbi(binaire));
-	}*/
+	SHA1 hash;
+	init_sha1("clement");
+	
 	return 0;
 }
