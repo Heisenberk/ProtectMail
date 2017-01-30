@@ -78,24 +78,32 @@ int converbi(char* chaine){ //TAILLE 4
 
 uint32_t converhexa(char* chaine){ //TAILLE 9
 	uint32_t out=0;
-	double rang=8;
+	uint32_t puiss;
+	double rang=8-1;
 	int caset=0;
+	//printf(">>>%s\n",chaine);
 	while(rang!=-1){
-		if(chaine[caset]=='1') {out+pow(16,rang);}
-		else if(chaine[caset]=='2') {out+2*pow(16,rang);}
-		else if(chaine[caset]=='3') {out+3*pow(16,rang);}
-		else if(chaine[caset]=='4') {out+4*pow(16,rang);}
-		else if(chaine[caset]=='5') {out+5*pow(16,rang);}
-		else if(chaine[caset]=='6') {out+6*pow(16,rang);}
-		else if(chaine[caset]=='7') {out+7*pow(16,rang);}
-		else if(chaine[caset]=='8') {out+8*pow(16,rang);}
-		else if(chaine[caset]=='9') {out+9*pow(16,rang);}
-		else if(chaine[caset]=='a') {out+10*pow(16,rang);}
-		else if(chaine[caset]=='b') {out+11*pow(16,rang);}
-		else if(chaine[caset]=='c') {out+12*pow(16,rang);}
-		else if(chaine[caset]=='d') {out+13*pow(16,rang);}
-		else if(chaine[caset]=='e') {out+14*pow(16,rang);}
-		else if(chaine[caset]=='f') {out+15*pow(16,rang);}
+		//printf("!%f et %c\n",rang,chaine[caset]);
+		//printf("%f\n",pow(16,rang));
+		puiss=pow(16,rang);
+		//printf("16^%f->%u*%c",rang,puiss,chaine[caset]);
+		//printf("!%u\n",out);
+		if(chaine[caset]=='1') {out=out+puiss;}
+		else if(chaine[caset]=='2') {out=out+2*puiss;}
+		else if(chaine[caset]=='3') {out=out+3*puiss;}
+		else if(chaine[caset]=='4') {out=out+4*puiss;}
+		else if(chaine[caset]=='5') {out=out+5*puiss;}
+		else if(chaine[caset]=='6') {out=out+6*puiss;}
+		else if(chaine[caset]=='7') {out=out+7*puiss;}
+		else if(chaine[caset]=='8') {out=out+8*puiss;}
+		else if(chaine[caset]=='9') {out=out+9*puiss;}
+		else if(chaine[caset]=='a') {out=out+10*puiss;}
+		else if(chaine[caset]=='b') {out=out+11*puiss;}
+		else if(chaine[caset]=='c') {out=out+12*puiss;}
+		else if(chaine[caset]=='d') {out=out+13*puiss;}
+		else if(chaine[caset]=='e') {out=out+14*puiss;}
+		else if(chaine[caset]=='f') {out=out+15*puiss;}
+		//printf(" = %u\n",out);
 		rang--;
 		caset++;
 	}
@@ -222,6 +230,7 @@ SHA1 init_sha1(char* message){
 		rang++;
 		p=p+4;
 	}while(p!=strlen(finalBinaire));
+	//printf("!!!%d\n",strlen(finalBinaire));
 	printf("FINAL : \n");
 	affiche(finalHexa,sizeof(finalHexa));
 	//hash.mot=malloc(hash.nbBlocs * sizeof(uint32_t*));
@@ -235,25 +244,16 @@ SHA1 init_sha1(char* message){
 	char paquet1[9]; paquet1[8]='\0';
 	do{
 		paquet1[0]=finalHexa[p];
-		//printf("%c",paquet1[0]);
 		paquet1[1]=finalHexa[p+1];
-		//printf("%c",paquet1[1]);
 		paquet1[2]=finalHexa[p+2];
-		//printf("%c",paquet1[2]);
-		paquet1[3]=finalHexa[p+3];
-		//printf("%c",paquet1[3]);		
+		paquet1[3]=finalHexa[p+3];		
 		paquet1[4]=finalHexa[p+4];
-		//printf("%c",paquet1[4]);
 		paquet1[5]=finalHexa[p+5];
-		//printf("%c",paquet1[5]);
 		paquet1[6]=finalHexa[p+6];
-		//printf("%c",paquet1[6]);
 		paquet1[7]=finalHexa[p+7];
-		//printf("%c",paquet1[7]);
 		grHuit=converhexa(paquet1);
-		//printf(">%u\n",grHuit);
-		printf("%s\n",paquet1);
-		//printf("\n");
+		printf(">hash.mot[%d][%d]=%u\n",(p/(8))%16,(p/(16*8)),grHuit);
+		hash.mot[(p/8)%16][p/(16*8)]=grHuit;
 		rang++;
 		p=p+8;
 	}while(p!=strlen(finalHexa));
@@ -270,7 +270,7 @@ void libere_memoire(SHA1 hash){
 
 int main(){
 	SHA1 hash;
-	hash=init_sha1("clement");
+	hash=init_sha1("clem");
 	
 	/*uint32_t i=0xAF;
 	uint32_t ii=0x25;
