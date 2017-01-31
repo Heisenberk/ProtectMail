@@ -15,9 +15,10 @@
 
 struct sha1{
 	int nbBlocs; //OK
-	uint32_t* mot[16];
-	uint32_t registre1[5]; //OK
-	uint32_t registre2[5]; //OK
+	uint32_t* mot[16]; //OK
+	uint32_t registre1[5]; //OK //A,B,C,D,E
+	uint32_t registre2[5]; //OK //H0,H1,H2,H3,H4,H5
+	uint32_t W[80];
 };typedef struct sha1 SHA1;
 
 void myitoa(int in,char* out,int longueur){
@@ -40,28 +41,24 @@ void myitoa(int in,char* out,int longueur){
 	}
 }
 
-// F1 pour 0<=t<=19
-uint32_t f1(uint32_t B,uint32_t C,uint32_t D){
-	uint32_t f1=((B & C) | (!B & D));
-	return f1;
+uint32_t f(uint32_t B,uint32_t C,uint32_t D,int t){
+	uint32_t f;
+	if((0<=t)&&(t<=19)) f=((B & C) | ((~B) & D)); //F1
+	else if((20<=t)&&(t<=39)) f=B ^ C ^ D; //F2
+	else if((40<=t)&&(t<=59)) f=((B & C) | (B & D) | (C & D)); //F3
+	else if((60<=t)&&(t<=79)) f=B ^ C ^ D; //F4
+	else f=-1;
+	return f;
 }
 
-// F2 pour 20<=t<=39
-uint32_t f2(uint32_t B,uint32_t C,uint32_t D){
-	uint32_t f2=B ^ C ^ D;
-	return f2;
-}
-
-// F3 pour 40<=t<=59
-uint32_t f3(uint32_t B,uint32_t C,uint32_t D){
-	uint32_t f3=((B & C) | (B & D) | (C & D));
-	return f3;
-}
-
-// F4 pour 60<=t<=79
-uint32_t f4(uint32_t B,uint32_t C,uint32_t D){
-	uint32_t f4=B ^ C ^ D;
-	return f4;
+uint32_t k(int t){
+	uint32_t out;
+	if((0<=t)&&(t<=19)) out=K1;
+	else if((20<=t)&&(t<=39)) out=K2;
+	else if((40<=t)&&(t<=59)) out=K3;
+	else if((60<=t)&&(t<=79)) out=K4;
+	else out=-1;
+	return out;
 }
 
 int converbi(char* chaine){ //TAILLE 4
@@ -148,18 +145,28 @@ void affiche(char* message,int longueur){
 }
 
 SHA1 init_registres(SHA1 hash){
-	hash.registre1[0]=0x67452301;
-	hash.registre1[1]=0xEFCDAB89;
-	hash.registre1[2]=0x98BADCFE;
-	hash.registre1[3]=0x10325476;
-	hash.registre1[4]=0xC3D2E1F0;
+	hash.registre2[0]=0x67452301;
+	hash.registre2[1]=0xEFCDAB89;
+	hash.registre2[2]=0x98BADCFE;
+	hash.registre2[3]=0x10325476;
+	hash.registre2[4]=0xC3D2E1F0;
+	//H0,H1,H2,H3,H4,H5 initialises
 	
-	hash.registre2[0]=hash.registre1[0];
-	hash.registre2[1]=hash.registre1[1];
-	hash.registre2[2]=hash.registre1[2];
-	hash.registre2[3]=hash.registre1[3];
-	hash.registre2[4]=hash.registre1[4];
+	//A ENLEVER
+	hash.registre1[0]=hash.registre2[0];
+	hash.registre1[1]=hash.registre2[1];
+	hash.registre1[2]=hash.registre2[2];
+	hash.registre1[3]=hash.registre2[3];
+	hash.registre1[4]=hash.registre2[4];
+	//printf("ICI:%0x %0x %0x %0x %0x\n",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
+	return hash;
+}
 
+SHA1 init_16W(SHA1 hash,int rang){
+	int i;
+	for(i=0;i<16;i++){
+		hash.W[i]=hash.mot[i][rang];
+	}
 	return hash;
 }
 
@@ -252,12 +259,62 @@ SHA1 init_sha1(char* message){
 		paquet1[6]=finalHexa[p+6];
 		paquet1[7]=finalHexa[p+7];
 		grHuit=converhexa(paquet1);
-		printf(">hash.mot[%d][%d]=%u\n",(p/(8))%16,(p/(16*8)),grHuit);
+		printf(">hash.mot[%d][%d]=%0x\n",(p/(8))%16,(p/(16*8)),grHuit);
 		hash.mot[(p/8)%16][p/(16*8)]=grHuit;
 		rang++;
 		p=p+8;
 	}while(p!=strlen(finalHexa));
 	return hash;
+}
+
+void process_sha1(SHA1 hash){
+	int i,t;
+	uint32_t TEMP;
+	for(i=0;i<hash.nbBlocs;i++){
+		hash=init_16W(hash,i);
+		printf("H     :%0x %0x %0x %0x %0x\n",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
+		printf("LETTRE:%0x %0x %0x %0x %0x\n",hash.registre1[0],hash.registre1[1],hash.registre1[2],hash.registre1[3],hash.registre1[4]);
+		printf("OK ICI\n\n");
+		//AFFICHAGE
+		int h;
+		for(h=0;h<16;h++){
+			printf("W%d:%0x\n",h,hash.W[h]);
+		}
+		////
+		for(t=16;t<80;t++){
+			hash.W[t]=((hash.W[t-3] ^ hash.W[t-8] ^ hash.W[t-14] ^ hash.W[t-16])<<1);
+			printf("W%d:%0x\n",t,hash.W[t]);
+		}
+		hash.registre1[0]=hash.registre2[0]; //A<-HO
+		hash.registre1[1]=hash.registre2[1]; //B<-H1
+		hash.registre1[2]=hash.registre2[2]; //C<-H2
+		hash.registre1[3]=hash.registre2[3]; //D<-H3
+		hash.registre1[4]=hash.registre2[4]; //E<-H4
+		printf("H     :%0x %0x %0x %0x %0x\n",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
+		printf("LETTRE:%0x %0x %0x %0x %0x\n",hash.registre1[0],hash.registre1[1],hash.registre1[2],hash.registre1[3],hash.registre1[4]);
+		printf("OK ICI\n\n");
+
+
+		for(t=0;t<80;t++){
+			TEMP=(hash.registre1[0]<<5)+f(hash.registre1[1],hash.registre1[2],hash.registre1[3],t)+hash.registre1[4]+hash.W[t]+k(t);
+			printf("TEMP:%0x\n",TEMP);
+			hash.registre1[4]=hash.registre1[3];
+			hash.registre1[3]=hash.registre1[2];
+			hash.registre1[2]=hash.registre1[1]<<30;//36
+			hash.registre1[1]=hash.registre1[0];
+			hash.registre1[0]=TEMP;
+			printf(">>%0x %0x %0x %0x %0x\n",hash.registre1[0],hash.registre1[1],hash.registre1[2],hash.registre2[3],hash.registre1[4]);
+		}
+		printf("BBB:%0x %0x %0x %0x %0x\n",hash.registre1[0],hash.registre1[1],hash.registre1[2],hash.registre1[3],hash.registre1[4]);
+
+		printf("->%0x %0x %0x %0x %0x\n",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
+		hash.registre2[0]=hash.registre2[0]+hash.registre1[0];
+		hash.registre2[1]=hash.registre2[1]+hash.registre1[1];
+		hash.registre2[2]=hash.registre2[2]+hash.registre1[2];
+		hash.registre2[3]=hash.registre2[3]+hash.registre1[3];
+		hash.registre2[4]=hash.registre2[4]+hash.registre1[4];
+	}
+	printf("->%0x %0x %0x %0x %0x\n",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
 }
 
 void libere_memoire(SHA1 hash){
@@ -270,12 +327,9 @@ void libere_memoire(SHA1 hash){
 
 int main(){
 	SHA1 hash;
-	hash=init_sha1("clem");
-	
-	/*uint32_t i=0xAF;
-	uint32_t ii=0x25;
-	uint32_t iii=0xFF;
-	printf("%u ", f2(i,ii,iii));*/
+	hash=init_sha1("clement");
+	process_sha1(hash);
+	//printf("%d\n",hash.nbBlocs);
 	libere_memoire(hash);
 	return 0;
 }
