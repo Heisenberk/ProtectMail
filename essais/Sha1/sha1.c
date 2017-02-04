@@ -62,7 +62,7 @@ uint32_t k(int t){
 }
 
 uint32_t shift(int n,uint32_t X){
-	uint32_t out=((X<<n) | (X<<(32-n)));
+	uint32_t out=((X<<n) | (X>>(32-n)));
 	return out;
 }
 
@@ -185,7 +185,7 @@ SHA1 init_sha1(char* message){
 	char binaire[nb]; //contiendra le binaire du message
 	binaire[0]='\0';
 	char lettre[sizeof(char)*TAILLE_OCTET+1]; //contiendra le binaire de la lettre
-	char c; int i=0; int j;
+	unsigned char c; int i=0; int j; //ENLEVER UNSIGNED
 	for(j=0;j<strlen(message);j++){
 		c=message[j];
 		//printf("%c : ",c);
@@ -277,17 +277,16 @@ void process_sha1(SHA1 hash){
 	uint32_t TEMP;
 	for(i=0;i<hash.nbBlocs;i++){
 		hash=init_16W(hash,i);
-		//printf("H     :%0x %0x %0x %0x %0x\n",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
-		//printf("LETTRE:%0x %0x %0x %0x %0x\n",hash.registre1[0],hash.registre1[1],hash.registre1[2],hash.registre1[3],hash.registre1[4]);
-		//printf("OK ICI\n\n");
-		//AFFICHAGE
 		int h;
-		for(h=0;h<16;h++){
-			//printf("W%d:%0x\n",h,hash.W[h]);
-		}
+		/*for(h=0;h<16;h++){
+			printf("W%d:%0x\n",h,hash.W[h]);
+		}*/
 		////
 		for(t=16;t<80;t++){
-			hash.W[t]=((hash.W[t-3] ^ hash.W[t-8] ^ hash.W[t-14] ^ (shift(1,hash.W[t-16])) ));
+			hash.W[t]=(shift(1,(hash.W[t-3] ^ hash.W[t-8] ^ hash.W[t-14] ^ hash.W[t-16] )));
+			//hash.w[t] = (ROTL(1,(sha1->w[j-3] ^ sha1->w[j-8] ^ sha1->w[j-14] ^ sha1->w[j-16])));
+
+			//hash.W[t]=((hash.W[t-3] ^ hash.W[t-8] ^ hash.W[t-14] ^ (shift(1,hash.W[t-16])) ));
 			//printf("W%d:%0x\n",t,hash.W[t]);
 		}
 		hash.registre1[0]=hash.registre2[0]; //A<-HO
@@ -330,9 +329,9 @@ void libere_memoire(SHA1 hash){
 }
 
 
-int main(){
+int main(int argv,char** argc){
 	SHA1 hash;
-	hash=init_sha1("clument");
+	hash=init_sha1(argc[1]);
 	process_sha1(hash);
 	//printf("%d\n",hash.nbBlocs);
 	libere_memoire(hash);
