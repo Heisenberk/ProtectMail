@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 
+#define TAILLE_HASH_SHA1 (40)
 #define TAILLE_OCTET (8)
 
 #define K1 (0x5A827999)
@@ -14,10 +15,10 @@
 // -lm compilation
 
 struct sha1{
-	int nbBlocs; //OK
-	uint32_t* mot[16]; //OK
-	uint32_t registre1[5]; //OK //A,B,C,D,E
-	uint32_t registre2[5]; //OK //H0,H1,H2,H3,H4,H5
+	int nbBlocs; 
+	uint32_t* mot[16];
+	uint32_t registre1[5]; //A,B,C,D,E
+	uint32_t registre2[5]; //H0,H1,H2,H3,H4,H5
 	uint32_t W[80];
 };typedef struct sha1 SHA1;
 
@@ -83,13 +84,8 @@ uint32_t converhexa(char* chaine){ //TAILLE 9
 	uint32_t puiss;
 	double rang=8-1;
 	int caset=0;
-	//printf(">>>%s\n",chaine);
 	while(rang!=-1){
-		//printf("!%f et %c\n",rang,chaine[caset]);
-		//printf("%f\n",pow(16,rang));
 		puiss=pow(16,rang);
-		//printf("16^%f->%u*%c",rang,puiss,chaine[caset]);
-		//printf("!%u\n",out);
 		if(chaine[caset]=='1') {out=out+puiss;}
 		else if(chaine[caset]=='2') {out=out+2*puiss;}
 		else if(chaine[caset]=='3') {out=out+3*puiss;}
@@ -105,7 +101,6 @@ uint32_t converhexa(char* chaine){ //TAILLE 9
 		else if(chaine[caset]=='d') {out=out+13*puiss;}
 		else if(chaine[caset]=='e') {out=out+14*puiss;}
 		else if(chaine[caset]=='f') {out=out+15*puiss;}
-		//printf(" = %u\n",out);
 		rang--;
 		caset++;
 	}
@@ -156,14 +151,6 @@ SHA1 init_registres(SHA1 hash){
 	hash.registre2[3]=0x10325476;
 	hash.registre2[4]=0xC3D2E1F0;
 	//H0,H1,H2,H3,H4,H5 initialises
-	
-	//A ENLEVER
-	hash.registre1[0]=hash.registre2[0];
-	hash.registre1[1]=hash.registre2[1];
-	hash.registre1[2]=hash.registre2[2];
-	hash.registre1[3]=hash.registre2[3];
-	hash.registre1[4]=hash.registre2[4];
-	//printf("ICI:%0x %0x %0x %0x %0x\n",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
 	return hash;
 }
 
@@ -178,29 +165,21 @@ SHA1 init_16W(SHA1 hash,int rang){
 SHA1 init_sha1(char* message){
 	SHA1 hash;
 	hash=init_registres(hash);
-	int taille=strlen(message); //+1
+	int taille=strlen(message);
 	//QUITTE SI >2^64
 	int nb=taille*sizeof(char)*TAILLE_OCTET+1+1;//POUR 1 EN PLUS
-	//printf("->%d\n",nb);
 	char binaire[nb]; //contiendra le binaire du message
 	binaire[0]='\0';
 	char lettre[sizeof(char)*TAILLE_OCTET+1]; //contiendra le binaire de la lettre
-	unsigned char c; int i=0; int j; //ENLEVER UNSIGNED
+	unsigned char c; int i=0; int j;
 	for(j=0;j<strlen(message);j++){
 		c=message[j];
-		//printf("%c : ",c);
 		myitoa(c,lettre,sizeof(lettre));
-		//printf("%s\n",lettre);
 		strcat(binaire,lettre);
 	}
-	//printf("V1 : "); //V1: binaire du message OK
-	//affiche(binaire,sizeof(binaire)); 
 	char temp[2];
 	temp[0]='1';temp[1]='\0';
 	strcat(binaire,temp);
-
-	//printf("V2 : "); //V2: binaire du message + 1 OK
-	//affiche(binaire,sizeof(binaire));
 
 	int calc=0;
 	int k;
@@ -209,7 +188,7 @@ SHA1 init_sha1(char* message){
 			calc=k;
 		}
 	}
-	hash.nbBlocs=(strlen(binaire)+64+calc)/512; //
+	hash.nbBlocs=(strlen(binaire)+64+calc)/512; 
 	
 	char blocZero[calc+1];
 	remplit_zeros(blocZero,calc+1);
@@ -217,15 +196,11 @@ SHA1 init_sha1(char* message){
 	finalBinaire[0]='\0';
 	strcat(finalBinaire,binaire);
 	strcat(finalBinaire,blocZero);
-	//printf("V3 : "); //V3: binaire du message + 1 + n*'0' OK
-	//affiche(finalBinaire,sizeof(finalBinaire)-64);
 	
 	char blocTaille[64+1];
 	remplit_zeros(blocTaille,sizeof(blocTaille));
 	myitoa(taille*TAILLE_OCTET,blocTaille,sizeof(blocTaille));
 	strcat(finalBinaire,blocTaille);
-	//printf("V4 : "); //V4: binaire du message + 1 + n*'0' + taille du message en binaire
-	//affiche(finalBinaire,sizeof(finalBinaire));
 		
 	char finalHexa[strlen(finalBinaire)/4+1];
 	finalHexa[sizeof(finalHexa)-1]='\0';
@@ -242,11 +217,6 @@ SHA1 init_sha1(char* message){
 		rang++;
 		p=p+4;
 	}while(p!=strlen(finalBinaire));
-	//printf("!!!%d\n",strlen(finalBinaire));
-	printf("FINAL : \n");
-	affiche(finalHexa,sizeof(finalHexa));
-	//hash.mot=malloc(hash.nbBlocs * sizeof(uint32_t*));
-	//PAS SUR
 	int d;
 	for(d=0;d<16;d++){
 		hash.mot[d]=malloc(hash.nbBlocs * sizeof(uint32_t));
@@ -264,7 +234,6 @@ SHA1 init_sha1(char* message){
 		paquet1[6]=finalHexa[p+6];
 		paquet1[7]=finalHexa[p+7];
 		grHuit=converhexa(paquet1);
-		//printf(">hash.mot[%d][%d]=%0x\n",(p/(8))%16,(p/(16*8)),grHuit);
 		hash.mot[(p/8)%16][p/(16*8)]=grHuit;
 		rang++;
 		p=p+8;
@@ -272,68 +241,63 @@ SHA1 init_sha1(char* message){
 	return hash;
 }
 
-void process_sha1(SHA1 hash){
-	int i,t;
+void process_sha1(SHA1 hash,char* out){
+	int i,t,h;
 	uint32_t TEMP;
 	for(i=0;i<hash.nbBlocs;i++){
 		hash=init_16W(hash,i);
-		int h;
-		/*for(h=0;h<16;h++){
-			printf("W%d:%0x\n",h,hash.W[h]);
-		}*/
-		////
 		for(t=16;t<80;t++){
 			hash.W[t]=(shift(1,(hash.W[t-3] ^ hash.W[t-8] ^ hash.W[t-14] ^ hash.W[t-16] )));
-			//hash.w[t] = (ROTL(1,(sha1->w[j-3] ^ sha1->w[j-8] ^ sha1->w[j-14] ^ sha1->w[j-16])));
-
-			//hash.W[t]=((hash.W[t-3] ^ hash.W[t-8] ^ hash.W[t-14] ^ (shift(1,hash.W[t-16])) ));
-			//printf("W%d:%0x\n",t,hash.W[t]);
 		}
 		hash.registre1[0]=hash.registre2[0]; //A<-HO
 		hash.registre1[1]=hash.registre2[1]; //B<-H1
 		hash.registre1[2]=hash.registre2[2]; //C<-H2
 		hash.registre1[3]=hash.registre2[3]; //D<-H3
 		hash.registre1[4]=hash.registre2[4]; //E<-H4
-		//printf("H     :%0x %0x %0x %0x %0x\n",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
-		//printf("LETTRE:%0x %0x %0x %0x %0x\n",hash.registre1[0],hash.registre1[1],hash.registre1[2],hash.registre1[3],hash.registre1[4]);
-		//printf("OK ICI\n\n");
-
 
 		for(t=0;t<80;t++){
 			TEMP=(shift(5,hash.registre1[0]))+f(hash.registre1[1],hash.registre1[2],hash.registre1[3],t)+hash.registre1[4]+hash.W[t]+k(t);
-			//printf("TEMP:%0x\n",TEMP);
 			hash.registre1[4]=hash.registre1[3];
 			hash.registre1[3]=hash.registre1[2];
 			hash.registre1[2]=shift(30,hash.registre1[1]);
 			hash.registre1[1]=hash.registre1[0];
 			hash.registre1[0]=TEMP;
-			//printf(">>%0x %0x %0x %0x %0x\n",hash.registre1[0],hash.registre1[1],hash.registre1[2],hash.registre1[3],hash.registre1[4]);
 		}
-		//printf("BBB:%0x %0x %0x %0x %0x\n",hash.registre1[0],hash.registre1[1],hash.registre1[2],hash.registre1[3],hash.registre1[4]);
 
-		//printf("->%0x %0x %0x %0x %0x\n",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
 		hash.registre2[0]=hash.registre2[0]+hash.registre1[0];
 		hash.registre2[1]=hash.registre2[1]+hash.registre1[1];
 		hash.registre2[2]=hash.registre2[2]+hash.registre1[2];
 		hash.registre2[3]=hash.registre2[3]+hash.registre1[3];
 		hash.registre2[4]=hash.registre2[4]+hash.registre1[4];
 	}
-	printf("SHA1:\n%0x %0x %0x %0x %0x\n",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
+	
+	sprintf(out,"%0x%0x%0x%0x%0x",hash.registre2[0],hash.registre2[1],hash.registre2[2],hash.registre2[3],hash.registre2[4]);
 }
 
-void libere_memoire(SHA1 hash){
+/*void libere_memoire(SHA1 hash){
+	int i;
+	for(i=0;i<16;i++){
+		free(hash.mot[i]);
+	}
+}*/
+
+void done_sha1(SHA1 hash){
 	int i;
 	for(i=0;i<16;i++){
 		free(hash.mot[i]);
 	}
 }
 
-
 int main(int argv,char** argc){
 	SHA1 hash;
+	char final[TAILLE_HASH_SHA1];
+	if(argv!=2){
+		printf("%d : OPTION INVALIDE\n",argv);
+		exit(1);
+	}
 	hash=init_sha1(argc[1]);
-	process_sha1(hash);
-	//printf("%d\n",hash.nbBlocs);
-	libere_memoire(hash);
+	process_sha1(hash,final);
+	done_sha1(hash);
+	printf("%s\n",final);
 	return 0;
 }
