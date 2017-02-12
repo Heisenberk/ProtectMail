@@ -3,6 +3,9 @@
 #include <stdint.h>
 #include <inttypes.h> 
 
+#define NB_CAR_UINT64 20
+#define MAX_UINT64 0xFFFFFFFFFFFFFFFF
+
 struct uint_x{
 	int taille;
 	uint64_t* tab;
@@ -18,7 +21,7 @@ UINT_X init_uint_x(int taille){
 		exit(1);
 	}
 	for(i=0;i<new.taille;i++){
-		new.tab[i]=0;
+		new.tab[i]=1678;
 		//printf(">%d\n",i);
 	}
 	/*for(i=0;i<new.taille;i++){
@@ -32,12 +35,9 @@ void free_uint_x(UINT_X n){
 	free(n.tab);
 }
 
-void printf_uint_x(UINT_X n){
+/*void printf_uint_x(UINT_X n){
 	int i=n.taille-1; //TAILLE MAX
-	//printf("!%d\n",n.taille);
-	/*for(i=0;i<n.taille;i++){
-		printf("%"PRIu64, n.tab[i]);
-	}*/
+	
 	while(n.tab[i]==0){
 		//printf(":%d\n",i);
 		i--;
@@ -54,10 +54,25 @@ void printf_uint_x(UINT_X n){
 		i--;
 	}
 	//printf("J\n");
+}*/
+
+void printf_uint_x (UINT_X n){
+	int i,j;uint64_t temp;
+	for(j=n.taille-1;j>=0;j--){
+		for(i=64;i>0;i--){
+			temp=n.tab[j];
+			temp>>=(i-1);
+			temp<<=(64-1);
+			temp>>=(64-1);
+			printf("%"PRIu64,temp);
+		}
+		printf("\n");
+	}
 }
 
 int main(){
 	UINT_X n=init_uint_x(512);
+	//printf(">%d\n",n.taille);
 	printf_uint_x(n);
 	printf("\n");
 	free_uint_x(n);
