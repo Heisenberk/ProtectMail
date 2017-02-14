@@ -24,10 +24,6 @@ UINT_X init_uint_x(int taille){
 		new.tab[i]=1678;
 		//printf(">%d\n",i);
 	}
-	/*for(i=0;i<new.taille;i++){
-		printf("%"PRIu64, new.tab[i]);
-
-	}*/
 	return new;
 }
 
@@ -35,26 +31,14 @@ void free_uint_x(UINT_X n){
 	free(n.tab);
 }
 
-/*void printf_uint_x(UINT_X n){
-	int i=n.taille-1; //TAILLE MAX
-	
-	while(n.tab[i]==0){
-		//printf(":%d\n",i);
-		i--;
-		if(i<0){
-			printf("0");
-			break;
-		}
-		//printf("%d\n",i);
-	}
-	//printf("w%d\n",i);
-	while(i>=0){
-		
-		printf("%"PRIu64, n.tab[i]);
-		i--;
-	}
-	//printf("J\n");
-}*/
+int access_bit_n(uint64_t in,int n){
+	if(n<=0) return -1;
+	else if(n>64) return -1;
+	in>>=(n-1);
+	in<<=(64-1);
+	in>>=(64-1);
+	return in;
+}
 
 void printf_uint_x (UINT_X n){
 	int i,j;uint64_t temp;
@@ -70,11 +54,90 @@ void printf_uint_x (UINT_X n){
 	}
 }
 
+uint64_t somme_uint64(uint64_t a,uint64_t b){
+	int finalRetenue=0;
+	int i,y,temp;
+	int retenue=0;
+	uint64_t resultat,mask;
+	mask=1;
+	resultat=0;
+	for(i=1;i<=64;i++){
+		if(i==1) temp=access_bit_n(a,i)+access_bit_n(b,i)+finalRetenue;
+		else temp=access_bit_n(a,i)+access_bit_n(b,i)+retenue;
+		//retenue=0;
+		//printf("%d+%d+%d=%d(TEMP)\n",access_bit_n(a,i),access_bit_n(b,i),retenue,temp);
+		if(temp==0){
+			retenue=0;
+			//printf("0");
+		}
+		else if(temp==1) {
+			resultat|=mask;
+			retenue=0;
+			//printf("1");
+		}
+		else if(temp==2){
+			if(i==64) finalRetenue=1; 
+			else retenue=1;
+			//else retenue+=(calcul*2);
+			//else retenue==1;
+			//printf("2");
+		}
+		else {
+			if(i==64) finalRetenue=1; 
+			else retenue=1;
+			resultat|=mask;
+			//else retenue=1;
+			//retenue+=calcul;
+			//printf("3");
+		}
+		//calcul*=2;
+		mask<<=1;
+		
+	}
+	//printf("RETENUE FINALE: %d\n",finalRetenue);
+	printf("\n");
+	printf("A: ");
+	for(i=64;i>0;i--){
+		printf("%d",access_bit_n(a,i));
+	}
+	printf("\n");
+	printf("B: ");
+	for(i=64;i>0;i--){
+		printf("%d",access_bit_n(b,i));
+	}
+	printf("\n");
+	printf("C: ");
+	for(i=64;i>0;i--){
+		printf("%d",access_bit_n(resultat,i));
+	}
+	printf("\n");
+	printf("RETENUE FINALE: %d\n",finalRetenue);
+	return resultat;
+}
+
 int main(){
-	UINT_X n=init_uint_x(512);
+	/*UINT_X n=init_uint_x(512);
 	//printf(">%d\n",n.taille);
 	printf_uint_x(n);
 	printf("\n");
-	free_uint_x(n);
+	free_uint_x(n);*/
+
+	uint64_t a,b,c;
+	a=0xFFFFFFFFFFFFFFFF;
+	b=69;
+	int i;
+	//printf("\n");
+	/*for(i=64;i>0;i--){
+		printf("%d",access_bit_n(a,i));
+	}
+	a+=4;
+	printf("\n");
+	for(i=64;i>0;i--){
+		printf("%d",access_bit_n(a,i));
+	}*/
+	printf("\n");
+	c=somme_uint64(a,b);
+	printf("%"PRIu64,c);
+	printf("\n");
 	return 0;
 }
