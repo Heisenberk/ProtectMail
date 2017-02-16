@@ -13,7 +13,7 @@ struct uint_x{
 	uint64_t* tab;
 }; typedef struct uint_x UINT_X;
 
-UINT_X init_uint_x2(int taille){
+/*UINT_X init_uint_x2(int taille){
 	int i;
 	UINT_X new;
 	new.taille=taille/(8*sizeof(uint64_t));
@@ -23,11 +23,11 @@ UINT_X init_uint_x2(int taille){
 		exit(1);
 	}
 	for(i=0;i<new.taille;i++){
-		new.tab[i]=5678;
+		new.tab[i]=MAX_UINT64;
 		//printf(">%d\n",i);
 	}
 	return new;
-}
+}*/
 
 UINT_X init_uint_x(int taille){
 	int i;
@@ -39,7 +39,7 @@ UINT_X init_uint_x(int taille){
 		exit(1);
 	}
 	for(i=0;i<new.taille;i++){
-		new.tab[i]=678;
+		new.tab[i]=678; //METTRE 0 NORMALEMENT
 		//printf(">%d\n",i);
 	}
 	return new;
@@ -155,7 +155,7 @@ UINT_X somme (UINT_X a,UINT_X b){
 
 int main(){
 	UINT_X n=init_uint_x(512);
-	UINT_X m=init_uint_x2(1024);
+	UINT_X m=init_uint_x(1024);
 	//UINT_X u=init_uint_x(512);
 	//printf(">%d\n",n.taille);
 	printf_uint_x(n);
