@@ -60,8 +60,34 @@ void affiche_binaire(mpz_t nb){
 	//gmp_printf("bit %Zd\n",bit);
 }
 
+int euclide(int a,int b){
+	int n=0;
+	int p=b;
+	
+	if(a<b){
+		return 0;
+	}
+	while(p<=a){
+		p=(p<<1);
+		n++;
+	}
+	p=(p>>1);
+	n--;
+	int q=(1<<n);
+	int aux=p;
+	while(n>0){
+		p=(p>>1);
+		n--;
+		if((aux+p)<=a){
+			q+=(1<<n);
+			aux+=p;
+		}
+	}
+	return q;
+}
+
 int main(){
-	//TIMER
+	/*//TIMER
 	gmp_randstate_t state;
 	gmp_randinit_default (state);
 	gmp_randseed_ui(state,(unsigned)time(NULL));
@@ -73,7 +99,10 @@ int main(){
 	
 	gmp_printf("nb=%Zd\n",nb);
 	mpz_out_str(NULL,2,nb);
-	printf("\n");
+	printf("\n");*/
+	int a=1;
+	int b=3;
+	printf("%d/%d=%d\n",a,b,euclide(a,b));
 	
 	return 0;
 }
