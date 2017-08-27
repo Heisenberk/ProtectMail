@@ -152,6 +152,9 @@ void somme1(UINT_X *resultat, UINT_X a, UINT_X b)
 	if(retenue==1) resultat->tab[max(a.taille,b.taille)]=1;
 }
 
+void incrementation(UINT_X* n);
+void decrementation(UINT_X* n);
+
 //Renvoie original shifté de bit+case_tab*64 dans la variable copie
 //case_tab: le nombre de case à shifter
 //bit: le nombre de bit à shifter dans la case après case_tab
@@ -241,9 +244,59 @@ void shift_droit_x(UINT_X* nb,int x){
 	}
 }
 
+uint64_t difference_uint64(uint64_t a,uint64_t b,int* finalRetenueInf){
+	int i,temp;
+	uint64_t mask,resultat;
+	int retenueInf=0;
+	mask=1;resultat=0;
+	//printf("DEBUT\n");
+	for(i=1;i<=64;i++){
+		if(i==1){
+			temp=gestion_retenue(a,b,i,&(*finalRetenueInf));
+			
+		}
+		else {
+			temp=gestion_retenue(a,b,i,&retenueInf);
+		}
+		//printf("%d",temp);
+		if(temp==1) {
+			resultat|=mask;
+		}
+		mask<<=1;
+	}
+	*finalRetenueInf=retenueInf;
+	//printf("\n");
+	return resultat;
+}
+
+UINT_X difference(UINT_X a,UINT_X b){ //ne marche pas 
+	UINT_X resultat;
+	int i,retenue;
+	retenue=0;
+	
+	resultat=malloc_uint_x((max(a.taille,b.taille)+1)*64);
+	for(i=0;i<(min(a.taille,b.taille));i++){
+		//printf("A");
+		resultat.tab[i]=difference_uint64(a.tab[i],b.tab[i],&retenue);
+		//printf(">>>%
+	}
+	for(i=(min(a.taille,b.taille));i<max(a.taille,b.taille);i++){
+		if(min(a.taille,b.taille)==(a.taille)){
+			resultat.tab[i]=difference_uint64(b.tab[i],0,&retenue);
+		}
+		else resultat.tab[i]=difference_uint64(a.tab[i],0,&retenue);
+		//printf("B\n");
+	}
+	if(retenue==1) resultat.tab[max(a.taille,b.taille)]=1;
+	else resultat.tab[max(a.taille,b.taille)]=0;
+	//ajuste_taille(&resultat);
+	return resultat;
+}
+
+
 //nb<<=1
 void shift_gauche(UINT_X* nb){
-	uint64_t futur,temp;
+	/*uint64_t futur,temp;
 	temp=futur=0;
 	int i;
 	for(i=0;i<(nb->taille);i++){
@@ -252,7 +305,28 @@ void shift_gauche(UINT_X* nb){
 		nb->tab[i]=(nb->tab[i])+temp;
 		temp=futur;
 		//printf_binaire_uint64_t(nb->tab[i]);
+	}*/
+	uint64_t u=0x8000000000000000; 
+	if((nb->tab[(nb->taille)-1] & u)==u){
+		UINT_X copie=malloc_uint_x((nb->taille)*64+64);
+		copier(&copie,*nb);
+		free_uint_x(*nb);
+		*nb=malloc_uint_x(copie.taille*64);
+		copier(nb,copie);
+		//nb->tab[(nb->taille)-1]=1;
+		free_uint_x(copie);
 	}
+	uint64_t futur,temp;
+	temp=futur=0;
+	int i;
+	for(i=0;i<(nb->taille);i++){ //enleve -1
+		futur=(uint64_t)access_bit_n(nb->tab[i],(sizeof(uint64_t)*8));
+		nb->tab[i]<<=1;
+		nb->tab[i]=(nb->tab[i])+temp;
+		temp=futur;
+		//printf_binaire_uint64_t(nb->tab[i]);
+	}
+	//printf("H\n");
 }
 
 //nb<<=x
@@ -261,6 +335,50 @@ void shift_gauche_x(UINT_X* nb,int x){
 	for(i=0;i<x;i++){
 		shift_gauche(nb);
 	}
+}
+
+//nb<<=x
+void shift_gauche_uintx(UINT_X* nb,UINT_X x){
+	
+	/*UINT_X zero=malloc_uint_x(1*64);
+	zero.tab[0]=0;
+	int t=0;
+	while(!inferieur_egal(x,zero)){
+		t++;
+		shift_gauche(nb);
+		decrementation(&x);
+		//printf_binaire_uint_x(x);
+		//printf("\n");
+	}
+	printf("ITERATIONS %d\n",t);
+	free_uint_x(zero);*/
+	
+	UINT_X zero=malloc_uint_x(1*64);
+	zero.tab[0]=0;
+	int t=0;
+	while(inferieur(zero,x)){
+		t++;
+		shift_gauche(nb);
+		incrementation(&zero);
+		ajuste_taille(&zero);
+	}
+	//printf("ITERATIONS %d\n",t);
+	free_uint_x(zero);
+}
+
+void test(){
+	int test=13;
+	UINT_X decre=malloc_uint_x(1*64);
+	UINT_X zero=malloc_uint_x(1*64);
+	decre.tab[0]=3;
+	zero.tab[0]=0;
+	while(!inferieur_egal(decre,zero)){
+		test--;
+		decrementation(&decre);
+	}
+		
+	printf(">>>%d\n",test);
+		
 }
 
 //multiplication de a par b
@@ -300,84 +418,54 @@ int gestion_retenue(uint64_t a,uint64_t b,int i,int* retenueInf){
 	if(*retenueInf==0){ //si il n'y a pas de retenue
 		if((access_bit_n(a,i)==0)&&(access_bit_n(b,i)==0)){ // si la premiere colonne vaut 0 et 0
 			temp=0; //PAS DE RETENUE DANS CE CAS
+			*retenueInf=0; //peut etre a enlever
+			//printf("A:0-0=0 sans retenue future\n");
 		}
 		else if((access_bit_n(a,i)==0)&&(access_bit_n(b,i)==1)){ //si ca vaut 0 et 1
 			temp=1;
 			*retenueInf=1;
+			//printf("B:0-1=1 avec retenue future\n");
 		}
 		else if((access_bit_n(a,i)==1)&&(access_bit_n(b,i)==0)){ //si ca vaut 1 et 0
 			temp=1;
 			*retenueInf=0;
+			//printf("C:1-0=1 sans retenue future\n");
 		}
 		else if((access_bit_n(a,i)==1)&&(access_bit_n(b,i)==1)){ //si ca vaut 1 et 1
 			temp=0;
 			*retenueInf=0;
+			//printf("D:1-1=0 sans retenue future\n");
 		}
 	}
 	else{ //si il y a une retenue finale
 		if((access_bit_n(a,i)==0)&&(access_bit_n(b,i)==0)){ // si ca vaut 0 et 0 avec retenue inferieure
 			temp=1;
 			*retenueInf=1;
+			//printf("E:0-0=1 avec retenue future\n");
 		}
 		else if((access_bit_n(a,i)==0)&&(access_bit_n(b,i)==1)){ //si ca vaut 0 et 1 avec retenue inferieure
 			temp=0;
 			*retenueInf=1;
+			//printf("F:0-1=0 avec retenue future\n");
 		}
 		else if((access_bit_n(a,i)==1)&&(access_bit_n(b,i)==0)){ //si ca vaut 1 et 0 avec retenue inferieure
 			temp=0;
 			*retenueInf=0;
+			//printf("G:1-0=0 sans retenue future\n");
 		}
 		else if((access_bit_n(a,i)==1)&&(access_bit_n(b,i)==1)){ //si ca vaut 1 et 1 avec retenue inferieure
 			temp=1;
 			*retenueInf=1;
+			//printf("H:1-1=1 avec retenue future\n");
 		}
 	}
+	//printf("%d",temp);
 	return temp;
 }
 
-uint64_t difference_uint64(uint64_t a,uint64_t b,int* finalRetenueInf){
-	int i,temp;
-	uint64_t mask,resultat;
-	int retenueInf=0;
-	mask=1;resultat=0;
-	for(i=1;i<=64;i++){
-		if(i==1){
-			temp=gestion_retenue(a,b,i,&(*finalRetenueInf));
-			
-		}
-		else {
-			temp=gestion_retenue(a,b,i,&retenueInf);
-		}
-		if(temp==1) {
-			resultat|=mask;
-		}
-		mask<<=1;
-	}
-	*finalRetenueInf=retenueInf;
-	//printf("\n");
-	return resultat;
-}
 
-UINT_X difference(UINT_X a,UINT_X b){
-	UINT_X resultat;
-	int i,retenue;
-	retenue=0;
-	
-	resultat=malloc_uint_x((max(a.taille,b.taille)+1)*64);
-	for(i=0;i<(min(a.taille,b.taille));i++){
-		resultat.tab[i]=difference_uint64(a.tab[i],b.tab[i],&retenue);
-	}
-	for(i=(min(a.taille,b.taille));i<max(a.taille,b.taille);i++){
-		if(min(a.taille,b.taille)==(a.taille)){
-			resultat.tab[i]=difference_uint64(b.tab[i],0,&retenue);
-		}
-		else resultat.tab[i]=difference_uint64(a.tab[i],0,&retenue);
-	}
-	if(retenue==1) resultat.tab[max(a.taille,b.taille)]=1;
-	else resultat.tab[max(a.taille,b.taille)]=0;
-	ajuste_taille(&resultat);
-	return resultat;
-}
+
+
 
 //renvoie 1 si a<b
 int inferieur(UINT_X a,UINT_X b){
@@ -458,35 +546,51 @@ void incrementation(UINT_X* n){
 	*n=malloc_uint_x(temp.taille*64);
 	copier(n,temp);
 	free_uint_x(temp);
-	ajuste_taille(n);
+	//ajuste_taille(n); //peut etre a remettre si incrementation ne marche pas
 }
 
 void decrementation(UINT_X* n){
-	UINT_X un;
-	un=malloc_uint_x(1*64);
-	un.tab[0]=1;
-	int taille=n->taille;
-	UINT_X temp;/*=malloc_uint_x((taille+1)*64);*/
-	temp=difference(*n,un);
-	free_uint_x(un);
-	free_uint_x(*n);
-	//realocation+copie
-	*n=malloc_uint_x(temp.taille*64);
-	copier(n,temp);
-	free_uint_x(temp);
-	ajuste_taille(n);
+	ajuste_taille(n); //peut etre a remettre si decrementation ne marche plus
+	uint64_t mask=MAX_UINT64-1;
+	uint64_t test=n->tab[0];
+	if(access_bit_n(test,1)==1){
+		n->tab[0]&=mask;
+		//printf("A");
+		//ajuste_taille(n);
+	}
+	else{ //ici cela pose probleme
+		//printf("B");
+		UINT_X deux;
+		deux=malloc_uint_x(1*64);
+		deux.tab[0]=2;
+		//int taille=n->taille;
+		UINT_X temp;
+		temp=difference(*n,deux);
+		//printf("temp %d\n",temp.taille);
+		//printf("n %d\n",n->taille);
+		incrementation(&temp);
+		free_uint_x(*n);
+		//reallocation+copie
+		*n=malloc_uint_x((temp.taille)*64);
+		copier(n,temp);
+		free_uint_x(temp);
+		free_uint_x(deux);
+		ajuste_taille(n);
+	}
 	
 }
 
+
+
 UINT_X quotient(UINT_X a,UINT_X b){
-	UINT_X n,p;
+	UINT_X n,p,q_copie,q;
 	ajuste_taille(&a);
 	ajuste_taille(&b);
-	if(inferieur(a,b)){
+	if(inferieur(a,b)){ //si a<b
 		UINT_X zero;
 		zero=malloc_uint_x(1*64);
 		zero.tab[0]=0; //n=0
-		return zero;
+		return zero; //return 0
 	}
 	n=malloc_uint_x(1*64);
 	n.tab[0]=0; //n=0
@@ -494,18 +598,58 @@ UINT_X quotient(UINT_X a,UINT_X b){
 	copier(&p,b); //p=b
 	
 	ajuste_taille(&a);
-	while(inferieur_egal(p,a)){ //p<=a
+	while(inferieur_egal(p,a)){ //while p<=a
 		shift_gauche(&p); //p<<=1
 		incrementation(&n); //n++
-		printf_binaire_uint_x(n);
-		printf("\n");
 	}
 	shift_droit(&p); //p>>=1
-	decrementation(&n);
+	decrementation(&n); //n-- 
 	
-	free_uint_x(p); //
+	q_copie=malloc_uint_x(1*64);
+	q_copie.tab[0]=1; //q_copie=1
+	shift_gauche_uintx(&q_copie,n); //q_copie=(1<<n); 
+	
+	UINT_X aux = malloc_uint_x(p.taille*64);
+	copier(&aux,p); //aux=p
+	
+	UINT_X zero_cond,somme_aux_p;
+	zero_cond=malloc_uint_x(1*64);
+	zero_cond.tab[0]=0;
+	printf("\nN= ");
+	printf_binaire_uint_x(n);
+	
+	while(inferieur(zero_cond,n)){ //while n>0
+		shift_droit(&p); //p>>=1
+		decrementation(&n); //n--
+		
+		somme_aux_p=malloc_uint_x((max(aux.taille,p.taille)+1)*64);
+		somme(&somme_aux_p,aux,p);
+		ajuste_taille(&somme_aux_p);
+		if(inferieur_egal(somme_aux_p,a)){
+			UINT_X un_shift=malloc_uint_x(1*64);
+			un_shift.tab[0]=1; //un_shift=1
+			shift_gauche_uintx(&un_shift,n); //un_shift=(1<<n); 
+			UINT_X q=malloc_uint_x((max(q_copie.taille,un_shift.taille)+1)*64);
+			somme(&q,q_copie,un_shift);
+			//ajuste_taille(&q);
+			free_uint_x(un_shift);
+			break;
+		}
+		free_uint_x(somme_aux_p);
+	}
+	
+	//free_uint_x(q);
+	free_uint_x(q_copie);
+	free_uint_x(n);
+	free_uint_x(p);
+	free_uint_x(aux);
+	free_uint_x(zero_cond);
+	//free_uint_x(somme_aux_p);
+	return q; //cest return q normalement // remettre free n
+	
+	//free_uint_x(p); //
 	//free_uint_x(n); //
-	return n;
+	//return n;
 	
 }
 
@@ -598,8 +742,6 @@ void printf_binaire_uint_x(UINT_X n)
 	}
 }
 
-
-
 void alea_uint_x(UINT_X* u){
 	int i;
 	for(i=0;i<(u->taille);i++){
@@ -610,29 +752,77 @@ void alea_uint_x(UINT_X* u){
 
 int main(){
 	srand(time(NULL));
-	UINT_X nb,nb2;
+	UINT_X nb,nb2,resultat;
 	nb=malloc_uint_x(512);
-	nb2=malloc_uint_x(1024);
+	//nb.tab[0]=3;
 	alea_uint_x(&nb);
+	printf_binaire_uint_x(nb);
+	printf("\\ \n");
+	nb2=malloc_uint_x(64);
+	//nb2.tab[0]=12;
 	alea_uint_x(&nb2);
-	printf_binaire_uint_x(nb);
-	printf("\n");
-	decrementation(&nb);
-	printf_binaire_uint_x(nb);
-	free_uint_x(nb);
-	nb=malloc_uint_x(512);
-	alea_uint_x(&nb);
-	printf("\n");
-	printf_binaire_uint_x(nb);
-	printf("\n");
+	printf_binaire_uint_x(nb2);
+	printf("=\n");
+	resultat=quotient(nb,nb2);
+	printf_binaire_uint_x(resultat);
+	
+	//decrementation(&nb2);
 	//printf_binaire_uint_x(nb2);
-	printf("\n");
-	UINT_X quotient1;
-	quotient1=quotient(nb2,nb);
-	//printf_binaire_uint_x(quotient1);
+	
+	//test();
+	
+	/*UINT_X un=malloc_uint_x(64);
+	un.tab[0]=1;
+	shift_gauche_x(&un,67);
+	printf_binaire_uint_x(un);*/
+	
+	//shift_gauche_uintx(&nb,nb2);
+	//printf("C\n");
+	//decrementation(&nb);
+	//printf_binaire_uint_x(nb);
+	
+	/*UINT_X new=malloc_uint_x(64);
+	new=difference(nb,nb2);
+	ajuste_taille(&new);
+	printf_binaire_uint_x(new);
+	printf(".\n");
+	UINT_X new2=malloc_uint_x(64);
+	new2=difference(new,nb2);
+	ajuste_taille(&new2);
+	printf_binaire_uint_x(new2);
+	printf("..\n");*/
+	//printf_binaire_uint_x(nb);
 	
 	free_uint_x(nb);
 	free_uint_x(nb2);
-	free_uint_x(quotient1);
+	free_uint_x(resultat);
+	//printf_binaire_uint64_t(0xFFFFFFFFFFFFFFFF-1);
+	/*nb2=malloc_uint_x(1024);
+	alea_uint_x(&nb);
+	alea_uint_x(&nb2);
+	printf_binaire_uint_x(nb2);
+	printf("/\n");
+	printf_binaire_uint_x(nb);
+	printf("=\n");
+	UINT_X quotient1;
+	quotient1=quotient(nb2,nb);
+	printf_binaire_uint_x(quotient1);
+	
+	free_uint_x(nb);
+	free_uint_x(nb2);
+	free_uint_x(quotient1);*/
+	/*UINT_X n=malloc_uint_x(512);
+	srand(time(NULL));
+	n.tab[n.taille-1]=(rand()*rand())%MAX_UINT64;
+	printf_binaire_uint_x(n);
+	
+	int i;
+	for(i=0;i<50;i++){
+		shift_gauche(&n);
+		printf("\n");
+		printf_binaire_uint_x(n);
+	}*/
+	
+
 	return 0;
 }
