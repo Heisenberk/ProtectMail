@@ -22,6 +22,7 @@ void affiche_bit(mpz_t bit){
 	else printf("?");
 }
 
+
 void affiche_binaire(mpz_t nb){
 	mpz_t temp;
 	mpz_t temp2;
@@ -60,6 +61,17 @@ void affiche_binaire(mpz_t nb){
 	//gmp_printf("bit %Zd\n",bit);
 }
 
+void affiche_bin(int n){
+	int i;
+	unsigned bit=0;
+	unsigned mask=1;
+	for(i=0;i<64;i++){
+		bit=(n&mask)>>i;
+		printf("%d",bit);
+		mask<<=1;
+	}
+}
+
 int euclide(int a,int b){
 	int n=0;
 	int p=b;
@@ -71,18 +83,28 @@ int euclide(int a,int b){
 		p=(p<<1);
 		n++;
 	}
+	printf("etape1: p=%d OK\n",p);
 	p=(p>>1);
+	printf("etape2: p=%d \n",p);
 	n--;
+	printf("etape3: n=%d \n",n);
 	int q=(1<<n);
+	printf("etape4: q=%d \n",q);
 	int aux=p;
+	printf("etape5: aux=%d \n",aux);
 	while(n>0){
 		p=(p>>1);
 		n--;
 		if((aux+p)<=a){
 			q+=(1<<n);
 			aux+=p;
+			printf("A\n");
 		}
 	}
+	printf("etape6: n=%d \n",n);
+	printf("etape7: p=%d \n",p);
+	printf("etape8: aux=%d \n",aux);
+	printf("etape 9: Q=%d \n",q);
 	return q;
 }
 
@@ -100,9 +122,10 @@ int main(){
 	gmp_printf("nb=%Zd\n",nb);
 	mpz_out_str(NULL,2,nb);
 	printf("\n");*/
-	int a=1;
-	int b=3;
-	printf("%d/%d=%d\n",a,b,euclide(a,b));
+	int a=146464;
+	int b=5697;
+	int c=euclide(a,b);
+	printf("%d/%d=%d\n",a,b,c);
 	
 	return 0;
 }

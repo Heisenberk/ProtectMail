@@ -296,7 +296,8 @@ UINT_X difference(UINT_X a,UINT_X b){ //ne marche pas
 
 //nb<<=1
 void shift_gauche(UINT_X* nb){
-	/*uint64_t futur,temp;
+	/*
+	 uint64_t futur,temp;
 	temp=futur=0;
 	int i;
 	for(i=0;i<(nb->taille);i++){
@@ -324,9 +325,7 @@ void shift_gauche(UINT_X* nb){
 		nb->tab[i]<<=1;
 		nb->tab[i]=(nb->tab[i])+temp;
 		temp=futur;
-		//printf_binaire_uint64_t(nb->tab[i]);
 	}
-	//printf("H\n");
 }
 
 //nb<<=x
@@ -339,19 +338,6 @@ void shift_gauche_x(UINT_X* nb,int x){
 
 //nb<<=x
 void shift_gauche_uintx(UINT_X* nb,UINT_X x){
-	
-	/*UINT_X zero=malloc_uint_x(1*64);
-	zero.tab[0]=0;
-	int t=0;
-	while(!inferieur_egal(x,zero)){
-		t++;
-		shift_gauche(nb);
-		decrementation(&x);
-		//printf_binaire_uint_x(x);
-		//printf("\n");
-	}
-	printf("ITERATIONS %d\n",t);
-	free_uint_x(zero);*/
 	
 	UINT_X zero=malloc_uint_x(1*64);
 	zero.tab[0]=0;
@@ -583,7 +569,7 @@ void decrementation(UINT_X* n){
 
 
 UINT_X quotient(UINT_X a,UINT_X b){
-	UINT_X n,p,q_copie,q;
+	UINT_X n,p,q_copie;
 	ajuste_taille(&a);
 	ajuste_taille(&b);
 	if(inferieur(a,b)){ //si a<b
@@ -602,55 +588,96 @@ UINT_X quotient(UINT_X a,UINT_X b){
 		shift_gauche(&p); //p<<=1
 		incrementation(&n); //n++
 	}
+	/*printf("ETAPE 1: p= ");
+	printf_binaire_uint_x(p);
+	printf(" OK\n"); */
 	shift_droit(&p); //p>>=1
+	/*printf("ETAPE 2: p= ");
+	printf_binaire_uint_x(p);
+	printf(" OK\n");*/
 	decrementation(&n); //n-- 
+	/*printf("ETAPE 3: n= ");
+	printf_binaire_uint_x(n);
+	printf(" OK\n");*/
 	
 	q_copie=malloc_uint_x(1*64);
 	q_copie.tab[0]=1; //q_copie=1
 	shift_gauche_uintx(&q_copie,n); //q_copie=(1<<n); 
+	/*printf("ETAPE 4: q_copie= \n");
+	printf_binaire_uint_x(q_copie);
+	printf(" OK\n");*/
 	
-	UINT_X aux = malloc_uint_x(p.taille*64);
-	copier(&aux,p); //aux=p
+	UINT_X aux;
+	UINT_X aux_temp = malloc_uint_x(p.taille*64);
+	copier(&aux_temp,p); //aux=p
+	/*printf("ETAPE 5: aux_temp= \n");
+	printf_binaire_uint_x(aux_temp);
+	printf(" OK\n");*/
 	
 	UINT_X zero_cond,somme_aux_p;
 	zero_cond=malloc_uint_x(1*64);
 	zero_cond.tab[0]=0;
-	printf("\nN= ");
-	printf_binaire_uint_x(n);
 	
 	while(inferieur(zero_cond,n)){ //while n>0
 		shift_droit(&p); //p>>=1
 		decrementation(&n); //n--
 		
-		somme_aux_p=malloc_uint_x((max(aux.taille,p.taille)+1)*64);
-		somme(&somme_aux_p,aux,p);
+		somme_aux_p=malloc_uint_x((max(aux_temp.taille,p.taille)+1)*64);
+		somme(&somme_aux_p,aux_temp,p); //somme_aux_p = aux + p
 		ajuste_taille(&somme_aux_p);
-		if(inferieur_egal(somme_aux_p,a)){
+		
+		if(inferieur_egal(somme_aux_p,a)){ //if (aux+p)<=a
+			////////q+=(1<<n)
 			UINT_X un_shift=malloc_uint_x(1*64);
 			un_shift.tab[0]=1; //un_shift=1
 			shift_gauche_uintx(&un_shift,n); //un_shift=(1<<n); 
 			UINT_X q=malloc_uint_x((max(q_copie.taille,un_shift.taille)+1)*64);
 			somme(&q,q_copie,un_shift);
-			//ajuste_taille(&q);
+			free_uint_x(q_copie);
+			ajuste_taille(&q);
+			q_copie=malloc_uint_x(q.taille*64);
+			copier(&q_copie,q);
+			free_uint_x(q);
 			free_uint_x(un_shift);
-			break;
+			/////////
+			/////////aux+=p
+			aux=malloc_uint_x((max(aux_temp.taille,p.taille)+1)*64);
+			somme(&aux,aux_temp,p);
+			ajuste_taille(&aux);
+			free_uint_x(aux_temp);
+			aux_temp=malloc_uint_x(aux.taille*64);
+			copier(&aux_temp,aux);
+			free_uint_x(aux);
+			/////////
+			//ici pr le modulo rajouter aux+=p
+			//break; //je ne sais pas si il faut lenlever
 		}
 		free_uint_x(somme_aux_p);
 	}
+
+	/*printf("ETAPE 6: n= \n");
+	printf_binaire_uint_x(n);
+	printf(" OK\n");
 	
-	//free_uint_x(q);
-	free_uint_x(q_copie);
+	printf("ETAPE 7: p= \n");
+	printf_binaire_uint_x(p);
+	printf(" OK\n");
+	
+	printf("ETAPE 8: aux_temp= \n");
+	printf_binaire_uint_x(aux_temp);
+	printf(" OK\n");
+
+	printf("ETAPE 9: q= \n");
+	printf_binaire_uint_x(q_copie);
+	printf(" OK\n");*/
+	
 	free_uint_x(n);
 	free_uint_x(p);
-	free_uint_x(aux);
+	free_uint_x(aux_temp);
 	free_uint_x(zero_cond);
-	//free_uint_x(somme_aux_p);
-	return q; //cest return q normalement // remettre free n
 	
-	//free_uint_x(p); //
-	//free_uint_x(n); //
-	//return n;
-	
+	return q_copie;
+		
 }
 
 /////////***********************FONCTIONS AMELIOREES*******************///////////
@@ -753,76 +780,33 @@ void alea_uint_x(UINT_X* u){
 int main(){
 	srand(time(NULL));
 	UINT_X nb,nb2,resultat;
-	nb=malloc_uint_x(512);
-	//nb.tab[0]=3;
+	nb=malloc_uint_x(1024);
+	//nb=malloc_uint_x(64);
+	//nb.tab[0]=146464;
 	alea_uint_x(&nb);
 	printf_binaire_uint_x(nb);
 	printf("\\ \n");
-	nb2=malloc_uint_x(64);
-	//nb2.tab[0]=12;
+	nb2=malloc_uint_x(512);
+	//nb2.tab[0]=5697;
 	alea_uint_x(&nb2);
 	printf_binaire_uint_x(nb2);
 	printf("=\n");
 	resultat=quotient(nb,nb2);
+	printf("\nRESULTAT : \n");
 	printf_binaire_uint_x(resultat);
-	
-	//decrementation(&nb2);
-	//printf_binaire_uint_x(nb2);
-	
-	//test();
-	
-	/*UINT_X un=malloc_uint_x(64);
-	un.tab[0]=1;
-	shift_gauche_x(&un,67);
-	printf_binaire_uint_x(un);*/
-	
-	//shift_gauche_uintx(&nb,nb2);
-	//printf("C\n");
-	//decrementation(&nb);
-	//printf_binaire_uint_x(nb);
-	
-	/*UINT_X new=malloc_uint_x(64);
-	new=difference(nb,nb2);
-	ajuste_taille(&new);
-	printf_binaire_uint_x(new);
-	printf(".\n");
-	UINT_X new2=malloc_uint_x(64);
-	new2=difference(new,nb2);
-	ajuste_taille(&new2);
-	printf_binaire_uint_x(new2);
-	printf("..\n");*/
-	//printf_binaire_uint_x(nb);
 	
 	free_uint_x(nb);
 	free_uint_x(nb2);
 	free_uint_x(resultat);
-	//printf_binaire_uint64_t(0xFFFFFFFFFFFFFFFF-1);
-	/*nb2=malloc_uint_x(1024);
-	alea_uint_x(&nb);
-	alea_uint_x(&nb2);
-	printf_binaire_uint_x(nb2);
-	printf("/\n");
-	printf_binaire_uint_x(nb);
-	printf("=\n");
-	UINT_X quotient1;
-	quotient1=quotient(nb2,nb);
-	printf_binaire_uint_x(quotient1);
 	
-	free_uint_x(nb);
-	free_uint_x(nb2);
-	free_uint_x(quotient1);*/
-	/*UINT_X n=malloc_uint_x(512);
-	srand(time(NULL));
-	n.tab[n.taille-1]=(rand()*rand())%MAX_UINT64;
+	/*UINT_X n=malloc_uint_x(64);
+	n.tab[0]=1;
+	UINT_X y=malloc_uint_x(64);
+	y.tab[0]=4;
+	shift_gauche_uintx(&n,y);
 	printf_binaire_uint_x(n);
+	free_uint_x(n);
+	free_uint_x(y);*/
 	
-	int i;
-	for(i=0;i<50;i++){
-		shift_gauche(&n);
-		printf("\n");
-		printf_binaire_uint_x(n);
-	}*/
-	
-
 	return 0;
 }

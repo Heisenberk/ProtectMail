@@ -5,6 +5,9 @@ test: clean compil
 
 compil: clean gmp.o 
 	gcc -Wall -o gmp gmp.o
+	
+test: 
+	gcc -c -g calculs.c
 
 gmp.o: gmp.c gmp.h
 	gcc $(CFLAGS) gmp.c
