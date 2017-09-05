@@ -1,3 +1,5 @@
+//VERIFIE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "pgp.h"
@@ -6,6 +8,7 @@
 #include "commandes.h"
 #include "lire_ecrire.h"
 #include "gestion_cles.h"
+#include "math_crypto.h"
 #include "types.h"
 
 int main(int argc,char** argv){
@@ -14,28 +17,24 @@ int main(int argc,char** argv){
 	if(mode==MODE_SIGN_NN_CHIFFRE){
 		ecrit_message_non_chiffre(argc,argv);
 	}
-	else if(mode==MODE_CHIFFREMENT){
+	else if(mode==MODE_CHIFFREMENT){ //TERMINE
 		cree_fichier_chiffre(argv[2]);
 	}
-	//recevoir un message chiffré
-	else if(mode==MODE_DECHIFFREMENT){
+	//recevoir un message chiffré 
+	else if(mode==MODE_DECHIFFREMENT){ //TERMINE
 		cree_fichier_dechiffre(argv[1]);
 	}
-	//
-	else if(mode==MODE_AFFICHAGE_DECHIFFRE){
-		affiche_fichier_dechiffre(argv[2]);
+	else if(mode==MODE_AFFICHAGE_DECHIFFRE){ //TERMINE
+		ecrit_message_dechiffre(argv[2]);
 	}
 	//genere nouvelles cles rsa
-	else if(mode==MODE_GENERATION_CLES){
-		//genere_cle_privee();
-		//genere_cle_publique();
-		//demande_taille_cles();
+	else if(mode==MODE_GENERATION_CLES){ //TERMINE
 		genere_cles();
 	}
-	//coupe fic1 et colle dans fic2
+	/*//coupe fic1 et colle dans fic2 //A ENLEVER
 	else if(mode==MODE_TRANSFERT_CLES){
 		transfert_fic1_fic2(argv[2],argv[3]);
-	}
+	}*/
 	return 0;
 	
 	/*verifie_authentification(argv[1]);

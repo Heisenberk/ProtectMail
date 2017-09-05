@@ -1,9 +1,13 @@
+//VERIFIE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "pgp.h"
 #include "reception.h"
+#include "gestion_cles.h"
 #include "lire_ecrire.h"
+#include "math_crypto.h"
 #include "types.h"
 
 // Renvoie 1 si hash1 et hash2 sont identiques
@@ -45,7 +49,6 @@ void verifie_authentification(char* nomFichier){
 	else demande_visualisation_message(nomFichier);
 }
 
-// A COMPLETER
 void cree_fichier_dechiffre(char* nomFichier){
 	int nb=strlen(nomFichier)-4;
 	char new[nb+1];
@@ -56,8 +59,37 @@ void cree_fichier_dechiffre(char* nomFichier){
 	new[nb]='\0';
 	FILE* f=fopen(new,"w");
 	if(f==NULL) exit(1);
-	//ECRIRE ICI LE MESSAGE DECHIFFRE DANS LE FILE
+	FILE* f2=fopen(nomFichier,"r");
+	if(f2==NULL) exit(1);
+	CLE my_key;
+	my_key.session[16]='\0';
+	mpz_t n,d;
+	mpz_init(n); mpz_init(d);
+	cherche_cle_priv(n,d); //lecture de notre clé privée RSA
+	decrypt_rsa_chaine(my_key.session,f2,n,d);  //déchiffrement de la clé de session avec la clé privée RSA
+	decrypt_session(my_key,f2,f);
 	fclose(f);
-	printf("\033[01mCréation du fichier déchiffré \033[31m%s\033[0m\n\n",nomFichier);
+	fclose(f2);
+	mpz_clear(n);
+	mpz_clear(d);
+	printf("\033[01mCréation du fichier déchiffré \033[31m%s\033[0m\n\n",new);
+	
+}
+
+void ecrit_message_dechiffre(char* nomFichier){
+	FILE* f2=fopen(nomFichier,"r");
+	if(f2==NULL) exit(1);
+	CLE my_key;
+	my_key.session[16]='\0';
+	mpz_t n,d;
+	mpz_init(n); mpz_init(d);
+	cherche_cle_priv(n,d); //lecture de notre clé privée RSA
+	decrypt_rsa_chaine(my_key.session,f2,n,d);  //déchiffrement de la clé de session avec la clé privée RSA
+	//decrypt_session(my_key,f2,f);
+	decrypt_session_affichage(my_key,f2);
+	fclose(f2);
+	mpz_clear(n);
+	mpz_clear(d);
+	//printf("\033[01mCréation du fichier déchiffré \033[31m%s\033[0m\n\n",new);
 	
 }

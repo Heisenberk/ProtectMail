@@ -1,9 +1,12 @@
+//VERIFIE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "pgp.h"
 #include "commandes.h"
 #include "lire_ecrire.h"
+#include "math_crypto.h"
 #include "types.h"
 
 // Procédures des différentes façons de quitter

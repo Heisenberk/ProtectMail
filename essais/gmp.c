@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <gmp.h>
-#define TAILLE 20
+#define TAILLE 500 //taille pour 1024 bits
 
 void libere_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstate_t state){
 	mpz_clear(p);
@@ -166,11 +166,14 @@ int main(int argc,char**argv){
 	
 	printf("\n");
 	gmp_printf("p=%Zd\n",p);
-	gmp_printf("q=%Zd\n",q);
+	/*char resultat5[1024];
+	char* pt6=mpz_get_str (resultat5,2,p);
+	printf("RESULTAT DANS MA FONCTION \n%s\n",resultat5);*/
+	/*gmp_printf("q=%Zd\n",q);
 	gmp_printf("n=%Zd\n",n);
 	gmp_printf("z=%Zd\n",z);
 	gmp_printf("e=%Zd\n",e);
-	gmp_printf("d=%Zd\n",d);
+	gmp_printf("d=%Zd\n",d);*/
 	
 	affiche_cles(e,d,n);
 	encrypt("test",n,e);

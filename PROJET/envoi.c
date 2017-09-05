@@ -1,12 +1,16 @@
+//VERIFIE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <tomcrypt.h>
+#include <gmp.h>
 #include "pgp.h"
 #include "envoi.h"
 #include "commandes.h"
 #include "lire_ecrire.h"
 #include "gestion_cles.h"
+#include "math_crypto.h"
 #include "types.h"
 
 /*hash_state md;
@@ -31,15 +35,6 @@ char* concatenation_extension(char* s){
 	return final;
 }
 
-/*FILE* cree_message_vide(int num,char**chaineCarac){
-	char* nom=concatenation_extension(chaineCarac[2]);
-	FILE* f=fopen(nom,"w");
-	free(nom);
-	fclose(f);
-	return f;
-}*/
-
-// A DEPLACER 
 void ecrit_message_non_chiffre(int num,char**chaineCarac){
 	char* nom=concatenation_extension(chaineCarac[2]);
 	FILE* origin=fopen(chaineCarac[2],"r");
@@ -54,39 +49,24 @@ void ecrit_message_non_chiffre(int num,char**chaineCarac){
 }
 
 void cree_fichier_chiffre(char* nomFichier){
-	///////
-	gmp_randstate_t state;
-	gmp_randinit_default (state);
-	gmp_randseed_ui(state,(unsigned)time(NULL));
-	mpz_t p,q,n,z,e,d;
-	int choix=demande_taille_cles();
-	initialise_memoire(p,q,n,z,e,d);
-	determine_premier(p,state,choix);
-	determine_premier(q,state,choix);
-	determine_n(p,q,n);
-	determine_z(p,q,z);
-	determine_e(z,state,e);
-	determine_d(p,q,n,z,e,d,state);
-	genere_cle_publique(n,e);
-	genere_cle_privee(n,d);
-	//////
-	gmp_printf("%Zd %Zd\n",d,e);
-	
-	//LIRE ICI LES CLES DANS PUBRING.PGP!!!
+	mpz_t n,e; //clé publique du destinataire
+	mpz_init(n);
+	mpz_init(e);
+	cherche_cle_pub(n,e);
 	char* nom=concatenation_extension(nomFichier);
 	FILE* origin=fopen(nomFichier,"r");
 	FILE* new=fopen(nom,"w");
 	ecrit_bordure_sup_m_chiffre(new);
-	CLE newsession=genere_cle_session();
-	encrypt_rsa_chaine(newsession.session,new,n,e);
+	CLE newsession=genere_cle_session(); //genere cle de session aleatoire
+	encrypt_rsa_chaine(newsession.session,new,n,e); //chiffrement rsa de la cle de session
 	fclose(origin);
-	encrypt_session(nomFichier,new,newsession);
+	encrypt_session(nomFichier,new,newsession); //chiffrement XOR du message
 	ecrit_bordure_inf_m_chiffre(new);
-	//printf("\033[0m");
-	//fclose(origin);
 	fclose(new);
+	affiche_action_pgp(nom);
 	free(nom);
-	libere_memoire(p,q,n,z,e,d,state); //A ENLEVER
+	mpz_clear(n);
+	mpz_clear(e);
 
 }
 

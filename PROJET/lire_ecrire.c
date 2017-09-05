@@ -8,6 +8,7 @@
 #include "lire_ecrire.h"
 #include "commandes.h"
 #include "gestion_cles.h"
+#include "math_crypto.h"
 #include "types.h"
 
 // Affiche la date et l'heure
@@ -18,14 +19,6 @@ void affiche_date_heure(){
 	strftime (s_now, sizeof s_now, "%d/%m/%Y %H:%M:%S", &tm_now);
 	printf ("%s\n", s_now);
 }
-
-/*void affiche_general(){
-	printf("\033[01m\nSimplified Privacy Guard - Hybrid Cryptography.\n");
-	printf("Université Versailles Saint Quentin en Yvelines - 2017 \nClaire Baskevitch - Clément Caumes\n");
-	printf("Date courante : ");
-	affiche_date_heure();
-	printf("\n\033[0m");
-}*/
 
 // Affiche la présentation générale de PGP
 void affiche_general(){
@@ -38,10 +31,11 @@ void affiche_general(){
 
 // Affiche les commande : ./pgp -h
 void affiche_commandes(){
+	printf("\033[01m- Pour chiffrer un fichier:\033[32m ./pgp -c [fichier]\033[37m Le fichier message chiffré sera dans \033[31m[fichier.pgp]\n\033[0m");
 	printf("\033[01m- Pour déchiffrer un fichier:\033[32m ./pgp -w [fichier.pgp]\033[37m Le contenu déchiffré du fichier s'affichera à l'écran\n\033[0m");
 	printf("\033[01m- Pour déchiffrer un fichier:\033[32m ./pgp [fichier.pgp]\033[37m Le fichier message déchiffré sera dans \033[31m[fichier]\n\033[0m");
 	printf("\033[01m- Pour signer un message:\033[32m ./pgp -s [fichier]\n\033[0m");
-	printf("\033[01m- Pour transférer le contenu de \033[31m[fic1.pgp]\033[37m dans \033[31m[fic2.pgp]\033[37m : \033[32m ./pgp -ka [fic1.pgp] [fic2.pgp]\n\033[0m");
+	printf("\033[01m- Pour générer un couple de clés privées/publiques:\033[32m ./pgp -kg \n\033[0m");
 	printf("\n\033[0m");
 }
 
@@ -68,6 +62,60 @@ int demande_taille_cles(){
 	return i;
 }
 
+//met la cle publique du destinataire demandé dans les parametres
+void cherche_cle_pub(mpz_t n, mpz_t e){
+	
+		printf("\033[01mEcrire le nom de la clé publique de votre destinataire: \033[33m");
+		char nom[256];
+		scanf("%s",nom);
+		FILE* f=fopen(nom,"r");
+		if(f==NULL){
+			printf("\033[37mCette clé n'existe pas.\n\n\033[0m");
+			exit(1);
+		}
+		else{
+			printf("\033[0m");
+			char c;
+			int compteur_lignes=0;
+			while(compteur_lignes<3){
+				c=fgetc(f);
+				//printf("%c",c);
+				if(c=='\n') compteur_lignes++;
+			}
+			gmp_fscanf(f,"%Zd\n%Zd",n,e); //scanne les 2 nombres n et e
+			//gmp_printf("n=%Zd\n",n);
+			//gmp_printf("e=%Zd\n",e);
+			fclose(f);
+		}
+}
+
+//met notre cle privee demandé dans les parametres
+void cherche_cle_priv(mpz_t n, mpz_t d){
+	
+		printf("\033[01mEcrire le nom de votre clé privée: \033[33m");
+		char nom[256];
+		scanf("%s",nom);
+		FILE* f=fopen(nom,"r");
+		if(f==NULL){
+			printf("\033[37mCette clé n'existe pas.\n\n\033[0m");
+			exit(1);
+		}
+		else{
+			printf("\033[0m");
+			char c;
+			int compteur_lignes=0;
+			while(compteur_lignes<1){
+				c=fgetc(f);
+				//printf("%c",c);
+				if(c=='\n') compteur_lignes++;
+			}
+			gmp_fscanf(f,"%Zd\n%Zd",n,d); //scanne les 2 nombres n et e
+			//gmp_printf("n=%Zd\n",n);
+			//gmp_printf("e=%Zd\n",d);
+			fclose(f);
+		}
+}
+
 // Ecriture dans un fichier
 void affiche_action_pgp(char* nom){
 	printf("\033[01mLe fichier à envoyer est sous le nom : \033[31m%s\n\n\033[0m",nom);
@@ -88,6 +136,7 @@ void ecrit_bordure_sup_m_sig(FILE* f){
 void ecrit_bordure_sup_m_chiffre(FILE* f){
 	fprintf(f,"-----BEGIN PGP MESSAGE-----\n");
 }
+
 
 void ecrit_bordure_sup_id(FILE* f,char* s1,char* s2,char* s3){
 	fprintf(f,"-----IDENTITY-----\n");
@@ -204,7 +253,7 @@ void ecrit_cle_publique(char* s1,char* s2,char* s3,mpz_t n,mpz_t e){
 	//printf("\033[01m\033[31m\nGénération de la clé publique terminée\n\n\033[0m");
 }
 
-// Copie le contenu de fic1 dans fic2 puis supprime fic1
+/*// Copie le contenu de fic1 dans fic2 puis supprime fic1
 void transfert_fic1_fic2(char* s1,char* s2){
 	FILE* f1;
 	FILE* f2;
@@ -222,4 +271,4 @@ void transfert_fic1_fic2(char* s1,char* s2){
 	suppr=remove(s2);
 	if(suppr) quitte_suppression_impossible(s2);
 	printf("\033[01mLe fichier \033[31m%s\033[37m possède de nouvelle(s) clé(s)\n\n\033[0m",s1);
-}
+}*/

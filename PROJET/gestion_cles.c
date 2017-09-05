@@ -1,96 +1,22 @@
+//VERIFIE
+
 #include <stdio.h>
 #include <tomcrypt.h>
 #include <gmp.h>
 #include "pgp.h"
 #include "gestion_cles.h"
 #include "commandes.h"
+#include "math_crypto.h"
 #include "lire_ecrire.h"
 
-// Fonction GMP pour initialiser les variables
-void initialise_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d){
-	mpz_init(p);
-	mpz_init(q);
-	mpz_init(n);
-	mpz_init(z);
-	mpz_init(e);
-	mpz_init(d);
-}
 
-// Fonction GMP pour libérer la mémoire
-void libere_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstate_t state){
-	mpz_clear(p);
-	mpz_clear(q);
-	mpz_clear(n);
-	mpz_clear(z);
-	mpz_clear(e);
-	mpz_clear(d);
-	gmp_randclear(state);
-}
-
-// Met dans p un nombre premier aléatoire
-// p est le futur nombre premier, state correspond à l'aléatoire et choix correspond à la taille du nombre
-void determine_premier(mpz_t p,gmp_randstate_t state,int choix){
-	mpz_urandomb(p,state,choix); //met dans p un nombre aleatoire
-	int test=mpz_probab_prime_p(p,10); //renvoie 0 si c'est pas premier, 1 si c'est surement premier et 2 si c'est premier (sur)
-	while(((test!=1)&&(test!=2))){ //continue de choisir un nombre tant qu'il n'est pas premier
-		mpz_urandomb(p,state,choix);
-		test=mpz_probab_prime_p(p,10); //10 est une valeur correcte pour faire le test (voir manuel gmp)
-	}
-}
-
-// Met dans n le produit de p et q
-void determine_n(mpz_t p,mpz_t q,mpz_t n){
-	mpz_addmul(n,p,q);
-}
-
-// Met dans n le produit de p-1 et q-1
-void determine_z(mpz_t p,mpz_t q,mpz_t z){
-	mpz_t pp,ppp,qq,qqq;
-	mpz_init(ppp);
-	mpz_init(qqq);
-	mpz_init_set(pp,p); //copie p dans pp
-	mpz_init_set(qq,q); //copie q dans qq
-	mpz_sub_ui(ppp,pp,1); //ppp=pp-1
-	mpz_sub_ui(qqq,qq,1); //qqq=qq-1
-	mpz_addmul(z,ppp,qqq); //z=ppp*qqq
-	mpz_clear(pp);
-	mpz_clear(ppp);
-	mpz_clear(qq);
-	mpz_clear(qqq);
-}
-
-// a modifier pour qur ce soit pas aleatoire
-//calcul euclide etendu
-// Met dans e la valeur tel que pgcd(e,z)=1
-void determine_e(mpz_t z,gmp_randstate_t state,mpz_t e){
-	mpz_t pgcd; //variable qui contiendra le pgcd
-	mpz_init(pgcd);
-	int test;
-	do{
-		mpz_urandomb(e,state,TAILLE); //choisit un nb aleatoire
-		mpz_gcd(pgcd,e,z); //CALCUL PGCD(e,z);
-		test=mpz_cmp_d(pgcd,1); //PGCD=1?
-	}while(test!=0); //tant que pgcd n'est pas égal a 1 on continue
-	mpz_clear(pgcd);
-}
-
-// Met dans d la valeur de l'inverse de e modulo z
-void determine_d(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstate_t state){
-	int calc=mpz_invert(d,e,z); //met dans d l'inverse multiplicatif de e mod z
-	if(calc==0){ //si c'est pas possible on quitte
-		libere_memoire(p,q,n,z,e,d,state);
-		printf("CLES INDETERMINEES\n");
-		exit(1);
-	}
-}
 
 // A SUPPRIMER
-void affiche_cles(mpz_t e,mpz_t d,mpz_t n){
+/*void affiche_cles(mpz_t e,mpz_t d,mpz_t n){
 	gmp_printf("CLE PUBLIQUE (%Zd,%Zd)\n",e,n);
 	gmp_printf("CLE PRIVEE   (%Zd,%Zd)\n",d,n);
-}
+}*/
 
-// A MODIFIER "MESSAGE_CHIFFRE"
 // Chiffre "nomFichier" grâce à la clé publique (e,n)
 void encrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t e){
 	FILE* f1=fopen(nomFichier,"r");
@@ -125,24 +51,6 @@ void encrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t e){
 	printf("\nMESSAGE CHIFFRE\n");
 }
 
-void encrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t e){
-	char c;double ascii;mpz_t m,u;int test;
-	int compteur=0; int i;//
-	mpz_init(m);mpz_init(u);
-	for(i=0;i<16;i++){
-		c=chaine[i];
-		ascii=c;
-		mpz_set_d(m,ascii); //met dans m --> ascii
-		mpz_powm(u,m,e,n); //u=m^e mod n
-		test=gmp_fprintf(new,"%Zd\n",u);
-		if(test==-1) exit(1); //
-		compteur++;
-	}
-	fprintf(new,"\n");
-	mpz_clear(m);
-	mpz_clear(u);
-}
-
 // Déchiffre "nomFichier" grâce à la clé privée (d,n)
 void decrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t d){
 	FILE* f1=fopen(nomFichier,"r");
@@ -151,7 +59,7 @@ void decrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t d){
 		exit(1);
 	}
 	FILE* f2=fopen("message_dechiffre","w");
-	if(f1==NULL){
+	if(f2==NULL){
 		printf("FICHIER IMPOSSIBLE A CREER\n");
 		exit(1);
 	}
@@ -176,6 +84,41 @@ void decrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t d){
 	mpz_clear(u);
 	printf("\nMESSAGE DECHIFFRE\n");
 }
+
+//chiffrement RSA de la cle de session (chaine)
+void encrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t e){
+	char c;double ascii;mpz_t m,u;int test;
+	int compteur=0; int i;//
+	mpz_init(m);mpz_init(u);
+	for(i=0;i<16;i++){
+		c=chaine[i];
+		ascii=c;
+		mpz_set_d(m,ascii); //met dans m --> ascii
+		mpz_powm(u,m,e,n); //u=m^e mod n
+		test=gmp_fprintf(new,"%Zd\n",u);
+		if(test==-1) exit(1); //
+		compteur++;
+	}
+	fprintf(new,"\n");
+	mpz_clear(m);
+	mpz_clear(u);
+}
+
+void decrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t d){
+	mpz_t h,u;
+	int i;
+	char c='a';
+	while(c!='\n') c=fgetc(new);
+	for(i=0;i<16;i++){
+		mpz_init(h);mpz_init(u);
+		gmp_fscanf(new,"%Zd\n",h);
+		mpz_powm(u,h,d,n); //u=h^d mod n
+		chaine[i]=mpz_get_d(u);
+		mpz_clear(h); mpz_clear(u);
+	}
+}
+
+
 ////
 
 // Met dans out le contenu de md5 de in
@@ -187,17 +130,14 @@ void md5(unsigned char* in,int taille,unsigned char* out){
 	md5_done(&md,out);
 }
 
-//CHANGER LES NOMS
-void genere_cle_privee(mpz_t n,mpz_t e){
-	ecrit_cle_privee(n,e);
+void genere_cle_privee(mpz_t n,mpz_t d){
+	ecrit_cle_privee(n,d);
 }
 
-//CHANGER LES NOMS
 void genere_cle_publique(mpz_t n,mpz_t e){
 	char prenom[64];
 	char nom[64];
 	char adresse[64];
-	//A DEPLACER
 	printf("\033[01mVotre clé publique nécessite un prénom, un nom suivi de votre adresse mail fermée par les symboles < et > Par exemple : John Smith <1234.567@mail.com>\n");
 	printf("Entrez votre prénom : \033[33m");
 	scanf("%s",prenom);
@@ -206,7 +146,6 @@ void genere_cle_publique(mpz_t n,mpz_t e){
 	printf("\033[37mEntrez votre mail entre crochets : \033[33m");
 	scanf("%s",adresse);
 	printf("\033[0m");
-	//
 	ecrit_cle_publique(prenom,nom,adresse,n,e);
 }
 
@@ -227,15 +166,6 @@ void genere_cles(){
 	determine_z(p,q,z);
 	determine_e(z,state,e);
 	determine_d(p,q,n,z,e,d,state);
-	/*gmp_printf("p=%Zd\n",p);
-	gmp_printf("q=%Zd\n",q);
-	gmp_printf("n=%Zd\n",n);
-	gmp_printf("z=%Zd\n",z);
-	gmp_printf("e=%Zd\n",e);
-	gmp_printf("d=%Zd\n",d);
-	affiche_cles(e,d,n);*/
-	//A MODIFIER CAR SI ON TAPE 2 PASSES PHRASES DIFFERENTES 
-	//IL Y A QUAND MEME ECRIT PUBLIC (PAS PRIVE)
 	genere_cle_publique(n,e);
 	genere_cle_privee(n,d);
 	printf("\033[01m\033[31m\nGénération des clés publique et privée terminée\n\n\033[0m");
@@ -247,7 +177,7 @@ void genere_cles(){
 void cree_pass_phrase(char* buffer1){
 	printf("\033[01mVous devez entrer une Pass Phrase pour protéger votre clé secrète RSA.\n");
 	printf("\033[01mEntrez la Pass Phrase: \033[0m\033[30m");
-	/*char buffer1[256],*/ char buffer2[256];
+	char buffer2[256];
 	scanf("%s",buffer1);
 	printf("\033[0m");
 	printf("\033[01mEntrez de nouveau la Pass Phrase: \033[0m\033[30m");
@@ -258,7 +188,6 @@ void cree_pass_phrase(char* buffer1){
 	}
 }
 
-// A MODIFIER OU A SUPPRIMER
 void demande_pass_phrase(unsigned char* hash){
 	printf("\033[01mEntrez la Pass Phrase: \033[0m\033[30m");
 	char buffer1[256],buffer2[256];
@@ -275,25 +204,7 @@ void demande_pass_phrase(unsigned char* hash){
 	else quitte_pass_phrase_incoherente();
 }
 
-////GENERATION CLE SESSION
-
-//A REGLER ACCENT!!!
-int random_int(gmp_randstate_t state){
-	mpz_t n;
-	mpz_init(n);
-	mpz_urandomb(n,state,7);
-	double i;
-	i=mpz_get_d(n);
-	if((i<=31)||(i>=127)) i=random_int(state);
-	mpz_clear(n);
-	int ii=i;
-	return ii;
-}
-
-int xor(int i,int j){
-	return i ^ j;
-}
-
+//genere une cle de session aleatoire
 CLE genere_cle_session(){
 	gmp_randstate_t state;
 	gmp_randinit_default (state);
@@ -305,11 +216,11 @@ CLE genere_cle_session(){
 	for(i=0;i<16;i++){
 		new.session[i]=random_int(state);
 	}
-	printf("CLEF DE SESSION : %s\n",new.session);
 	gmp_randclear(state);
 	return new;
 }
 
+//chiffrement XOR de la cle de session avec les caracteres du fichier
 void encrypt_session(char* nomFichier1,FILE* new,CLE clef){
 	FILE* f1=fopen(nomFichier1,"r");
 	//FILE* f2=fopen(nomFichier2,"w");
@@ -324,24 +235,40 @@ void encrypt_session(char* nomFichier1,FILE* new,CLE clef){
 	}while(c!=EOF);
 	fprintf(new,"\n");
 	fclose(f1);
-	//fclose(f2);
 }
 
-void decrypt_session(char* nomFichier1,char* nomFichier2,char* cle){
-	FILE* f1=fopen(nomFichier1,"r");
-	FILE* f2=fopen(nomFichier2,"w");
-	int c,k=0;
-	//int c;
-	char car;
-	do{
-		car=fgetc(f1);
-		if(isdigit(car)){
-			ungetc(car,f1);
-			fscanf(f1,"%d",&c);
-			fprintf(f2,"%c",xor(cle[k%16],c));
-			k++;
-		}
-	}while(car!=EOF);
-	fclose(f1);
-	fclose(f2);
+
+//dechiffrement XOR de la cle de session avec les caracteres du fichier
+void decrypt_session(CLE c,FILE* f_toDecrypt,FILE* f_vierge){
+	int nb;
+	int k=0;
+	char car='a';
+	while(car!='\n'){
+		fscanf(f_toDecrypt,"%d ",&nb);
+		//printf("%d\n",nb);
+		fprintf(f_vierge,"%c",xor(c.session[k%16],nb));
+		k++;
+		car=fgetc(f_toDecrypt);
+		if(car=='-') break;
+		fseek(f_toDecrypt,-1,SEEK_CUR);
+
+	}
+	
+}
+
+//dechiffrement XOR de la cle de session avec les caracteres du fichier
+void decrypt_session_affichage(CLE c,FILE* f_toDecrypt){	
+	int nb;
+	int k=0;
+	char car='a';
+	printf("\033[01mLe contenu de ce fichier est le suivant: \n\n\033[33m");
+	while(car!='\n'){
+		fscanf(f_toDecrypt,"%d ",&nb);
+		printf("%c",xor(c.session[k%16],nb));
+		k++;
+		car=fgetc(f_toDecrypt);
+		if(car=='-') break;
+		fseek(f_toDecrypt,-1,SEEK_CUR);
+	}
+	printf("\n\033[0m");
 }

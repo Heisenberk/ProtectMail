@@ -584,11 +584,13 @@ UINT_X quotient(UINT_X a,UINT_X b){
 	copier(&p,b); //p=b
 	
 	ajuste_taille(&a);
+	//int compteur=0;
 	while(inferieur_egal(p,a)){ //while p<=a
 		shift_gauche(&p); //p<<=1
 		incrementation(&n); //n++
+		//compteur++;
 	}
-	/*printf("ETAPE 1: p= ");
+	/*printf("COMPTEUR=%d ETAPE 1: p= \n",compteur);
 	printf_binaire_uint_x(p);
 	printf(" OK\n"); */
 	shift_droit(&p); //p>>=1
@@ -606,7 +608,8 @@ UINT_X quotient(UINT_X a,UINT_X b){
 	/*printf("ETAPE 4: q_copie= \n");
 	printf_binaire_uint_x(q_copie);
 	printf(" OK\n");*/
-	
+
+
 	UINT_X aux;
 	UINT_X aux_temp = malloc_uint_x(p.taille*64);
 	copier(&aux_temp,p); //aux=p
@@ -618,7 +621,10 @@ UINT_X quotient(UINT_X a,UINT_X b){
 	zero_cond=malloc_uint_x(1*64);
 	zero_cond.tab[0]=0;
 	
+	int compteur1=0;
+	int compteur2=0;
 	while(inferieur(zero_cond,n)){ //while n>0
+		compteur1++;
 		shift_droit(&p); //p>>=1
 		decrementation(&n); //n--
 		
@@ -627,6 +633,7 @@ UINT_X quotient(UINT_X a,UINT_X b){
 		ajuste_taille(&somme_aux_p);
 		
 		if(inferieur_egal(somme_aux_p,a)){ //if (aux+p)<=a
+			compteur2++;
 			////////q+=(1<<n)
 			UINT_X un_shift=malloc_uint_x(1*64);
 			un_shift.tab[0]=1; //un_shift=1
@@ -661,13 +668,14 @@ UINT_X quotient(UINT_X a,UINT_X b){
 	
 	printf("ETAPE 7: p= \n");
 	printf_binaire_uint_x(p);
-	printf(" OK\n");
+	printf(" OK\n");*/
 	
-	printf("ETAPE 8: aux_temp= \n");
+	printf("COMPTEUR1: %d ,COMPTEUR2: %d ETAPE 8: aux_temp= \n",compteur1,compteur2);
 	printf_binaire_uint_x(aux_temp);
-	printf(" OK\n");
+	printf("\n");
+	//printf(" OK\n");
 
-	printf("ETAPE 9: q= \n");
+	/*printf("ETAPE 9: q= \n");
 	printf_binaire_uint_x(q_copie);
 	printf(" OK\n");*/
 	
@@ -765,7 +773,21 @@ void printf_binaire_uint_x(UINT_X n)
 			printf("%"PRIu64,bit);
 			mask >>= 1;
 		}
-		printf("\n");
+		//printf("\n");
+	}
+}
+
+void fprintf_binaire_uint_x(FILE* f,UINT_X n){
+	int i,j; 
+	uint64_t bit=0, mask;
+	for(j=n.taille-1;j>=0;j--){
+		mask = 0x8000000000000000;
+		for(i=63;i>=0;--i){
+			bit = (n.tab[j] & mask) >> i;			
+			fprintf(f,"%"PRIu64,bit);
+			mask >>= 1;
+		}
+		//fprintf(f,"\n");
 	}
 }
 
@@ -778,26 +800,35 @@ void alea_uint_x(UINT_X* u){
 }
 
 int main(){
+	FILE* f=fopen("test","w");
 	srand(time(NULL));
 	UINT_X nb,nb2,resultat;
-	nb=malloc_uint_x(1024);
-	//nb=malloc_uint_x(64);
-	//nb.tab[0]=146464;
+	nb=malloc_uint_x(512);
 	alea_uint_x(&nb);
+	//nb.tab[0]=150;
+	ajuste_taille(&nb);
 	printf_binaire_uint_x(nb);
-	printf("\\ \n");
+	printf("\n/\n");
+	fprintf_binaire_uint_x(f,nb);
+	
+	fprintf(f,"\n");
 	nb2=malloc_uint_x(512);
-	//nb2.tab[0]=5697;
 	alea_uint_x(&nb2);
+	//nb2.tab[0]=8;
+	ajuste_taille(&nb2); //necessaire jai limpression
 	printf_binaire_uint_x(nb2);
-	printf("=\n");
+	printf("\n=\n");
+	fprintf_binaire_uint_x(f,nb2);
+	fprintf(f,"\n=");
 	resultat=quotient(nb,nb2);
-	printf("\nRESULTAT : \n");
-	printf_binaire_uint_x(resultat);
+	//printf("\nRESULTAT : \n");
+	//printf_binaire_uint_x(resultat);
+	fprintf_binaire_uint_x(f,resultat);
 	
 	free_uint_x(nb);
 	free_uint_x(nb2);
 	free_uint_x(resultat);
+	fclose(f);
 	
 	/*UINT_X n=malloc_uint_x(64);
 	n.tab[0]=1;
