@@ -86,11 +86,11 @@ void decrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t d){
 }
 
 //chiffrement RSA de la cle de session (chaine)
-void encrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t e){
+void encrypt_rsa_chaine(char* chaine,int taille,FILE* new,mpz_t n, mpz_t e){
 	char c;double ascii;mpz_t m,u;int test;
 	int compteur=0; int i;//
 	mpz_init(m);mpz_init(u);
-	for(i=0;i<16;i++){
+	for(i=0;i<taille;i++){
 		c=chaine[i];
 		ascii=c;
 		mpz_set_d(m,ascii); //met dans m --> ascii
@@ -104,15 +104,16 @@ void encrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t e){
 	mpz_clear(u);
 }
 
-void decrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t d){
+void decrypt_rsa_chaine(char* chaine,int taille,FILE* new,mpz_t n, mpz_t d){
 	mpz_t h,u;
 	int i;
 	char c='a';
 	while(c!='\n') c=fgetc(new);
-	for(i=0;i<16;i++){
+	for(i=0;i<taille;i++){
 		mpz_init(h);mpz_init(u);
 		gmp_fscanf(new,"%Zd\n",h);
 		mpz_powm(u,h,d,n); //u=h^d mod n
+		//gmp_printf(">>%Zd\n",u);
 		chaine[i]=mpz_get_d(u);
 		mpz_clear(h); mpz_clear(u);
 	}

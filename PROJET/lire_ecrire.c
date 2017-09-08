@@ -35,6 +35,7 @@ void affiche_commandes(){
 	printf("\033[01m- Pour déchiffrer un fichier:\033[32m ./pgp -w [fichier.pgp]\033[37m Le contenu déchiffré du fichier s'affichera à l'écran\n\033[0m");
 	printf("\033[01m- Pour déchiffrer un fichier:\033[32m ./pgp [fichier.pgp]\033[37m Le fichier message déchiffré sera dans \033[31m[fichier]\n\033[0m");
 	printf("\033[01m- Pour signer un message:\033[32m ./pgp -s [fichier]\n\033[0m");
+	printf("\033[01m- Pour vérifier l'authentification de l'auteur d'un message: \033[32m ./pgp -v \033[31m[fichier.pgp]\n\033[0m");
 	printf("\033[01m- Pour générer un couple de clés privées/publiques:\033[32m ./pgp -kg \n\033[0m");
 	printf("\n\033[0m");
 }
@@ -159,6 +160,10 @@ void ecrit_bordure_inf_rsa_priv(FILE* f){
 	fprintf(f,"-----END PGP PRIVATE KEY BLOCK-----\n");
 }
 
+void ecrit_bordure_inf_m_sig_final(FILE* f){
+	fprintf(f,"-----END PGP SIGNED MESSAGE-----\n");
+}
+
 void affiche_dechiffrement(char* nomFichier){
 	printf("AFFICHAGE FICHIER DECHIFFRE\n\n");
 }
@@ -212,11 +217,13 @@ int teste_reponse(char* s){
 }
 
 // Procédure qui affiche le contenu d'un fichier si nécessaire
-void demande_visualisation_message(char* nomFichier){
-	printf("\033[01mFichier corrompu. Voulez-vous quand même l'afficher?(o/N)");
+void demande_visualisation_message(char* message){
+	printf("\033[01mFichier corrompu. Voulez-vous quand même l'afficher?(o/N) ");
 	char buffer[256];
 	scanf("%s",buffer);
-	if(teste_reponse(buffer)==1) affiche_contenu_fic(nomFichier);
+	if(teste_reponse(buffer)==1){
+		printf("\n\033[34m%s\n\n\033[0m",message);
+	}
 	else quitte_pas_probleme();
 }
 
@@ -251,6 +258,80 @@ void ecrit_cle_publique(char* s1,char* s2,char* s3,mpz_t n,mpz_t e){
 	fclose(f);
 	printf("\n");
 	//printf("\033[01m\033[31m\nGénération de la clé publique terminée\n\n\033[0m");
+}
+
+int compte_nb_car_fichier(FILE* f){
+	int compteur=0;
+	char c='a';
+	while(c!=EOF){
+		c=fgetc(f);
+		compteur++;
+	}
+	fseek(f,0,SEEK_SET);
+	return compteur-1;
+}
+
+int compte_nb_car_fichier_signature(FILE* f){
+	int compteur_retour_ligne=0;
+	char c='a';
+	while(c!=EOF){ //on compte le nombre de lignes
+		c=fgetc(f);
+		if(c=='\n') compteur_retour_ligne++;
+	}
+	fseek(f,0,SEEK_SET); //on revient au debut
+	int compteur_lignes=compteur_retour_ligne-44; //44 nb de lignes min pr la signature
+	//on a calculé le nombre de lignes du message
+	int compteur_caracteres=-1;
+	int i=0;
+	c='a';
+	while(c!='\n') c=fgetc(f); //on va au debut du message
+	while(i<compteur_lignes){
+		c=fgetc(f);
+		compteur_caracteres++;
+		if(c=='\n') i++;
+	}
+	fseek(f,0,SEEK_SET);
+	return compteur_caracteres;
+}
+
+void remplit_chaine_carac_message(FILE* f,char* message,int taille){
+	message[taille-1]='\0';
+	int i;
+	for(i=0;i<taille-1;i++){
+		message[i]=fgetc(f);
+	}
+	fseek(f,0,SEEK_SET);
+}
+
+void remplit_chaine_carac_message_signe(FILE* f,char* message,int taille){
+	char c='a';
+	while(c!='\n') c=fgetc(f);
+	message[taille-1]='\0';
+	int i;
+	for(i=0;i<taille-1;i++){
+		message[i]=fgetc(f);
+		//printf("%c",message[i]);
+	}
+	c=fgetc(f);
+	c=fgetc(f);
+	/*while(c!='\n'){
+		//printf("a");
+		c=fgetc(f);
+		//printf("%c",c);
+	}*/
+}
+
+int teste_fichier_signature(FILE* f){
+	char message[35]="-----BEGIN PGP SIGNED MESSAGE-----";
+	char lecture[35]; lecture[34]='\0';
+	int i;
+	for(i=0;i<34;i++){
+		lecture[i]=fgetc(f);
+	}
+	for(i=0;i<35;i++){
+		if(lecture[i]!=message[i]) return 0;
+	}
+	return 1;
 }
 
 /*// Copie le contenu de fic1 dans fic2 puis supprime fic1

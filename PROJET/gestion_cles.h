@@ -42,8 +42,8 @@ CLE genere_cle_session();*/
 
 void encrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t e);
 void decrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t d);
-void encrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t e);
-void decrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t d);
+void encrypt_rsa_chaine(char* chaine,int taille,FILE* new,mpz_t n, mpz_t e);
+void decrypt_rsa_chaine(char* chaine,int taille,FILE* new,mpz_t n, mpz_t d);
 
 void md5(unsigned char* in,int taille,unsigned char* out);
 

@@ -4,7 +4,7 @@ valgrind: compil
 	valgrind --leak-check=full ./pgp
 
 compil: pgp.o envoi.o reception.o commandes.o lire_ecrire.o gestion_cles.o math_crypto.o
-	gcc -Wall -o pgp pgp.o envoi.o reception.o commandes.o math_crypto.o lire_ecrire.o gestion_cles.o -ltomcrypt -lgmp
+	gcc -Wall -o pgp pgp.o envoi.o reception.o commandes.o math_crypto.o lire_ecrire.o gestion_cles.o -ltomcrypt -lgmp -lm
 
 pgp.o: pgp.c pgp.h envoi.h reception.h commandes.h lire_ecrire.h gestion_cles.h math_crypto.h types.h
 	gcc $(CFLAGS) pgp.c

@@ -3,6 +3,7 @@
 #include "pgp.h"
 #include "types.h"
 #include "gestion_cles.h"
+#include <gmp.h>
 
 #ifndef __ENVOI_H
 #define __ENVOI_H
@@ -17,7 +18,7 @@ void ecrit_message_non_chiffre(int num,char**chaineCarac);
 void cree_fichier_chiffre(char* nomFichier);*/
 
 char* concatenation_extension(char* s);
-void ecrit_message_non_chiffre(int num,char**chaineCarac);
+void ecrit_message_non_chiffre_signe(int num,char**chaineCarac);
 void cree_fichier_chiffre(char* nomFichier);
 
 #endif

@@ -9,10 +9,20 @@
 #define MODE_GENERATION_CLES 4
 #define MODE_TRANSFERT_CLES 5
 #define MODE_CHIFFREMENT 6
+#define MODE_SIGN_CHIFFRE 7
+#define TAILLE_CLE_SESSION 16
 
 #define TAILLE_HASH_MD5 16
 #define TAILLE 20
 #define PASSPHRASE "3eeac98df7e7a8ab1c0ebb0f9dfc1"
+
+#define TAILLE_HASH_SHA1 (40)
+#define TAILLE_OCTET (8)
+
+#define K1 (0x5A827999)
+#define K2 (0x6ED9EBA1)
+#define K3 (0x8F1BBCDC)
+#define K4 (0xCA62C1D6)
 
 
 #endif

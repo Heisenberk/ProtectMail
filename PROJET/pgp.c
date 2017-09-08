@@ -14,8 +14,11 @@
 int main(int argc,char** argv){
 	int mode=teste_commande_general(argc,argv);
 	//envoyer un message non chiffré et signé
-	if(mode==MODE_SIGN_NN_CHIFFRE){
-		ecrit_message_non_chiffre(argc,argv);
+	if(mode==MODE_SIGN_NN_CHIFFRE){ //TERMINE
+		ecrit_message_non_chiffre_signe(argc,argv);
+	}
+	else if(mode==MODE_SIGN_CHIFFRE){
+		verifie_authentification(argv[2]);
 	}
 	else if(mode==MODE_CHIFFREMENT){ //TERMINE
 		cree_fichier_chiffre(argv[2]);
@@ -31,6 +34,7 @@ int main(int argc,char** argv){
 	else if(mode==MODE_GENERATION_CLES){ //TERMINE
 		genere_cles();
 	}
+	
 	/*//coupe fic1 et colle dans fic2 //A ENLEVER
 	else if(mode==MODE_TRANSFERT_CLES){
 		transfert_fic1_fic2(argv[2],argv[3]);

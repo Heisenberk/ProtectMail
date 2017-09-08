@@ -15,6 +15,7 @@ void quitte_suppression_impossible(char* s);*/
 void quitte_commande_introuvable();
 void quitte_demande_invalide();
 void quitte_fichier_inexistant();
+void quitte_fichier_invalide();
 void quitte_mauvaise_extension(char* s);
 void quitte_pass_phrase_incoherente();
 void quitte_suppression_impossible(char* s);

@@ -54,15 +54,23 @@ void ecrit_bordure_inf_m_sig(FILE* f);
 void ecrit_bordure_inf_m_chiffre(FILE* f);
 void ecrit_bordure_inf_rsa_pub(FILE* f);
 void ecrit_bordure_inf_rsa_priv(FILE* f);
+void ecrit_bordure_inf_m_sig_final(FILE* f);
 
 void affiche_dechiffrement(char* nomFichier);
 void affiche_fichier_dechiffre(char* nomFichier);
 void recopie_message(FILE* origin,FILE* new);
 void affiche_contenu_fic(char* nomFichier);
 int teste_reponse(char* s);
-void demande_visualisation_message(char* nomFichier);
+void demande_visualisation_message(char* message);
 
 void ecrit_cle_privee(mpz_t n,mpz_t d);
 void ecrit_cle_publique(char* s1,char* s2,char* s3,mpz_t n,mpz_t e);
+
+int compte_nb_car_fichier(FILE* f);
+int compte_nb_car_fichier_signature(FILE* f);
+void remplit_chaine_carac_message(FILE* f,char* message,int taille);
+void remplit_chaine_carac_message_signe(FILE* f,char* message,int taille);
+
+int teste_fichier_signature(FILE* f);
 
 #endif

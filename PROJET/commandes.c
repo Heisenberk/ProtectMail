@@ -25,6 +25,11 @@ void quitte_fichier_inexistant(){
 	exit(1); //
 }
 
+void quitte_fichier_invalide(){
+	printf("\033[01mFICHIER INVALIDE\n\n\033[0m");
+	exit(1); //
+}
+
 void quitte_mauvaise_extension(char* s){
 	printf("\033[01mMAUVAISE EXTENSION DU FICHIER \033[31m%s\n\n\033[0m",s);
 	exit(1);
@@ -104,6 +109,18 @@ int teste_commande_deux_options(int num,char** chaineCarac){
 		if(f==NULL) quitte_fichier_inexistant();
 		fclose(f);
 		return MODE_CHIFFREMENT;
+	}
+	if(teste_mots_identiques(chaineCarac[1],"-v")){
+		// ./pgp -v [fichier.pgp]
+		if(teste_extension_pgp(chaineCarac[2])){
+			FILE* f=fopen(chaineCarac[2],"r");
+			if(f==NULL) quitte_fichier_inexistant();
+			//tester si il y a une signature
+			if(!teste_fichier_signature(f)) quitte_fichier_invalide(); //
+			fclose(f);
+			return MODE_SIGN_CHIFFRE;
+		}
+		
 	}
 	quitte_commande_introuvable();
 	return 1;
