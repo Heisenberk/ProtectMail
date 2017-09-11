@@ -1,0 +1,112 @@
+\hypertarget{reception_8h}{\section{reception.\-h File Reference}
+\label{reception_8h}\index{reception.\-h@{reception.\-h}}
+}
+
+
+contient les signatures des fonctions concernant la reception de messages  
+
+
+{\ttfamily \#include \char`\"{}pgp.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}types.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gestion\-\_\-cles.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{reception_8h_a6b702996969fc746ce4fed2fcc958d9c}{teste\-\_\-egalite\-\_\-hashes} (char $\ast$hash1, char $\ast$hash2)
+\begin{DoxyCompactList}\small\item\em fonction qui teste si hash1 et hash2 sont egaux \end{DoxyCompactList}\item 
+void \hyperlink{reception_8h_a7042974434ce71ac388423743fefeefd}{verifie\-\_\-authentification} (char $\ast$nom\-Fichier)
+\begin{DoxyCompactList}\small\item\em fonction qui verifie si le fichier a bien ete recu sans modification \end{DoxyCompactList}\item 
+void \hyperlink{reception_8h_a191720a35822961a1dd52475c0236389}{cree\-\_\-fichier\-\_\-dechiffre} (char $\ast$nom\-Fichier)
+\begin{DoxyCompactList}\small\item\em fonction qui cree le fichier dechiffre \end{DoxyCompactList}\item 
+void \hyperlink{reception_8h_a530d353460f058b78bdd7ca367aa54b6}{ecrit\-\_\-message\-\_\-dechiffre} (char $\ast$nom\-Fichier)
+\begin{DoxyCompactList}\small\item\em fonction qui affiche sur le terminal le fichier dechiffre \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+contient les signatures des fonctions concernant la reception de messages \begin{DoxyAuthor}{Author}
+Claire Baskevitch -\/ Clément Caumes 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2017 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{reception_8h_a191720a35822961a1dd52475c0236389}{\index{reception.\-h@{reception.\-h}!cree\-\_\-fichier\-\_\-dechiffre@{cree\-\_\-fichier\-\_\-dechiffre}}
+\index{cree\-\_\-fichier\-\_\-dechiffre@{cree\-\_\-fichier\-\_\-dechiffre}!reception.h@{reception.\-h}}
+\subsubsection[{cree\-\_\-fichier\-\_\-dechiffre}]{\setlength{\rightskip}{0pt plus 5cm}void cree\-\_\-fichier\-\_\-dechiffre (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nom\-Fichier}
+\end{DoxyParamCaption}
+)}}\label{reception_8h_a191720a35822961a1dd52475c0236389}
+
+
+fonction qui cree le fichier dechiffre 
+
+Fonction qui cree le fichier dechiffre
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$nom\-Fichier} & nom du fichier a dechiffrer \\
+\hline
+\end{DoxyParams}
+\hypertarget{reception_8h_a530d353460f058b78bdd7ca367aa54b6}{\index{reception.\-h@{reception.\-h}!ecrit\-\_\-message\-\_\-dechiffre@{ecrit\-\_\-message\-\_\-dechiffre}}
+\index{ecrit\-\_\-message\-\_\-dechiffre@{ecrit\-\_\-message\-\_\-dechiffre}!reception.h@{reception.\-h}}
+\subsubsection[{ecrit\-\_\-message\-\_\-dechiffre}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-message\-\_\-dechiffre (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nom\-Fichier}
+\end{DoxyParamCaption}
+)}}\label{reception_8h_a530d353460f058b78bdd7ca367aa54b6}
+
+
+fonction qui affiche sur le terminal le fichier dechiffre 
+
+Fonction qui ecrit sur le terminal le resultat du dechiffrement
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$nom\-Fichier} & nom du fichier a dechiffrer \\
+\hline
+\end{DoxyParams}
+\hypertarget{reception_8h_a6b702996969fc746ce4fed2fcc958d9c}{\index{reception.\-h@{reception.\-h}!teste\-\_\-egalite\-\_\-hashes@{teste\-\_\-egalite\-\_\-hashes}}
+\index{teste\-\_\-egalite\-\_\-hashes@{teste\-\_\-egalite\-\_\-hashes}!reception.h@{reception.\-h}}
+\subsubsection[{teste\-\_\-egalite\-\_\-hashes}]{\setlength{\rightskip}{0pt plus 5cm}int teste\-\_\-egalite\-\_\-hashes (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{hash1, }
+\item[{char $\ast$}]{hash2}
+\end{DoxyParamCaption}
+)}}\label{reception_8h_a6b702996969fc746ce4fed2fcc958d9c}
+
+
+fonction qui teste si hash1 et hash2 sont egaux 
+
+Renvoie 1 si hash1 et hash2 sont identiques
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$hash1} & chaine de caracteres 1 \\
+\hline
+{\em $\ast$hash2} & chaine de caracteres 2 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+renvoie 1 si hash1 et hash2 sont égaux sinon 0 
+\end{DoxyReturn}
+\hypertarget{reception_8h_a7042974434ce71ac388423743fefeefd}{\index{reception.\-h@{reception.\-h}!verifie\-\_\-authentification@{verifie\-\_\-authentification}}
+\index{verifie\-\_\-authentification@{verifie\-\_\-authentification}!reception.h@{reception.\-h}}
+\subsubsection[{verifie\-\_\-authentification}]{\setlength{\rightskip}{0pt plus 5cm}void verifie\-\_\-authentification (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nom\-Fichier}
+\end{DoxyParamCaption}
+)}}\label{reception_8h_a7042974434ce71ac388423743fefeefd}
+
+
+fonction qui verifie si le fichier a bien ete recu sans modification 
+
+Fonction qui verifie si le fichier a bien ete recu sans modification
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$nom\-Fichier} & nom du fichier a authentifier \\
+\hline
+\end{DoxyParams}

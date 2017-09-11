@@ -1,0 +1,78 @@
+\hypertarget{envoi_8c}{\section{envoi.\-c File Reference}
+\label{envoi_8c}\index{envoi.\-c@{envoi.\-c}}
+}
+
+
+contient les fonctions concernant l'envoi de messages  
+
+
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$tomcrypt.\-h$>$}\\*
+{\ttfamily \#include $<$gmp.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}pgp.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}envoi.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}commandes.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}lire\-\_\-ecrire.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gestion\-\_\-cles.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}math\-\_\-crypto.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}types.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{envoi_8c_ace1db480ab1da9e1fe8910c9568e3410}{ecrit\-\_\-message\-\_\-non\-\_\-chiffre\-\_\-signe} (int num, char $\ast$$\ast$chaine\-Carac)
+\begin{DoxyCompactList}\small\item\em fonction qui ecrit un nouveau message avec sa signature \end{DoxyCompactList}\item 
+void \hyperlink{envoi_8c_ab4b618385413aad4a97cce6c68f0c94d}{cree\-\_\-fichier\-\_\-chiffre} (char $\ast$nom\-Fichier)
+\begin{DoxyCompactList}\small\item\em fonction qui ecrit un nouveau message chiffre (X\-O\-R avec une cle de session) et chiffrement R\-S\-A de cette cle \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+contient les fonctions concernant l'envoi de messages \begin{DoxyAuthor}{Author}
+Claire Baskevitch -\/ Clément Caumes 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2017 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{envoi_8c_ab4b618385413aad4a97cce6c68f0c94d}{\index{envoi.\-c@{envoi.\-c}!cree\-\_\-fichier\-\_\-chiffre@{cree\-\_\-fichier\-\_\-chiffre}}
+\index{cree\-\_\-fichier\-\_\-chiffre@{cree\-\_\-fichier\-\_\-chiffre}!envoi.c@{envoi.\-c}}
+\subsubsection[{cree\-\_\-fichier\-\_\-chiffre}]{\setlength{\rightskip}{0pt plus 5cm}void cree\-\_\-fichier\-\_\-chiffre (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nom\-Fichier}
+\end{DoxyParamCaption}
+)}}\label{envoi_8c_ab4b618385413aad4a97cce6c68f0c94d}
+
+
+fonction qui ecrit un nouveau message chiffre (X\-O\-R avec une cle de session) et chiffrement R\-S\-A de cette cle 
+
+Fonction qui ecrit un nouveau message chiffre (X\-O\-R avec une cle de session) et chiffrement R\-S\-A de cette cle
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$nom\-Fichier} & nom du fichier a chiffrer \\
+\hline
+\end{DoxyParams}
+\hypertarget{envoi_8c_ace1db480ab1da9e1fe8910c9568e3410}{\index{envoi.\-c@{envoi.\-c}!ecrit\-\_\-message\-\_\-non\-\_\-chiffre\-\_\-signe@{ecrit\-\_\-message\-\_\-non\-\_\-chiffre\-\_\-signe}}
+\index{ecrit\-\_\-message\-\_\-non\-\_\-chiffre\-\_\-signe@{ecrit\-\_\-message\-\_\-non\-\_\-chiffre\-\_\-signe}!envoi.c@{envoi.\-c}}
+\subsubsection[{ecrit\-\_\-message\-\_\-non\-\_\-chiffre\-\_\-signe}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-message\-\_\-non\-\_\-chiffre\-\_\-signe (
+\begin{DoxyParamCaption}
+\item[{int}]{num, }
+\item[{char $\ast$$\ast$}]{chaine\-Carac}
+\end{DoxyParamCaption}
+)}}\label{envoi_8c_ace1db480ab1da9e1fe8910c9568e3410}
+
+
+fonction qui ecrit un nouveau message avec sa signature 
+
+Fonction qui ecrit un nouveau message avec sa signature
+
+
+\begin{DoxyParams}{Parameters}
+{\em num} & equivalent a argc \\
+\hline
+{\em chaine\-Carac} & equivalent a argv \\
+\hline
+\end{DoxyParams}

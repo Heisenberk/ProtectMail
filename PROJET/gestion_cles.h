@@ -1,63 +1,111 @@
-//VERIFIE
+/**
+ * \file gestion_cles.h
+ * \author Claire Baskevitch - Clément Caumes
+ * \date 2017
+ * \brief contient la signature des fonctions concernant le chiffrement/déchiffrement et les cles 
+ */
 
 #include "types.h"
+#include <stdlib.h>
 #include <gmp.h>
 
 #ifndef __GESTION_CLES_H
 #define __GESTION_CLES_H
 
-struct cle{
-	char session[17];
-};typedef struct cle CLE;
+/**
+ * \struct CLE
+ * \brief structure qui contient la cle de session de taille 16 (+1 pour '\0')
+ * aux travaux des threads 
+ * */
+typedef struct {
+	char session[17];	/*!< chaine de caracteres qui represente la cle de session */
+} CLE;
 
-/*void initialise_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d);
-void libere_memoire(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstate_t state);
-void determine_premier(mpz_t p,gmp_randstate_t state,int choix);
-void determine_n(mpz_t p,mpz_t q,mpz_t n);
-void determine_z(mpz_t p,mpz_t q,mpz_t z);
-void determine_e(mpz_t z,gmp_randstate_t state,mpz_t e);
-void determine_d(mpz_t p,mpz_t q,mpz_t n,mpz_t z,mpz_t e,mpz_t d,gmp_randstate_t state);
-void affiche_cles(mpz_t e,mpz_t d,mpz_t n);
-//void genere_cle_privee();
-//void genere_cle_publique();
+//void encrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t e);
+//void decrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t d);
 
-void encrypt_session(char* nomFichier1,FILE* new,CLE clef);
-void decrypt_session(CLE c,FILE* f_toDecrypt,FILE* f_vierge);
-void decrypt_session_affichage(CLE c,FILE* f_toDecrypt);
+/**
+ * \fn void encrypt_rsa_chaine(char* chaine,int taille,FILE* new,mpz_t n, mpz_t e)
+ * \brief chiffrement rsa de la cle de session et ecriture dans le fichier 'new'
+ * \param *chaine chaine de caracteres a chiffrer 
+ * \param taille taille de la chaine de caracteres a chiffrer
+ * \param *new fichier ou ecrire le chiffrement
+ * \param n cle publique (n)
+ * \param e cle publique (e)
+ * */
+void encrypt_rsa_chaine(char *chaine, int taille, FILE * new, mpz_t n, mpz_t e);
 
-void encrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t e);
-//void decrypt_rsa_chaine(char* chaine,FILE* f,mpz_t n, mpz_t d);
-void decrypt_rsa_chaine(char* chaine,FILE* new,mpz_t n, mpz_t d);
+/**
+ * \fn void decrypt_rsa_chaine(char* chaine,int taille,FILE* new,mpz_t n, mpz_t d)
+ * \brief dechiffrement rsa de la cle de session et ecriture dans le fichier 'new'
+ * \param *chaine chaine de caracteres a dechiffrer 
+ * \param taille taille de la chaine de caracteres a dechiffrer
+ * \param *new fichier ou ecrire le dechiffrement
+ * \param n cle privee (n)
+ * \param e cle privee (d)
+ * */
+void decrypt_rsa_chaine(char *chaine, int taille, FILE * new, mpz_t n, mpz_t d);
+
+/**
+ * \fn void genere_cle_privee(mpz_t n,mpz_t d)
+ * \brief generation d'une cle privee
+ * \param n cle privee (n)
+ * \param d cle privee (d)
+ * */
+void genere_cle_privee(mpz_t n, mpz_t d);
+
+/**
+ * \fn void genere_cle_publique(mpz_t n,mpz_t e)
+ * \brief generation d'une cle publique
+ * \param n cle privee (n)
+ * \param d cle privee (e)
+ * */
+void genere_cle_publique(mpz_t n, mpz_t e);
+
+/**
+ * \fn void genere_cles()
+ * \brief generation des cles publiques et privees
+ * */
 void genere_cles();
-void cree_pass_phrase(char* buffer1);
-void demande_pass_phrase(unsigned char* hash);
-CLE genere_cle_session();*/
 
+/**
+ * \fn void cree_pass_phrase(char* buffer1)
+ * \brief stocke dans buffer1 la pass phrase choisie
+ * \param *buffer1 chaine de caracteres ou sera stocke la pass phrase
+ * */
+void cree_pass_phrase(char *buffer1);
 
-// A SUPPRIMER
-/*void affiche_cles(mpz_t e,mpz_t d,mpz_t n){
-	gmp_printf("CLE PUBLIQUE (%Zd,%Zd)\n",e,n);
-	gmp_printf("CLE PRIVEE   (%Zd,%Zd)\n",d,n);
-}*/
-
-void encrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t e);
-void decrypt_rsa_fic(char* nomFichier,mpz_t n,mpz_t d);
-void encrypt_rsa_chaine(char* chaine,int taille,FILE* new,mpz_t n, mpz_t e);
-void decrypt_rsa_chaine(char* chaine,int taille,FILE* new,mpz_t n, mpz_t d);
-
-void md5(unsigned char* in,int taille,unsigned char* out);
-
-void genere_cle_privee(mpz_t n,mpz_t d);
-void genere_cle_publique(mpz_t n,mpz_t e);
-void genere_cles();
-
-void cree_pass_phrase(char* buffer1);
-void demande_pass_phrase(unsigned char* hash);
-
+/**
+ * \fn CLE genere_cle_session()
+ * \brief genere aleatoirement une cle de session
+ * \return retourne la cle generee
+ * */
 CLE genere_cle_session();
-void encrypt_session(char* nomFichier1,FILE* new,CLE clef);
-void decrypt_session(CLE c,FILE* f_toDecrypt,FILE* f_vierge);
-void decrypt_session_affichage(CLE c,FILE* f_toDecrypt);
+
+/**
+ * \fn void encrypt_session(char* nomFichier1,FILE* new,CLE clef)
+ * \brief chiffrement XOR de la cle de session avec les caracteres du fichier
+ * \param *nomFichier1 nom du fichier a chiffrer
+ * \param *new fichier ou ecrire le resultat du chiffrement
+ * \param clef cle de session pour chiffrer le fichier
+ * */
+void encrypt_session(char *nomFichier1, FILE * new, CLE clef);
+
+/**
+ * \fn void decrypt_session(CLE c,FILE* f_toDecrypt,FILE* f_vierge)
+ * \brief dechiffrement XOR de la cle de session avec les caracteres du fichier
+ * \param c cle de session pr le dechiffrement
+ * \param *f_toDecrypt fichier a dechiffrer
+ * \param *f_vierge fichier ou le resultat du dechiffrement
+ * */
+void decrypt_session(CLE c, FILE * f_toDecrypt, FILE * f_vierge);
+
+/**
+ * \fn void decrypt_session_affichage(CLE c,FILE* f_toDecrypt)
+ * \brief dechiffrement XOR de la cle de session avec les caracteres du fichier et ecriture sur le terminal
+ * \param c cle de session pr le dechiffrement
+ * \param *f_toDecrypt fichier a dechiffrer
+ * */
+void decrypt_session_affichage(CLE c, FILE * f_toDecrypt);
 
 #endif
-

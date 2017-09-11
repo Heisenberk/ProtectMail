@@ -1,0 +1,599 @@
+\hypertarget{math__crypto_8h}{\section{math\-\_\-crypto.\-h File Reference}
+\label{math__crypto_8h}\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}}
+}
+
+
+contient les signatures des fonctions concernant les mathematiques en cryptographie  
+
+
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$math.\-h$>$}\\*
+{\ttfamily \#include $<$stdint.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}pgp.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}types.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gestion\-\_\-cles.\-h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structSHA1}{S\-H\-A1}
+\begin{DoxyCompactList}\small\item\em structure qui contient les informations pour le hash S\-H\-A-\/1 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{math__crypto_8h_a15a6c3f83300fe71f62b7212a2930ff6}{initialise\-\_\-memoire} (mpz\-\_\-t p, mpz\-\_\-t q, mpz\-\_\-t n, mpz\-\_\-t z, mpz\-\_\-t e, mpz\-\_\-t d)
+\begin{DoxyCompactList}\small\item\em initialise p,q,n,z,e,d \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_aae106fd6764bfa315adf8c211b24c8af}{libere\-\_\-memoire} (mpz\-\_\-t p, mpz\-\_\-t q, mpz\-\_\-t n, mpz\-\_\-t z, mpz\-\_\-t e, mpz\-\_\-t d, gmp\-\_\-randstate\-\_\-t state)
+\item 
+void \hyperlink{math__crypto_8h_a8721021541283adc8e1902a1c7997dee}{determine\-\_\-premier} (mpz\-\_\-t p, gmp\-\_\-randstate\-\_\-t state, int choix)
+\begin{DoxyCompactList}\small\item\em fonction qui met dans p un nombre aleatoire \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_a76f58611f351f8862dea23c273430416}{determine\-\_\-n} (mpz\-\_\-t p, mpz\-\_\-t q, mpz\-\_\-t n)
+\begin{DoxyCompactList}\small\item\em fonction qui calcule le produit p et q \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_aa43ae497b749f2feb7703f71391edbca}{determine\-\_\-z} (mpz\-\_\-t p, mpz\-\_\-t q, mpz\-\_\-t z)
+\begin{DoxyCompactList}\small\item\em fonction qui calcule le produit p-\/1 et q-\/1 \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_a73f0d060908542b6e5fb0cc6141aa153}{determine\-\_\-e} (mpz\-\_\-t z, gmp\-\_\-randstate\-\_\-t state, mpz\-\_\-t e)
+\begin{DoxyCompactList}\small\item\em fonction qui calcule e tq pgcd(e,z)=1 \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_a5d4de4c83a020905d508c7eb6ef6815d}{determine\-\_\-d} (mpz\-\_\-t p, mpz\-\_\-t q, mpz\-\_\-t n, mpz\-\_\-t z, mpz\-\_\-t e, mpz\-\_\-t d, gmp\-\_\-randstate\-\_\-t state)
+\begin{DoxyCompactList}\small\item\em fonction qui calcule d=e$^\wedge$-\/1 mod n \end{DoxyCompactList}\item 
+int \hyperlink{math__crypto_8h_ad062e5826c5dbdf2785aabd1e47bce00}{random\-\_\-int} (gmp\-\_\-randstate\-\_\-t state)
+\begin{DoxyCompactList}\small\item\em fonction qui cree un entier aleatoirement \end{DoxyCompactList}\item 
+int \hyperlink{math__crypto_8h_a5df671a18d6cbca814937ed6f56d236c}{xor} (int i, int j)
+\begin{DoxyCompactList}\small\item\em fonction qui fait i X\-O\-R j \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_abb6ab9cc607af269bc2d61ece98cab60}{myitoa} (int in, char $\ast$out, int longueur)
+\begin{DoxyCompactList}\small\item\em fonction qui convertit un entier en chaine de caracteres \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f} (uint32\-\_\-t B, uint32\-\_\-t C, uint32\-\_\-t D, int t)
+\begin{DoxyCompactList}\small\item\em fonction logique f du hash S\-H\-A-\/1 \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{math__crypto_8h_a811f48fa8f8d1ac92932ffd21d1d415e}{k} (int t)
+\begin{DoxyCompactList}\small\item\em fonction logique k du hash S\-H\-A-\/1 \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{math__crypto_8h_a6266c617918aa777cf2f73a403bc5dc1}{shift} (int n, uint32\-\_\-t X)
+\begin{DoxyCompactList}\small\item\em fonction de shift qui decale X de n rangs \end{DoxyCompactList}\item 
+int \hyperlink{math__crypto_8h_a22008a163295854b837ba8c7e217a04b}{converbi} (char $\ast$chaine)
+\begin{DoxyCompactList}\small\item\em fonction qui convertit en binaire une chaine de caracteres \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{math__crypto_8h_ace00867b95ac238b1a4e3917ac28ab03}{converhexa} (char $\ast$chaine)
+\begin{DoxyCompactList}\small\item\em fonction qui convertit en hexadecimal une chaine de caracteres \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_a704a2aa04cec36fe64f01fb2c090326a}{remplit\-\_\-zeros} (char $\ast$t, int taille)
+\begin{DoxyCompactList}\small\item\em fonction qui remplit t de 0 \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_abd1998e0bf6bf3c9df81279a3c196126}{remplit\-\_\-valeur} (char $\ast$t, int rang, int val)
+\begin{DoxyCompactList}\small\item\em fonction qui remplit t de val \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_a85ef85bc10ac07bc79263dbceaf31b88}{affiche} (char $\ast$message, int longueur)
+\begin{DoxyCompactList}\small\item\em fonction qui affiche la chaine de caracteres message \end{DoxyCompactList}\item 
+\hyperlink{structSHA1}{S\-H\-A1} \hyperlink{math__crypto_8h_acd091627aed6b09c2273ee0d0c2f2bdb}{init\-\_\-registres} (\hyperlink{structSHA1}{S\-H\-A1} hash)
+\begin{DoxyCompactList}\small\item\em fonction qui initialise hash avec les registres \end{DoxyCompactList}\item 
+\hyperlink{structSHA1}{S\-H\-A1} \hyperlink{math__crypto_8h_a793fdcb0470164d1ca44a88dbce5f96b}{init\-\_\-16\-W} (\hyperlink{structSHA1}{S\-H\-A1} hash, int rang)
+\begin{DoxyCompactList}\small\item\em fonction qui initialise hash avec les mots W \end{DoxyCompactList}\item 
+\hyperlink{structSHA1}{S\-H\-A1} \hyperlink{math__crypto_8h_ac558151ee741c36822023300293a935b}{init\-\_\-sha1} (char $\ast$message)
+\begin{DoxyCompactList}\small\item\em fonction qui initialise hash a partir de message \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_a15a27696cdc35759ca2668b0db00aa62}{process\-\_\-sha1} (\hyperlink{structSHA1}{S\-H\-A1} hash, char $\ast$out)
+\begin{DoxyCompactList}\small\item\em fonction qui fait les differentes manipulations binaires pour obtenir le hash final \end{DoxyCompactList}\item 
+void \hyperlink{math__crypto_8h_a38b99926c161c875a1990128140b97c2}{done\-\_\-sha1} (\hyperlink{structSHA1}{S\-H\-A1} hash)
+\begin{DoxyCompactList}\small\item\em fonction qui libere la memoire reservee \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+contient les signatures des fonctions concernant les mathematiques en cryptographie \begin{DoxyAuthor}{Author}
+Claire Baskevitch -\/ Clément Caumes 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2017 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{math__crypto_8h_a85ef85bc10ac07bc79263dbceaf31b88}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!affiche@{affiche}}
+\index{affiche@{affiche}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{affiche}]{\setlength{\rightskip}{0pt plus 5cm}void affiche (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{message, }
+\item[{int}]{longueur}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a85ef85bc10ac07bc79263dbceaf31b88}
+
+
+fonction qui affiche la chaine de caracteres message 
+
+Fonction qui affiche une chaine de caracteres
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & chaine de caracteres a afficher \\
+\hline
+{\em longueur} & taille de la chaine de caracteres \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_a22008a163295854b837ba8c7e217a04b}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!converbi@{converbi}}
+\index{converbi@{converbi}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{converbi}]{\setlength{\rightskip}{0pt plus 5cm}int converbi (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{chaine}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a22008a163295854b837ba8c7e217a04b}
+
+
+fonction qui convertit en binaire une chaine de caracteres 
+
+Fonction qui convertit en binaire une chaine de caracteres
+
+
+\begin{DoxyParams}{Parameters}
+{\em chaine} & chaine a convertir en binaire \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+resultat de la conversion en binaire 
+\end{DoxyReturn}
+\hypertarget{math__crypto_8h_ace00867b95ac238b1a4e3917ac28ab03}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!converhexa@{converhexa}}
+\index{converhexa@{converhexa}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{converhexa}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t converhexa (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{chaine}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_ace00867b95ac238b1a4e3917ac28ab03}
+
+
+fonction qui convertit en hexadecimal une chaine de caracteres 
+
+Fonction qui convertit en hexadecimal une chaine de caracteres
+
+
+\begin{DoxyParams}{Parameters}
+{\em chaine} & chaine de caracteres a convertir en hexadecimal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+resultat de la conversion en hexadecimal 
+\end{DoxyReturn}
+\hypertarget{math__crypto_8h_a5d4de4c83a020905d508c7eb6ef6815d}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!determine\-\_\-d@{determine\-\_\-d}}
+\index{determine\-\_\-d@{determine\-\_\-d}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{determine\-\_\-d}]{\setlength{\rightskip}{0pt plus 5cm}void determine\-\_\-d (
+\begin{DoxyParamCaption}
+\item[{mpz\-\_\-t}]{p, }
+\item[{mpz\-\_\-t}]{q, }
+\item[{mpz\-\_\-t}]{n, }
+\item[{mpz\-\_\-t}]{z, }
+\item[{mpz\-\_\-t}]{e, }
+\item[{mpz\-\_\-t}]{d, }
+\item[{gmp\-\_\-randstate\-\_\-t}]{state}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a5d4de4c83a020905d508c7eb6ef6815d}
+
+
+fonction qui calcule d=e$^\wedge$-\/1 mod n 
+
+Fonction qui met dans d la valeur de l'inverse de e modulo z
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & nombre \\
+\hline
+{\em q} & nombre \\
+\hline
+{\em e} & nombre \\
+\hline
+{\em state} & graine pour le pseudo aleatoire \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_a73f0d060908542b6e5fb0cc6141aa153}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!determine\-\_\-e@{determine\-\_\-e}}
+\index{determine\-\_\-e@{determine\-\_\-e}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{determine\-\_\-e}]{\setlength{\rightskip}{0pt plus 5cm}void determine\-\_\-e (
+\begin{DoxyParamCaption}
+\item[{mpz\-\_\-t}]{z, }
+\item[{gmp\-\_\-randstate\-\_\-t}]{state, }
+\item[{mpz\-\_\-t}]{e}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a73f0d060908542b6e5fb0cc6141aa153}
+
+
+fonction qui calcule e tq pgcd(e,z)=1 
+
+Fonction qui calcule e tq pgcd(e,z)=1 (calcul euclide etendu)
+
+
+\begin{DoxyParams}{Parameters}
+{\em z} & nombre \\
+\hline
+{\em state} & graine pour le pseudo aleatoire \\
+\hline
+{\em e} & nombre \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_a76f58611f351f8862dea23c273430416}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!determine\-\_\-n@{determine\-\_\-n}}
+\index{determine\-\_\-n@{determine\-\_\-n}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{determine\-\_\-n}]{\setlength{\rightskip}{0pt plus 5cm}void determine\-\_\-n (
+\begin{DoxyParamCaption}
+\item[{mpz\-\_\-t}]{p, }
+\item[{mpz\-\_\-t}]{q, }
+\item[{mpz\-\_\-t}]{n}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a76f58611f351f8862dea23c273430416}
+
+
+fonction qui calcule le produit p et q 
+
+Fonction qui met dans n le produit de p et q
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & nombre \\
+\hline
+{\em q} & nombre \\
+\hline
+{\em n} & resultat du produit p et q \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_a8721021541283adc8e1902a1c7997dee}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!determine\-\_\-premier@{determine\-\_\-premier}}
+\index{determine\-\_\-premier@{determine\-\_\-premier}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{determine\-\_\-premier}]{\setlength{\rightskip}{0pt plus 5cm}void determine\-\_\-premier (
+\begin{DoxyParamCaption}
+\item[{mpz\-\_\-t}]{p, }
+\item[{gmp\-\_\-randstate\-\_\-t}]{state, }
+\item[{int}]{choix}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a8721021541283adc8e1902a1c7997dee}
+
+
+fonction qui met dans p un nombre aleatoire 
+
+Fonction qui met dans p un nombre premier aléatoire
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & nombre qui sera le nombre aleatoire \\
+\hline
+{\em state} & seed pour le pseudo aleatoire \\
+\hline
+{\em choix} & parametre utile pour le pseudo aleatoire \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_aa43ae497b749f2feb7703f71391edbca}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!determine\-\_\-z@{determine\-\_\-z}}
+\index{determine\-\_\-z@{determine\-\_\-z}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{determine\-\_\-z}]{\setlength{\rightskip}{0pt plus 5cm}void determine\-\_\-z (
+\begin{DoxyParamCaption}
+\item[{mpz\-\_\-t}]{p, }
+\item[{mpz\-\_\-t}]{q, }
+\item[{mpz\-\_\-t}]{z}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_aa43ae497b749f2feb7703f71391edbca}
+
+
+fonction qui calcule le produit p-\/1 et q-\/1 
+
+Fonction qui met dans n le produit de p-\/1 et q-\/1
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & nombre \\
+\hline
+{\em q} & nombre \\
+\hline
+{\em z} & resultat du produit p-\/1 et q-\/1 \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_a38b99926c161c875a1990128140b97c2}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!done\-\_\-sha1@{done\-\_\-sha1}}
+\index{done\-\_\-sha1@{done\-\_\-sha1}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{done\-\_\-sha1}]{\setlength{\rightskip}{0pt plus 5cm}void done\-\_\-sha1 (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-H\-A1}}]{hash}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a38b99926c161c875a1990128140b97c2}
+
+
+fonction qui libere la memoire reservee 
+
+Fonction pour libérer la memoire du hash S\-H\-A-\/1
+
+
+\begin{DoxyParams}{Parameters}
+{\em hash} & hash S\-H\-A-\/1 \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!f@{f}}
+\index{f@{f}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{f}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t f (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{B, }
+\item[{uint32\-\_\-t}]{C, }
+\item[{uint32\-\_\-t}]{D, }
+\item[{int}]{t}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}
+
+
+fonction logique f du hash S\-H\-A-\/1 
+
+Fonction f pour la creation du hash S\-H\-A-\/1
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & parametre 1 \\
+\hline
+{\em C} & parametre 2 \\
+\hline
+{\em D} & parametre 3 \\
+\hline
+{\em t} & parametre 4 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+resultat de la fonction logique f 
+\end{DoxyReturn}
+\hypertarget{math__crypto_8h_a793fdcb0470164d1ca44a88dbce5f96b}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!init\-\_\-16\-W@{init\-\_\-16\-W}}
+\index{init\-\_\-16\-W@{init\-\_\-16\-W}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{init\-\_\-16\-W}]{\setlength{\rightskip}{0pt plus 5cm}{\bf S\-H\-A1} init\-\_\-16\-W (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-H\-A1}}]{hash, }
+\item[{int}]{rang}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a793fdcb0470164d1ca44a88dbce5f96b}
+
+
+fonction qui initialise hash avec les mots W 
+
+Fonction d'initialisation 16\-W pour la creation du hash S\-H\-A-\/1
+
+
+\begin{DoxyParams}{Parameters}
+{\em hash} & hash S\-H\-A-\/1 \\
+\hline
+{\em rang} & rang ou il faut initialises les mots W \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+futur hash correctement initialise 
+\end{DoxyReturn}
+\hypertarget{math__crypto_8h_acd091627aed6b09c2273ee0d0c2f2bdb}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!init\-\_\-registres@{init\-\_\-registres}}
+\index{init\-\_\-registres@{init\-\_\-registres}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{init\-\_\-registres}]{\setlength{\rightskip}{0pt plus 5cm}{\bf S\-H\-A1} init\-\_\-registres (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-H\-A1}}]{hash}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_acd091627aed6b09c2273ee0d0c2f2bdb}
+
+
+fonction qui initialise hash avec les registres 
+
+Fonction d'initialisation des registres lors de la creation du hash S\-H\-A-\/1
+
+
+\begin{DoxyParams}{Parameters}
+{\em hash} & hash S\-H\-A-\/1 dont les registres doivent etre initialises \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+futur hash ou les registres seront initialises 
+\end{DoxyReturn}
+\hypertarget{math__crypto_8h_ac558151ee741c36822023300293a935b}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!init\-\_\-sha1@{init\-\_\-sha1}}
+\index{init\-\_\-sha1@{init\-\_\-sha1}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{init\-\_\-sha1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf S\-H\-A1} init\-\_\-sha1 (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{message}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_ac558151ee741c36822023300293a935b}
+
+
+fonction qui initialise hash a partir de message 
+
+Fonction d'initialisation generale du hash S\-H\-A-\/1
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & chaine de caracteres que l'on veut hash \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+futur hash initialise 
+\end{DoxyReturn}
+\hypertarget{math__crypto_8h_a15a6c3f83300fe71f62b7212a2930ff6}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!initialise\-\_\-memoire@{initialise\-\_\-memoire}}
+\index{initialise\-\_\-memoire@{initialise\-\_\-memoire}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{initialise\-\_\-memoire}]{\setlength{\rightskip}{0pt plus 5cm}void initialise\-\_\-memoire (
+\begin{DoxyParamCaption}
+\item[{mpz\-\_\-t}]{p, }
+\item[{mpz\-\_\-t}]{q, }
+\item[{mpz\-\_\-t}]{n, }
+\item[{mpz\-\_\-t}]{z, }
+\item[{mpz\-\_\-t}]{e, }
+\item[{mpz\-\_\-t}]{d}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a15a6c3f83300fe71f62b7212a2930ff6}
+
+
+initialise p,q,n,z,e,d 
+
+Fonction G\-M\-P pour initialiser les variables
+
+
+\begin{DoxyParams}{Parameters}
+{\em p,q,n,z,e,d} & sont les valeurs utiles pour determiner les cles publiques/privees R\-S\-A \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_a811f48fa8f8d1ac92932ffd21d1d415e}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!k@{k}}
+\index{k@{k}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{k}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t k (
+\begin{DoxyParamCaption}
+\item[{int}]{t}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a811f48fa8f8d1ac92932ffd21d1d415e}
+
+
+fonction logique k du hash S\-H\-A-\/1 
+
+Fonction k pour la creation du hash S\-H\-A-\/1
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & parametre \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+resultat de la fonction logique k 
+\end{DoxyReturn}
+\hypertarget{math__crypto_8h_aae106fd6764bfa315adf8c211b24c8af}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!libere\-\_\-memoire@{libere\-\_\-memoire}}
+\index{libere\-\_\-memoire@{libere\-\_\-memoire}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{libere\-\_\-memoire}]{\setlength{\rightskip}{0pt plus 5cm}void libere\-\_\-memoire (
+\begin{DoxyParamCaption}
+\item[{mpz\-\_\-t}]{p, }
+\item[{mpz\-\_\-t}]{q, }
+\item[{mpz\-\_\-t}]{n, }
+\item[{mpz\-\_\-t}]{z, }
+\item[{mpz\-\_\-t}]{e, }
+\item[{mpz\-\_\-t}]{d, }
+\item[{gmp\-\_\-randstate\-\_\-t}]{state}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_aae106fd6764bfa315adf8c211b24c8af}
+Fonction G\-M\-P pour libérer la mémoire \hypertarget{math__crypto_8h_abb6ab9cc607af269bc2d61ece98cab60}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!myitoa@{myitoa}}
+\index{myitoa@{myitoa}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{myitoa}]{\setlength{\rightskip}{0pt plus 5cm}void myitoa (
+\begin{DoxyParamCaption}
+\item[{int}]{in, }
+\item[{char $\ast$}]{out, }
+\item[{int}]{longueur}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_abb6ab9cc607af269bc2d61ece98cab60}
+
+
+fonction qui convertit un entier en chaine de caracteres 
+
+Fonction qui convertit un entier en chaine de caracteres
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & entier a convertir \\
+\hline
+{\em out} & chaine de caracteres de l'entier converti \\
+\hline
+{\em longueur} & taille de la chaine de caracteres \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_a15a27696cdc35759ca2668b0db00aa62}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!process\-\_\-sha1@{process\-\_\-sha1}}
+\index{process\-\_\-sha1@{process\-\_\-sha1}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{process\-\_\-sha1}]{\setlength{\rightskip}{0pt plus 5cm}void process\-\_\-sha1 (
+\begin{DoxyParamCaption}
+\item[{{\bf S\-H\-A1}}]{hash, }
+\item[{char $\ast$}]{out}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a15a27696cdc35759ca2668b0db00aa62}
+
+
+fonction qui fait les differentes manipulations binaires pour obtenir le hash final 
+
+Fonction de changements binaires du hash S\-H\-A-\/1
+
+
+\begin{DoxyParams}{Parameters}
+{\em hash} & hash qui vient d'etre initialise \\
+\hline
+{\em out} & chaine de caracteres \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_ad062e5826c5dbdf2785aabd1e47bce00}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!random\-\_\-int@{random\-\_\-int}}
+\index{random\-\_\-int@{random\-\_\-int}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{random\-\_\-int}]{\setlength{\rightskip}{0pt plus 5cm}int random\-\_\-int (
+\begin{DoxyParamCaption}
+\item[{gmp\-\_\-randstate\-\_\-t}]{state}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_ad062e5826c5dbdf2785aabd1e47bce00}
+
+
+fonction qui cree un entier aleatoirement 
+
+Fonction qui renvoie un entier aleatoirement (pseudo aleatoire)
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & graine pour le pseudo aleatoire \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+retourne l'entier cree 
+\end{DoxyReturn}
+\hypertarget{math__crypto_8h_abd1998e0bf6bf3c9df81279a3c196126}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!remplit\-\_\-valeur@{remplit\-\_\-valeur}}
+\index{remplit\-\_\-valeur@{remplit\-\_\-valeur}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{remplit\-\_\-valeur}]{\setlength{\rightskip}{0pt plus 5cm}void remplit\-\_\-valeur (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{t, }
+\item[{int}]{rang, }
+\item[{int}]{val}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_abd1998e0bf6bf3c9df81279a3c196126}
+
+
+fonction qui remplit t de val 
+
+Fonction qui fait t\mbox{[}rang\mbox{]}='val'
+
+
+\begin{DoxyParams}{Parameters}
+{\em chaine} & chaine de caracteres a remplir de val \\
+\hline
+{\em taille} & taille de la chaine de caracteres \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_a704a2aa04cec36fe64f01fb2c090326a}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!remplit\-\_\-zeros@{remplit\-\_\-zeros}}
+\index{remplit\-\_\-zeros@{remplit\-\_\-zeros}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{remplit\-\_\-zeros}]{\setlength{\rightskip}{0pt plus 5cm}void remplit\-\_\-zeros (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{t, }
+\item[{int}]{taille}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a704a2aa04cec36fe64f01fb2c090326a}
+
+
+fonction qui remplit t de 0 
+
+Fonction qui remplit une chaine de caracteres de 0
+
+
+\begin{DoxyParams}{Parameters}
+{\em chaine} & chaine de caracteres a remplir de 0 \\
+\hline
+{\em taille} & taille de la chaine de caracteres \\
+\hline
+\end{DoxyParams}
+\hypertarget{math__crypto_8h_a6266c617918aa777cf2f73a403bc5dc1}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!shift@{shift}}
+\index{shift@{shift}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{shift}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t shift (
+\begin{DoxyParamCaption}
+\item[{int}]{n, }
+\item[{uint32\-\_\-t}]{X}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a6266c617918aa777cf2f73a403bc5dc1}
+
+
+fonction de shift qui decale X de n rangs 
+
+Fonction de shift utile pour le hash S\-H\-A-\/1
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & nombre de fois ou l'on va shift \\
+\hline
+{\em X} & nombre a shifter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+resultat de n shift sur X 
+\end{DoxyReturn}
+\hypertarget{math__crypto_8h_a5df671a18d6cbca814937ed6f56d236c}{\index{math\-\_\-crypto.\-h@{math\-\_\-crypto.\-h}!xor@{xor}}
+\index{xor@{xor}!math_crypto.h@{math\-\_\-crypto.\-h}}
+\subsubsection[{xor}]{\setlength{\rightskip}{0pt plus 5cm}int xor (
+\begin{DoxyParamCaption}
+\item[{int}]{i, }
+\item[{int}]{j}
+\end{DoxyParamCaption}
+)}}\label{math__crypto_8h_a5df671a18d6cbca814937ed6f56d236c}
+
+
+fonction qui fait i X\-O\-R j 
+
+Fonction qui calcule le X\-O\-R de deux entiers
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & entier \\
+\hline
+{\em j} & entier \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+retourne i X\-O\-R j 
+\end{DoxyReturn}

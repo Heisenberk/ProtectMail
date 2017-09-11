@@ -1,0 +1,692 @@
+\hypertarget{lire__ecrire_8c}{\section{lire\-\_\-ecrire.\-c File Reference}
+\label{lire__ecrire_8c}\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}}
+}
+
+
+contient les fonctions concernant les entrees/sorties  
+
+
+{\ttfamily \#include $<$time.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$ctype.\-h$>$}\\*
+{\ttfamily \#include $<$gmp.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}pgp.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}lire\-\_\-ecrire.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}commandes.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gestion\-\_\-cles.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}math\-\_\-crypto.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}types.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{lire__ecrire_8c_a0702827514dab0860cfa5d0d1a85e09f}{affiche\-\_\-date\-\_\-heure} ()
+\begin{DoxyCompactList}\small\item\em affiche la date et l'heure \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_afd751d87c086d0e7e9cbef386e01c5ff}{affiche\-\_\-general} ()
+\begin{DoxyCompactList}\small\item\em affiche les informations generales de l'application \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_a83cec050ed89bd128227f30af8935300}{affiche\-\_\-commandes} ()
+\begin{DoxyCompactList}\small\item\em affiche les commandes proposees par l'application \end{DoxyCompactList}\item 
+int \hyperlink{lire__ecrire_8c_a864f96ef60a2087a7bbbd877d0e61315}{demande\-\_\-taille\-\_\-cles} ()
+\begin{DoxyCompactList}\small\item\em retourne la taille des cles voulu par l'utilisateur \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{lire__ecrire_8c_a60852216fe8eba2d4a730f167cb7c820}{concatenation\-\_\-extension} (char $\ast$s)
+\begin{DoxyCompactList}\small\item\em renvoie la concatenation de s avec \char`\"{}.\-pgp\char`\"{} \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_ad23535d3bb7778468e98d8c551f410ac}{cherche\-\_\-cle\-\_\-pub} (mpz\-\_\-t n, mpz\-\_\-t e)
+\begin{DoxyCompactList}\small\item\em demande a lutilisateur la cle et la stocke \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_a78874c18a7b1b05637f0cda3e2723194}{cherche\-\_\-cle\-\_\-priv} (mpz\-\_\-t n, mpz\-\_\-t d)
+\begin{DoxyCompactList}\small\item\em demande a lutilisateur la cle et la stocke \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_a811fbcc925c513f6e9784c9a0bc1c54d}{ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-pub} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em affichage fichier \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_ab0dc54410a3f0efde643adcc02eb461a}{ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-priv} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em affichage fichier \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_aae9bb8e9f2ddc2a7ac745d4ea0c0c286}{ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-sig} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em affichage fichier \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_aefa401917438bf96f69a2529cbd02a1b}{ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-chiffre} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em affichage fichier \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_a4a0a11f2e8642910844e40da1d0006c2}{ecrit\-\_\-bordure\-\_\-sup\-\_\-id} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f}, char $\ast$s1, char $\ast$s2, char $\ast$s3)
+\begin{DoxyCompactList}\small\item\em affichage fichier \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_a19b744a2e3f62801370cc9a971823c1d}{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em affichage fichier \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_ada11617376264ef131c4d7d10f9f21ee}{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-chiffre} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em affichage fichier \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_ae92779e7c191bd20942e66f9586ffd5d}{ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-pub} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em affichage fichier \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_abf7ccf45de3a6ecee25cbb28d735fee1}{ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-priv} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em affichage fichier \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_afedb483964ef172629ef87afd7d251d9}{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig\-\_\-final} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em affichage fichier \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_ae9f1118ac7d212fd9a468c694b86c036}{affiche\-\_\-action\-\_\-pgp} (char $\ast$nom)
+\begin{DoxyCompactList}\small\item\em affichage terminal \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_a47a18e903a399d5b919b96a92c953820}{affiche\-\_\-dechiffrement} (char $\ast$nom\-Fichier)
+\begin{DoxyCompactList}\small\item\em affichage terminal \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_a5638b118f7de8b1138bdfedda83805d4}{affiche\-\_\-fichier\-\_\-dechiffre} (char $\ast$nom\-Fichier)
+\begin{DoxyCompactList}\small\item\em affichage terminal \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_aa2d7f95393694112ddff76dd53ce3ef5}{recopie\-\_\-message} (F\-I\-L\-E $\ast$origin, F\-I\-L\-E $\ast$new)
+\begin{DoxyCompactList}\small\item\em recopie origin dans new \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_a5eef37f28b69c1829cd32a027fa23b3e}{affiche\-\_\-contenu\-\_\-fic} (char $\ast$nom\-Fichier)
+\begin{DoxyCompactList}\small\item\em affiche sur le terminal le fichier \end{DoxyCompactList}\item 
+int \hyperlink{lire__ecrire_8c_aae7f6fc00982430d0213874bedcf241c}{teste\-\_\-reponse} (char $\ast$s)
+\begin{DoxyCompactList}\small\item\em teste si l'utilisateur veut dire O\-U\-I ou N\-O\-N \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_ae25f4a90ef82f3bee5e218eee9e05d48}{demande\-\_\-visualisation\-\_\-message} (char $\ast$message)
+\begin{DoxyCompactList}\small\item\em procédure qui affiche le contenu d'un fichier si nécessaire \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_aac23d8309a29ff4944f1f676e748d1f7}{ecrit\-\_\-cle\-\_\-privee} (mpz\-\_\-t n, mpz\-\_\-t d)
+\begin{DoxyCompactList}\small\item\em ecrit la clé privée dans le fichier secring.\-pgp \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_a5d7c4f20e27688de5d9a66aeb43ee0dc}{ecrit\-\_\-cle\-\_\-publique} (char $\ast$s1, char $\ast$s2, char $\ast$s3, mpz\-\_\-t n, mpz\-\_\-t e)
+\begin{DoxyCompactList}\small\item\em ecrit la clé publique dans le fichier pubring.\-pgp \end{DoxyCompactList}\item 
+int \hyperlink{lire__ecrire_8c_a2b9bda22f094c2f7b30e7a3a79f32cbb}{compte\-\_\-nb\-\_\-car\-\_\-fichier} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em compte le nombre de caracteres dans le fichier f \end{DoxyCompactList}\item 
+int \hyperlink{lire__ecrire_8c_a079a3f3ce14dfbc8d8b0b658637ff06c}{compte\-\_\-nb\-\_\-car\-\_\-fichier\-\_\-signature} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em compte le nombre de caracteres dans le fichier.\-pgp avec signature f \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_aed6d76b62453e6c6a9a28c98eb8b5de7}{remplit\-\_\-chaine\-\_\-carac\-\_\-message} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f}, char $\ast$message, int taille)
+\begin{DoxyCompactList}\small\item\em fonction qui met les caracteres du fichier dans message \end{DoxyCompactList}\item 
+void \hyperlink{lire__ecrire_8c_a45f77ab7d6ea083bbb8e2aadd9977489}{remplit\-\_\-chaine\-\_\-carac\-\_\-message\-\_\-signe} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f}, char $\ast$message, int taille)
+\begin{DoxyCompactList}\small\item\em fonction qui met les caracteres du fichier.\-pgp avec signature dans message \end{DoxyCompactList}\item 
+int \hyperlink{lire__ecrire_8c_a2948043d06788b9f33f994d51af9ca51}{teste\-\_\-fichier\-\_\-signature} (F\-I\-L\-E $\ast$\hyperlink{math__crypto_8h_ae7f01fb4b02cbda54f421617afe8af10}{f})
+\begin{DoxyCompactList}\small\item\em fonction qui teste si le fichier f est bien un fichier.\-pgp avec signature \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+contient les fonctions concernant les entrees/sorties \begin{DoxyAuthor}{Author}
+Claire Baskevitch -\/ Clément Caumes 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2017 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{lire__ecrire_8c_ae9f1118ac7d212fd9a468c694b86c036}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!affiche\-\_\-action\-\_\-pgp@{affiche\-\_\-action\-\_\-pgp}}
+\index{affiche\-\_\-action\-\_\-pgp@{affiche\-\_\-action\-\_\-pgp}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{affiche\-\_\-action\-\_\-pgp}]{\setlength{\rightskip}{0pt plus 5cm}void affiche\-\_\-action\-\_\-pgp (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nom}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_ae9f1118ac7d212fd9a468c694b86c036}
+
+
+affichage terminal 
+
+Ecriture terminal 1
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$nom} & nom a afficher \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_a83cec050ed89bd128227f30af8935300}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!affiche\-\_\-commandes@{affiche\-\_\-commandes}}
+\index{affiche\-\_\-commandes@{affiche\-\_\-commandes}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{affiche\-\_\-commandes}]{\setlength{\rightskip}{0pt plus 5cm}void affiche\-\_\-commandes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a83cec050ed89bd128227f30af8935300}
+
+
+affiche les commandes proposees par l'application 
+
+Affiche les commande \-: ./pgp -\/h \hypertarget{lire__ecrire_8c_a5eef37f28b69c1829cd32a027fa23b3e}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!affiche\-\_\-contenu\-\_\-fic@{affiche\-\_\-contenu\-\_\-fic}}
+\index{affiche\-\_\-contenu\-\_\-fic@{affiche\-\_\-contenu\-\_\-fic}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{affiche\-\_\-contenu\-\_\-fic}]{\setlength{\rightskip}{0pt plus 5cm}void affiche\-\_\-contenu\-\_\-fic (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nom\-Fichier}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a5eef37f28b69c1829cd32a027fa23b3e}
+
+
+affiche sur le terminal le fichier 
+
+Affiche le contenu d'un fichier
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$nom\-Fichier} & nom du fichier a afficher \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_a0702827514dab0860cfa5d0d1a85e09f}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!affiche\-\_\-date\-\_\-heure@{affiche\-\_\-date\-\_\-heure}}
+\index{affiche\-\_\-date\-\_\-heure@{affiche\-\_\-date\-\_\-heure}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{affiche\-\_\-date\-\_\-heure}]{\setlength{\rightskip}{0pt plus 5cm}void affiche\-\_\-date\-\_\-heure (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a0702827514dab0860cfa5d0d1a85e09f}
+
+
+affiche la date et l'heure 
+
+Affiche la date et l'heure \hypertarget{lire__ecrire_8c_a47a18e903a399d5b919b96a92c953820}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!affiche\-\_\-dechiffrement@{affiche\-\_\-dechiffrement}}
+\index{affiche\-\_\-dechiffrement@{affiche\-\_\-dechiffrement}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{affiche\-\_\-dechiffrement}]{\setlength{\rightskip}{0pt plus 5cm}void affiche\-\_\-dechiffrement (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nom\-Fichier}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a47a18e903a399d5b919b96a92c953820}
+
+
+affichage terminal 
+
+Ecriture terminal 2
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$nom\-Fichier} & nom a afficher \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_a5638b118f7de8b1138bdfedda83805d4}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!affiche\-\_\-fichier\-\_\-dechiffre@{affiche\-\_\-fichier\-\_\-dechiffre}}
+\index{affiche\-\_\-fichier\-\_\-dechiffre@{affiche\-\_\-fichier\-\_\-dechiffre}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{affiche\-\_\-fichier\-\_\-dechiffre}]{\setlength{\rightskip}{0pt plus 5cm}void affiche\-\_\-fichier\-\_\-dechiffre (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{nom\-Fichier}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a5638b118f7de8b1138bdfedda83805d4}
+
+
+affichage terminal 
+
+Ecriture terminal 3
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$nom\-Fichier} & nom a afficher \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_afd751d87c086d0e7e9cbef386e01c5ff}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!affiche\-\_\-general@{affiche\-\_\-general}}
+\index{affiche\-\_\-general@{affiche\-\_\-general}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{affiche\-\_\-general}]{\setlength{\rightskip}{0pt plus 5cm}void affiche\-\_\-general (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_afd751d87c086d0e7e9cbef386e01c5ff}
+
+
+affiche les informations generales de l'application 
+
+Affiche la présentation générale de P\-G\-P \hypertarget{lire__ecrire_8c_a78874c18a7b1b05637f0cda3e2723194}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!cherche\-\_\-cle\-\_\-priv@{cherche\-\_\-cle\-\_\-priv}}
+\index{cherche\-\_\-cle\-\_\-priv@{cherche\-\_\-cle\-\_\-priv}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{cherche\-\_\-cle\-\_\-priv}]{\setlength{\rightskip}{0pt plus 5cm}void cherche\-\_\-cle\-\_\-priv (
+\begin{DoxyParamCaption}
+\item[{mpz\-\_\-t}]{n, }
+\item[{mpz\-\_\-t}]{d}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a78874c18a7b1b05637f0cda3e2723194}
+
+
+demande a lutilisateur la cle et la stocke 
+
+Fonction qui met notre cle privee demandé dans les parametres
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & cle privee \\
+\hline
+{\em d} & cle privee \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_ad23535d3bb7778468e98d8c551f410ac}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!cherche\-\_\-cle\-\_\-pub@{cherche\-\_\-cle\-\_\-pub}}
+\index{cherche\-\_\-cle\-\_\-pub@{cherche\-\_\-cle\-\_\-pub}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{cherche\-\_\-cle\-\_\-pub}]{\setlength{\rightskip}{0pt plus 5cm}void cherche\-\_\-cle\-\_\-pub (
+\begin{DoxyParamCaption}
+\item[{mpz\-\_\-t}]{n, }
+\item[{mpz\-\_\-t}]{e}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_ad23535d3bb7778468e98d8c551f410ac}
+
+
+demande a lutilisateur la cle et la stocke 
+
+Fonction qui met la cle publique du destinataire demandé dans les parametres
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & cle publique \\
+\hline
+{\em e} & cle publique \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_a2b9bda22f094c2f7b30e7a3a79f32cbb}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!compte\-\_\-nb\-\_\-car\-\_\-fichier@{compte\-\_\-nb\-\_\-car\-\_\-fichier}}
+\index{compte\-\_\-nb\-\_\-car\-\_\-fichier@{compte\-\_\-nb\-\_\-car\-\_\-fichier}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{compte\-\_\-nb\-\_\-car\-\_\-fichier}]{\setlength{\rightskip}{0pt plus 5cm}int compte\-\_\-nb\-\_\-car\-\_\-fichier (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a2b9bda22f094c2f7b30e7a3a79f32cbb}
+
+
+compte le nombre de caracteres dans le fichier f 
+
+Fonction qui compte le nombre de caracteres dans un fichier
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+entier correspondant au nombre de caracteres dans f 
+\end{DoxyReturn}
+\hypertarget{lire__ecrire_8c_a079a3f3ce14dfbc8d8b0b658637ff06c}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!compte\-\_\-nb\-\_\-car\-\_\-fichier\-\_\-signature@{compte\-\_\-nb\-\_\-car\-\_\-fichier\-\_\-signature}}
+\index{compte\-\_\-nb\-\_\-car\-\_\-fichier\-\_\-signature@{compte\-\_\-nb\-\_\-car\-\_\-fichier\-\_\-signature}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{compte\-\_\-nb\-\_\-car\-\_\-fichier\-\_\-signature}]{\setlength{\rightskip}{0pt plus 5cm}int compte\-\_\-nb\-\_\-car\-\_\-fichier\-\_\-signature (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a079a3f3ce14dfbc8d8b0b658637ff06c}
+
+
+compte le nombre de caracteres dans le fichier.\-pgp avec signature f 
+
+Fonction qui compte le nombre de caracteres dans un fichier.\-pgp avec signature
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+entier correspondant au nombre de caracteres dans f 
+\end{DoxyReturn}
+\hypertarget{lire__ecrire_8c_a60852216fe8eba2d4a730f167cb7c820}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!concatenation\-\_\-extension@{concatenation\-\_\-extension}}
+\index{concatenation\-\_\-extension@{concatenation\-\_\-extension}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{concatenation\-\_\-extension}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ concatenation\-\_\-extension (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a60852216fe8eba2d4a730f167cb7c820}
+
+
+renvoie la concatenation de s avec \char`\"{}.\-pgp\char`\"{} 
+
+Renvoie la concatenation de s avec \char`\"{}.\-pgp\char`\"{}
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$s} & chaine de caracteres a modifier \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+retourne avec \char`\"{}.\-pgp\char`\"{} en plus a la fin 
+\end{DoxyReturn}
+\hypertarget{lire__ecrire_8c_a864f96ef60a2087a7bbbd877d0e61315}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!demande\-\_\-taille\-\_\-cles@{demande\-\_\-taille\-\_\-cles}}
+\index{demande\-\_\-taille\-\_\-cles@{demande\-\_\-taille\-\_\-cles}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{demande\-\_\-taille\-\_\-cles}]{\setlength{\rightskip}{0pt plus 5cm}int demande\-\_\-taille\-\_\-cles (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a864f96ef60a2087a7bbbd877d0e61315}
+
+
+retourne la taille des cles voulu par l'utilisateur 
+
+Retourne la taille des clés voulu par l'utilisateur
+
+\begin{DoxyReturn}{Returns}
+retourne la taille de la cle 
+\end{DoxyReturn}
+\hypertarget{lire__ecrire_8c_ae25f4a90ef82f3bee5e218eee9e05d48}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!demande\-\_\-visualisation\-\_\-message@{demande\-\_\-visualisation\-\_\-message}}
+\index{demande\-\_\-visualisation\-\_\-message@{demande\-\_\-visualisation\-\_\-message}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{demande\-\_\-visualisation\-\_\-message}]{\setlength{\rightskip}{0pt plus 5cm}void demande\-\_\-visualisation\-\_\-message (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{message}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_ae25f4a90ef82f3bee5e218eee9e05d48}
+
+
+procédure qui affiche le contenu d'un fichier si nécessaire 
+
+Procédure qui affiche le contenu d'un fichier si nécessaire
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$message} & message a afficher \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_ada11617376264ef131c4d7d10f9f21ee}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-chiffre@{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-chiffre}}
+\index{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-chiffre@{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-chiffre}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-chiffre}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-chiffre (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_ada11617376264ef131c4d7d10f9f21ee}
+
+
+affichage fichier 
+
+Ecriture fichier 7
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier ou ecrire \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_a19b744a2e3f62801370cc9a971823c1d}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig@{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig}}
+\index{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig@{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a19b744a2e3f62801370cc9a971823c1d}
+
+
+affichage fichier 
+
+Ecriture fichier 6
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier ou ecrire \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_afedb483964ef172629ef87afd7d251d9}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig\-\_\-final@{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig\-\_\-final}}
+\index{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig\-\_\-final@{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig\-\_\-final}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig\-\_\-final}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-bordure\-\_\-inf\-\_\-m\-\_\-sig\-\_\-final (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_afedb483964ef172629ef87afd7d251d9}
+
+
+affichage fichier 
+
+Ecriture fichier 10
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier ou ecrire \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_abf7ccf45de3a6ecee25cbb28d735fee1}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-priv@{ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-priv}}
+\index{ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-priv@{ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-priv}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-priv}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-priv (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_abf7ccf45de3a6ecee25cbb28d735fee1}
+
+
+affichage fichier 
+
+Ecriture fichier 9
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier ou ecrire \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_ae92779e7c191bd20942e66f9586ffd5d}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-pub@{ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-pub}}
+\index{ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-pub@{ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-pub}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-pub}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-bordure\-\_\-inf\-\_\-rsa\-\_\-pub (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_ae92779e7c191bd20942e66f9586ffd5d}
+
+
+affichage fichier 
+
+Ecriture fichier 8
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier ou ecrire \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_a4a0a11f2e8642910844e40da1d0006c2}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-bordure\-\_\-sup\-\_\-id@{ecrit\-\_\-bordure\-\_\-sup\-\_\-id}}
+\index{ecrit\-\_\-bordure\-\_\-sup\-\_\-id@{ecrit\-\_\-bordure\-\_\-sup\-\_\-id}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-bordure\-\_\-sup\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-bordure\-\_\-sup\-\_\-id (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f, }
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2, }
+\item[{char $\ast$}]{s3}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a4a0a11f2e8642910844e40da1d0006c2}
+
+
+affichage fichier 
+
+Ecriture fichier 5
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier ou ecrire \\
+\hline
+{\em $\ast$s1} & nom \\
+\hline
+{\em $\ast$s2} & prenom \\
+\hline
+{\em $\ast$s3} & mail \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_aefa401917438bf96f69a2529cbd02a1b}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-chiffre@{ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-chiffre}}
+\index{ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-chiffre@{ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-chiffre}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-chiffre}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-chiffre (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_aefa401917438bf96f69a2529cbd02a1b}
+
+
+affichage fichier 
+
+Ecriture fichier 4
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier ou ecrire \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_aae9bb8e9f2ddc2a7ac745d4ea0c0c286}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-sig@{ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-sig}}
+\index{ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-sig@{ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-sig}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-sig}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-bordure\-\_\-sup\-\_\-m\-\_\-sig (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_aae9bb8e9f2ddc2a7ac745d4ea0c0c286}
+
+
+affichage fichier 
+
+Ecriture fichier 3
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier ou ecrire \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_ab0dc54410a3f0efde643adcc02eb461a}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-priv@{ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-priv}}
+\index{ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-priv@{ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-priv}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-priv}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-priv (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_ab0dc54410a3f0efde643adcc02eb461a}
+
+
+affichage fichier 
+
+Ecriture fichier 2
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier ou ecrire \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_a811fbcc925c513f6e9784c9a0bc1c54d}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-pub@{ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-pub}}
+\index{ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-pub@{ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-pub}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-pub}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-bordure\-\_\-sup\-\_\-rsa\-\_\-pub (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a811fbcc925c513f6e9784c9a0bc1c54d}
+
+
+affichage fichier 
+
+Ecriture fichier 1
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier ou ecrire \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_aac23d8309a29ff4944f1f676e748d1f7}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-cle\-\_\-privee@{ecrit\-\_\-cle\-\_\-privee}}
+\index{ecrit\-\_\-cle\-\_\-privee@{ecrit\-\_\-cle\-\_\-privee}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-cle\-\_\-privee}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-cle\-\_\-privee (
+\begin{DoxyParamCaption}
+\item[{mpz\-\_\-t}]{n, }
+\item[{mpz\-\_\-t}]{d}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_aac23d8309a29ff4944f1f676e748d1f7}
+
+
+ecrit la clé privée dans le fichier secring.\-pgp 
+
+Ecrit la clé privée dans le fichier secring.\-pgp
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & parametre de la cle privee \\
+\hline
+{\em d} & parametre de la cle privee \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_a5d7c4f20e27688de5d9a66aeb43ee0dc}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!ecrit\-\_\-cle\-\_\-publique@{ecrit\-\_\-cle\-\_\-publique}}
+\index{ecrit\-\_\-cle\-\_\-publique@{ecrit\-\_\-cle\-\_\-publique}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{ecrit\-\_\-cle\-\_\-publique}]{\setlength{\rightskip}{0pt plus 5cm}void ecrit\-\_\-cle\-\_\-publique (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2, }
+\item[{char $\ast$}]{s3, }
+\item[{mpz\-\_\-t}]{n, }
+\item[{mpz\-\_\-t}]{e}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a5d7c4f20e27688de5d9a66aeb43ee0dc}
+
+
+ecrit la clé publique dans le fichier pubring.\-pgp 
+
+Ecrit la clé publique dans le fichier pubring.\-pgp
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$s1} & nom \\
+\hline
+{\em $\ast$s2} & prenom \\
+\hline
+{\em $\ast$s3} & adresse mail \\
+\hline
+{\em n} & parametre de la cle publique \\
+\hline
+{\em e} & parametre de la cle publique \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_aa2d7f95393694112ddff76dd53ce3ef5}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!recopie\-\_\-message@{recopie\-\_\-message}}
+\index{recopie\-\_\-message@{recopie\-\_\-message}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{recopie\-\_\-message}]{\setlength{\rightskip}{0pt plus 5cm}void recopie\-\_\-message (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{origin, }
+\item[{F\-I\-L\-E $\ast$}]{new}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_aa2d7f95393694112ddff76dd53ce3ef5}
+
+
+recopie origin dans new 
+
+Ecrit le contenu de \char`\"{}origin\char`\"{} dans \char`\"{}new\char`\"{}
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$origin} & fichier \\
+\hline
+{\em $\ast$new} & fichier \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_aed6d76b62453e6c6a9a28c98eb8b5de7}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!remplit\-\_\-chaine\-\_\-carac\-\_\-message@{remplit\-\_\-chaine\-\_\-carac\-\_\-message}}
+\index{remplit\-\_\-chaine\-\_\-carac\-\_\-message@{remplit\-\_\-chaine\-\_\-carac\-\_\-message}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{remplit\-\_\-chaine\-\_\-carac\-\_\-message}]{\setlength{\rightskip}{0pt plus 5cm}void remplit\-\_\-chaine\-\_\-carac\-\_\-message (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f, }
+\item[{char $\ast$}]{message, }
+\item[{int}]{taille}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_aed6d76b62453e6c6a9a28c98eb8b5de7}
+
+
+fonction qui met les caracteres du fichier dans message 
+
+Fonction qui met les caracteres du fichier dans message
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier \\
+\hline
+{\em $\ast$message} & chaine de caracteres \\
+\hline
+{\em taille} & taille de la chaine de caracteres \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_a45f77ab7d6ea083bbb8e2aadd9977489}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!remplit\-\_\-chaine\-\_\-carac\-\_\-message\-\_\-signe@{remplit\-\_\-chaine\-\_\-carac\-\_\-message\-\_\-signe}}
+\index{remplit\-\_\-chaine\-\_\-carac\-\_\-message\-\_\-signe@{remplit\-\_\-chaine\-\_\-carac\-\_\-message\-\_\-signe}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{remplit\-\_\-chaine\-\_\-carac\-\_\-message\-\_\-signe}]{\setlength{\rightskip}{0pt plus 5cm}void remplit\-\_\-chaine\-\_\-carac\-\_\-message\-\_\-signe (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f, }
+\item[{char $\ast$}]{message, }
+\item[{int}]{taille}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a45f77ab7d6ea083bbb8e2aadd9977489}
+
+
+fonction qui met les caracteres du fichier.\-pgp avec signature dans message 
+
+Fonction qui met les caracteres du fichier.\-pgp avec signature dans message
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier \\
+\hline
+{\em $\ast$message} & chaine de caracteres \\
+\hline
+{\em taille} & taille de la chaine de caracteres \\
+\hline
+\end{DoxyParams}
+\hypertarget{lire__ecrire_8c_a2948043d06788b9f33f994d51af9ca51}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!teste\-\_\-fichier\-\_\-signature@{teste\-\_\-fichier\-\_\-signature}}
+\index{teste\-\_\-fichier\-\_\-signature@{teste\-\_\-fichier\-\_\-signature}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{teste\-\_\-fichier\-\_\-signature}]{\setlength{\rightskip}{0pt plus 5cm}int teste\-\_\-fichier\-\_\-signature (
+\begin{DoxyParamCaption}
+\item[{F\-I\-L\-E $\ast$}]{f}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_a2948043d06788b9f33f994d51af9ca51}
+
+
+fonction qui teste si le fichier f est bien un fichier.\-pgp avec signature 
+
+Fonction qui teste si le fichier f est bien un fichier.\-pgp avec signature
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$f} & fichier \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 si il s'agit bien d'un .pgp sinon 0 
+\end{DoxyReturn}
+\hypertarget{lire__ecrire_8c_aae7f6fc00982430d0213874bedcf241c}{\index{lire\-\_\-ecrire.\-c@{lire\-\_\-ecrire.\-c}!teste\-\_\-reponse@{teste\-\_\-reponse}}
+\index{teste\-\_\-reponse@{teste\-\_\-reponse}!lire_ecrire.c@{lire\-\_\-ecrire.\-c}}
+\subsubsection[{teste\-\_\-reponse}]{\setlength{\rightskip}{0pt plus 5cm}int teste\-\_\-reponse (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{lire__ecrire_8c_aae7f6fc00982430d0213874bedcf241c}
+
+
+teste si l'utilisateur veut dire O\-U\-I ou N\-O\-N 
+
+Renvoie la réponse de l'utilisateur O\-U\-I/\-N\-O\-N
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$s} & "chaine de caracteres pour determiner \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 pour oui et 2 pour non 
+\end{DoxyReturn}

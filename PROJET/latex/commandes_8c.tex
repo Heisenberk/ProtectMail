@@ -1,0 +1,226 @@
+\hypertarget{commandes_8c}{\section{commandes.\-c File Reference}
+\label{commandes_8c}\index{commandes.\-c@{commandes.\-c}}
+}
+
+
+contient les fonctions concernant les commandes sur le terminal pour accéder aux fonctions de l'application  
+
+
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}pgp.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}commandes.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}lire\-\_\-ecrire.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}math\-\_\-crypto.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}types.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{commandes_8c_ac7e9633829c54e2e03d0706b4cf3d162}{quitte\-\_\-commande\-\_\-introuvable} ()
+\begin{DoxyCompactList}\small\item\em fonction qui fait quitter l'application si la commande n'existe pas \end{DoxyCompactList}\item 
+\hypertarget{commandes_8c_a6aa9ef467dbad23c29e48aec2cc6e2b0}{void \hyperlink{commandes_8c_a6aa9ef467dbad23c29e48aec2cc6e2b0}{quitte\-\_\-demande\-\_\-invalide} ()}\label{commandes_8c_a6aa9ef467dbad23c29e48aec2cc6e2b0}
+
+\begin{DoxyCompactList}\small\item\em fonction qui fait quitter l'application si la demande de l'utilisateur n'existe pas \end{DoxyCompactList}\item 
+\hypertarget{commandes_8c_a4bea23fd415bd508b4bcd7f85d0f6778}{void \hyperlink{commandes_8c_a4bea23fd415bd508b4bcd7f85d0f6778}{quitte\-\_\-fichier\-\_\-inexistant} ()}\label{commandes_8c_a4bea23fd415bd508b4bcd7f85d0f6778}
+
+\begin{DoxyCompactList}\small\item\em fonction qui fait quitter l'application si le fichier est inexistant \end{DoxyCompactList}\item 
+\hypertarget{commandes_8c_a3cd32216e2bfcaa845d53d8b74a016ec}{void \hyperlink{commandes_8c_a3cd32216e2bfcaa845d53d8b74a016ec}{quitte\-\_\-fichier\-\_\-invalide} ()}\label{commandes_8c_a3cd32216e2bfcaa845d53d8b74a016ec}
+
+\begin{DoxyCompactList}\small\item\em fonction qui fait quitter l'application si le fichier n'est pas valide (N\-U\-L\-L) \end{DoxyCompactList}\item 
+void \hyperlink{commandes_8c_a8a890ae6155bad3fc2c512cee61637a3}{quitte\-\_\-mauvaise\-\_\-extension} (char $\ast$s)
+\begin{DoxyCompactList}\small\item\em fonction qui fait quitter l'application si le fichier est inexistant \end{DoxyCompactList}\item 
+\hypertarget{commandes_8c_a70a6cb88a9042908d915eb1e2919d1c9}{void \hyperlink{commandes_8c_a70a6cb88a9042908d915eb1e2919d1c9}{quitte\-\_\-pass\-\_\-phrase\-\_\-incoherente} ()}\label{commandes_8c_a70a6cb88a9042908d915eb1e2919d1c9}
+
+\begin{DoxyCompactList}\small\item\em fonction qui fait quitter l'application si la pass phrase ecrite est différente du premier essai \end{DoxyCompactList}\item 
+void \hyperlink{commandes_8c_abb3d2f10ff48c19a78b9bb80aeeefc80}{quitte\-\_\-suppression\-\_\-impossible} (char $\ast$s)
+\begin{DoxyCompactList}\small\item\em fonction qui fait quitter l'application si la pass phrase ecrite est différente du premier essai \end{DoxyCompactList}\item 
+\hypertarget{commandes_8c_a71aa8b5b762eebe72c33154156d44cae}{void \hyperlink{commandes_8c_a71aa8b5b762eebe72c33154156d44cae}{quitte\-\_\-pas\-\_\-probleme} ()}\label{commandes_8c_a71aa8b5b762eebe72c33154156d44cae}
+
+\begin{DoxyCompactList}\small\item\em fonction qui fait quitter l'application \end{DoxyCompactList}\item 
+int \hyperlink{commandes_8c_af4bcf59ea21bac66606293e541a1b0ca}{teste\-\_\-mots\-\_\-identiques} (char $\ast$s1, char $\ast$s2)
+\begin{DoxyCompactList}\small\item\em fonction qui teste si deux chaines de caracteres sont identiques \end{DoxyCompactList}\item 
+int \hyperlink{commandes_8c_a76bd7a6752cc025b85e153a370f9f4ef}{teste\-\_\-extension\-\_\-pgp} (char $\ast$s)
+\begin{DoxyCompactList}\small\item\em fonction qui teste si la chaine de caracteres finit par \char`\"{}.\-pgp\char`\"{} \end{DoxyCompactList}\item 
+int \hyperlink{commandes_8c_ad2ff1cd27c7cadf1210f39fcfc5ffb4a}{teste\-\_\-commande\-\_\-une\-\_\-option} (int num, char $\ast$$\ast$chaine\-Carac)
+\begin{DoxyCompactList}\small\item\em fonction qui renvoie le mode choisi par l'utilisateur \end{DoxyCompactList}\item 
+int \hyperlink{commandes_8c_a7f0f0719b4d0a83559bf528913d4cd6f}{teste\-\_\-commande\-\_\-deux\-\_\-options} (int num, char $\ast$$\ast$chaine\-Carac)
+\begin{DoxyCompactList}\small\item\em fonction qui renvoie le mode choisi par l'utilisateur \end{DoxyCompactList}\item 
+int \hyperlink{commandes_8c_a5bc5ea016bf020805b9fa386b632801b}{teste\-\_\-commande\-\_\-general} (int num, char $\ast$$\ast$chaine\-Carac)
+\begin{DoxyCompactList}\small\item\em fonction qui renvoie le mode choisi par l'utilisateur \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+contient les fonctions concernant les commandes sur le terminal pour accéder aux fonctions de l'application \begin{DoxyAuthor}{Author}
+Claire Baskevitch -\/ Clément Caumes 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2017 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{commandes_8c_ac7e9633829c54e2e03d0706b4cf3d162}{\index{commandes.\-c@{commandes.\-c}!quitte\-\_\-commande\-\_\-introuvable@{quitte\-\_\-commande\-\_\-introuvable}}
+\index{quitte\-\_\-commande\-\_\-introuvable@{quitte\-\_\-commande\-\_\-introuvable}!commandes.c@{commandes.\-c}}
+\subsubsection[{quitte\-\_\-commande\-\_\-introuvable}]{\setlength{\rightskip}{0pt plus 5cm}void quitte\-\_\-commande\-\_\-introuvable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{commandes_8c_ac7e9633829c54e2e03d0706b4cf3d162}
+
+
+fonction qui fait quitter l'application si la commande n'existe pas 
+
+Procédures des différentes façons de quitter \hypertarget{commandes_8c_a8a890ae6155bad3fc2c512cee61637a3}{\index{commandes.\-c@{commandes.\-c}!quitte\-\_\-mauvaise\-\_\-extension@{quitte\-\_\-mauvaise\-\_\-extension}}
+\index{quitte\-\_\-mauvaise\-\_\-extension@{quitte\-\_\-mauvaise\-\_\-extension}!commandes.c@{commandes.\-c}}
+\subsubsection[{quitte\-\_\-mauvaise\-\_\-extension}]{\setlength{\rightskip}{0pt plus 5cm}void quitte\-\_\-mauvaise\-\_\-extension (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{commandes_8c_a8a890ae6155bad3fc2c512cee61637a3}
+
+
+fonction qui fait quitter l'application si le fichier est inexistant 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & nom du fichier qui a la mauvaise extension \\
+\hline
+\end{DoxyParams}
+\hypertarget{commandes_8c_abb3d2f10ff48c19a78b9bb80aeeefc80}{\index{commandes.\-c@{commandes.\-c}!quitte\-\_\-suppression\-\_\-impossible@{quitte\-\_\-suppression\-\_\-impossible}}
+\index{quitte\-\_\-suppression\-\_\-impossible@{quitte\-\_\-suppression\-\_\-impossible}!commandes.c@{commandes.\-c}}
+\subsubsection[{quitte\-\_\-suppression\-\_\-impossible}]{\setlength{\rightskip}{0pt plus 5cm}void quitte\-\_\-suppression\-\_\-impossible (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{commandes_8c_abb3d2f10ff48c19a78b9bb80aeeefc80}
+
+
+fonction qui fait quitter l'application si la pass phrase ecrite est différente du premier essai 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & nom du fichier impossible a supprimer \\
+\hline
+\end{DoxyParams}
+\hypertarget{commandes_8c_a7f0f0719b4d0a83559bf528913d4cd6f}{\index{commandes.\-c@{commandes.\-c}!teste\-\_\-commande\-\_\-deux\-\_\-options@{teste\-\_\-commande\-\_\-deux\-\_\-options}}
+\index{teste\-\_\-commande\-\_\-deux\-\_\-options@{teste\-\_\-commande\-\_\-deux\-\_\-options}!commandes.c@{commandes.\-c}}
+\subsubsection[{teste\-\_\-commande\-\_\-deux\-\_\-options}]{\setlength{\rightskip}{0pt plus 5cm}int teste\-\_\-commande\-\_\-deux\-\_\-options (
+\begin{DoxyParamCaption}
+\item[{int}]{num, }
+\item[{char $\ast$$\ast$}]{chaine\-Carac}
+\end{DoxyParamCaption}
+)}}\label{commandes_8c_a7f0f0719b4d0a83559bf528913d4cd6f}
+
+
+fonction qui renvoie le mode choisi par l'utilisateur 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num} & correspond a argc \\
+\hline
+{\em chaine\-Carac} & correspond a argv \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+M\-O\-D\-E\-\_\-\-S\-I\-G\-N\-\_\-\-N\-N\-\_\-\-C\-H\-I\-F\-F\-R\-E, M\-O\-D\-E\-\_\-\-A\-F\-F\-I\-C\-H\-A\-G\-E\-\_\-\-D\-E\-C\-H\-I\-F\-F\-R\-E, M\-O\-D\-E\-\_\-\-C\-H\-I\-F\-F\-R\-E\-M\-E\-N\-T ou M\-O\-D\-E\-\_\-\-S\-I\-G\-N\-\_\-\-C\-H\-I\-F\-F\-R\-E 
+\end{DoxyReturn}
+\hypertarget{commandes_8c_a5bc5ea016bf020805b9fa386b632801b}{\index{commandes.\-c@{commandes.\-c}!teste\-\_\-commande\-\_\-general@{teste\-\_\-commande\-\_\-general}}
+\index{teste\-\_\-commande\-\_\-general@{teste\-\_\-commande\-\_\-general}!commandes.c@{commandes.\-c}}
+\subsubsection[{teste\-\_\-commande\-\_\-general}]{\setlength{\rightskip}{0pt plus 5cm}int teste\-\_\-commande\-\_\-general (
+\begin{DoxyParamCaption}
+\item[{int}]{num, }
+\item[{char $\ast$$\ast$}]{chaine\-Carac}
+\end{DoxyParamCaption}
+)}}\label{commandes_8c_a5bc5ea016bf020805b9fa386b632801b}
+
+
+fonction qui renvoie le mode choisi par l'utilisateur 
+
+
+
+ Retourne le mode choisi par l'utilisateur
+
+
+\begin{DoxyParams}{Parameters}
+{\em num} & correspond a argc \\
+\hline
+{\em chaine\-Carac} & correspond a argv \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+M\-O\-D\-E\-\_\-\-G\-E\-N\-E\-R\-A\-T\-I\-O\-N\-\_\-\-C\-L\-E\-S, M\-O\-D\-E\-\_\-\-D\-E\-C\-H\-I\-F\-F\-R\-E\-M\-E\-N\-T, M\-O\-D\-E\-\_\-\-S\-I\-G\-N\-\_\-\-N\-N\-\_\-\-C\-H\-I\-F\-F\-R\-E, M\-O\-D\-E\-\_\-\-A\-F\-F\-I\-C\-H\-A\-G\-E\-\_\-\-D\-E\-C\-H\-I\-F\-F\-R\-E, M\-O\-D\-E\-\_\-\-C\-H\-I\-F\-F\-R\-E\-M\-E\-N\-T ou M\-O\-D\-E\-\_\-\-S\-I\-G\-N\-\_\-\-C\-H\-I\-F\-F\-R\-E 
+\end{DoxyReturn}
+\hypertarget{commandes_8c_ad2ff1cd27c7cadf1210f39fcfc5ffb4a}{\index{commandes.\-c@{commandes.\-c}!teste\-\_\-commande\-\_\-une\-\_\-option@{teste\-\_\-commande\-\_\-une\-\_\-option}}
+\index{teste\-\_\-commande\-\_\-une\-\_\-option@{teste\-\_\-commande\-\_\-une\-\_\-option}!commandes.c@{commandes.\-c}}
+\subsubsection[{teste\-\_\-commande\-\_\-une\-\_\-option}]{\setlength{\rightskip}{0pt plus 5cm}int teste\-\_\-commande\-\_\-une\-\_\-option (
+\begin{DoxyParamCaption}
+\item[{int}]{num, }
+\item[{char $\ast$$\ast$}]{chaine\-Carac}
+\end{DoxyParamCaption}
+)}}\label{commandes_8c_ad2ff1cd27c7cadf1210f39fcfc5ffb4a}
+
+
+fonction qui renvoie le mode choisi par l'utilisateur 
+
+Renvoient le mode choisi par l'utilisateur
+
+
+\begin{DoxyParams}{Parameters}
+{\em num} & correspond a argc \\
+\hline
+{\em chaine\-Carac} & correspond a argv \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+M\-O\-D\-E\-\_\-\-G\-E\-N\-E\-R\-A\-T\-I\-O\-N\-\_\-\-C\-L\-E\-S ou M\-O\-D\-E\-\_\-\-D\-E\-C\-H\-I\-F\-F\-R\-E\-M\-E\-N\-T 
+\end{DoxyReturn}
+\hypertarget{commandes_8c_a76bd7a6752cc025b85e153a370f9f4ef}{\index{commandes.\-c@{commandes.\-c}!teste\-\_\-extension\-\_\-pgp@{teste\-\_\-extension\-\_\-pgp}}
+\index{teste\-\_\-extension\-\_\-pgp@{teste\-\_\-extension\-\_\-pgp}!commandes.c@{commandes.\-c}}
+\subsubsection[{teste\-\_\-extension\-\_\-pgp}]{\setlength{\rightskip}{0pt plus 5cm}int teste\-\_\-extension\-\_\-pgp (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{commandes_8c_a76bd7a6752cc025b85e153a370f9f4ef}
+
+
+fonction qui teste si la chaine de caracteres finit par \char`\"{}.\-pgp\char`\"{} 
+
+Teste si la chaine de caractères possède l'extension .pgp
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & est la chaine de caracteres a tester \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si la chaine de caracteres ne finit pas par \char`\"{}.\-pgp\char`\"{} 
+
+1 si la chaine de caracteres finit par \char`\"{}.\-pgp\char`\"{} 
+\end{DoxyReturn}
+\hypertarget{commandes_8c_af4bcf59ea21bac66606293e541a1b0ca}{\index{commandes.\-c@{commandes.\-c}!teste\-\_\-mots\-\_\-identiques@{teste\-\_\-mots\-\_\-identiques}}
+\index{teste\-\_\-mots\-\_\-identiques@{teste\-\_\-mots\-\_\-identiques}!commandes.c@{commandes.\-c}}
+\subsubsection[{teste\-\_\-mots\-\_\-identiques}]{\setlength{\rightskip}{0pt plus 5cm}int teste\-\_\-mots\-\_\-identiques (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s1, }
+\item[{char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{commandes_8c_af4bcf59ea21bac66606293e541a1b0ca}
+
+
+fonction qui teste si deux chaines de caracteres sont identiques 
+
+
+
+ Retourne 1 si deux chaines de caractères sont identiques
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & et s2 sont les deux chaines de caracteres a tester \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si les chaines de caracteres ne sont pas identiques 
+
+1 si les chaines de caracteres sont identiques 
+\end{DoxyReturn}
