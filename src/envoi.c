@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tomcrypt.h>
+//#include <tomcrypt.h>
 #include <gmp.h>
 #include "pgp.h"
 #include "envoi.h"
